@@ -21,13 +21,13 @@ export default function SigninScreen({ navigation }) {
     const HandleNavigate = (name) => {
         navigation.navigate(name)
     }
-    const HandleEmail = (text)=>{
+    const HandleEmail = (text) => {
         setEmail(text)
     }
-    const HandlePass = (text)=>{
+    const HandlePass = (text) => {
         setPass(text)
     }
-    
+
     return (
         <View style={styles.screen}>
             <ImageBackground source={img} resizeMode="cover" style={styles.backGround} blurRadius={5}>
@@ -36,20 +36,24 @@ export default function SigninScreen({ navigation }) {
                     <Image source={Logo} style={styles.Image} />
                 </View>
                 <View style={{ marginStart: 15, justifyContent: 'center' }}>
-                    <FontAwesome name="minus" size={34} color="white" />
+                    <View style={{ flexDirection: 'row' }}>
+                        <FontAwesome name="minus" size={34} color="white" />
+                        <FontAwesome name="minus" size={34} color="white" style={{ left: -2 }} />
+                        <FontAwesome name="minus" size={34} color="white" style={{ left: -4 }} />
+                    </View>
                     <Text style={styles.title}>Sign In</Text>
                 </View>
 
                 <View>
 
                     <View style={{ alignItems: 'center' }}>
-                        <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} onAddText={HandleEmail} />
+                        <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} onAddText={HandleEmail} text={Email} />
                     </View>
                     <View style={{ width: width, marginEnd: 15, alignItems: "flex-end" }}>
                         <Link title='Dont have account?' onpress={() => { HandleNavigate('Signup') }} textSize={18} />
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandlePass} />
+                        <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandlePass} text={Pass} />
                     </View>
 
                 </View>
@@ -106,8 +110,6 @@ const styles = StyleSheet.create({
         color: Colors.links,
         marginHorizontal: 30,
         fontSize: 18,
-        // textDecorationLine:'li'
-
     },
     footer: {
         fontFamily: 'item',

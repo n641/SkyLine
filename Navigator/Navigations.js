@@ -7,6 +7,8 @@ import SplashScreen from "../Screens/Intro_Screens/SplashScreen";
 import StartScreen from '../Screens/Auth_Screens/StartScreen';
 import SignInScreen from '../Screens/Auth_Screens/SignInScreen';
 import SignUpScreen from '../Screens/Auth_Screens/SignUpScreen';
+import VerifyScreen from '../Screens/Auth_Screens/VerifyScreen';
+import BindingAccount from '../Screens/Auth_Screens/BindingAccount'
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +20,7 @@ const Navigation = () => {
                 <Stack.Screen name="StartScreen" component={StartScreen} />
                 <Stack.Screen name="Signin" component={SignInScreen} />
                  <Stack.Screen name="Signup" component={SignUpScreen} />
+                 <Stack.Screen name="VerifyScreen" component={VerifyScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

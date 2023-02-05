@@ -5,8 +5,7 @@ import Colors from '../Conestant/Colors';
 import { Entypo } from '@expo/vector-icons';
 
 
-export default function CustomTF({ placeholder, keyboardType, type, label, required, width , icon , onAddText }) {
-    const [text, onChangeText] = useState(type);
+export default function CustomTF({ placeholder, keyboardType, label, required, width , icon , onAddText , text }) {
     const [click, setclick] = useState(true);
 
     const HandleOnpress =()=>{

@@ -12,7 +12,9 @@ const OnboardingItem = ({ item }) => {
 
             <View style={{ flex: 0.3 }}>
                 <Text style={styles.title}>{item.title}</Text>
+                <View style={{maxHeight:60}}>
                 <Text style={styles.description}>{item.description}</Text>
+                </View>
             </View>
 
         </View>
@@ -46,8 +48,9 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontweight: 400,
         color: "#ededed",
-        fontSize: 14,
-        paddingHorizontal: 64,
+        fontSize: 16,
+        paddingHorizontal: 50,
         textAlign:'center',
+        
     }
 })

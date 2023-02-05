@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, ScrollView } from 'react-native'
-import React , {useState} from 'react'
+import React, { useState } from 'react'
 
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -63,30 +63,34 @@ export default function SignUpScreen({ navigation }) {
           <Image source={Logo} style={styles.Image} />
         </View>
         <View style={{ marginStart: 15, justifyContent: 'center' }}>
-          <FontAwesome name="minus" size={34} color="white" />
+          <View style={{ flexDirection: 'row' }}>
+            <FontAwesome name="minus" size={34} color="white" />
+            <FontAwesome name="minus" size={34} color="white" style={{ left: -2 }} />
+            <FontAwesome name="minus" size={34} color="white" style={{ left: -4 }} />
+          </View>
           <Text style={styles.title}>Sign Up</Text>
         </View>
 
         <View>
-          <View style={{ flexDirection: 'row', marginVertical: 20}}>
-            <CustomTF placeholder="Noha" keyboardType="default" type="" label="First Name" width={(width / 2 - 40)} required={true} onAddText={HandleFirstName} />
+          <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+            <CustomTF placeholder="Noha" keyboardType="default" type="" label="First Name" width={(width / 2 - 40)} required={true} onAddText={HandleFirstName}  text={FirstName}/>
             <CustomTF placeholder="Mohammed" keyboardType="default" type="" label="Second Name" width={(width / 2 - 40)} required={true} />
           </View>
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-            <CustomTF placeholder="NohaMohammed123" keyboardType="default" type="" label="User Name" width={(width / 2 - 40)} required={true} onAddText={HandleSecondName} />
+            <CustomTF placeholder="NohaMohammed123" keyboardType="default" type="" label="User Name" width={(width / 2 - 40)} required={true} onAddText={HandleSecondName} text={SecondName} />
             <CustomTF placeholder="DD/MM/YYYY" keyboardType="default" type="" label="Birth Date" width={(width / 2 - 40)} required={true} />
           </View>
           <View style={{ alignItems: 'center', marginVertical: 20 }}>
-            <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} onAddText={HandleEmail} />
+            <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} onAddText={HandleEmail} text={Email} />
           </View>
           <View style={{ alignItems: 'center', marginVertical: 20 }}>
-            <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandlePass} />
+            <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandlePass} Text={Pass} />
           </View>
           <View style={{ alignItems: 'center', marginVertical: 20 }}>
-            <CustomTF placeholder="*******" keyboardType="'default'" type="" label="Confirm-Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandleConformPass} />
+            <CustomTF placeholder="*******" keyboardType="'default'" type="" label="Confirm-Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandleConformPass} text={ConformPass} />
           </View>
           <View style={{ alignItems: 'center', marginVertical: 20 }}>
-            <CustomTF placeholder="" keyboardType="'default'" type="" label="Adress" width={(width - 50)} required={false} onAddText={HandleAddress} />
+            <CustomTF placeholder="" keyboardType="'default'" type="" label="Adress" width={(width - 50)} required={false} onAddText={HandleAddress} text={Address} />
           </View>
         </View>
 
@@ -96,7 +100,7 @@ export default function SignUpScreen({ navigation }) {
 
 
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <MainButton title="Signup" color={Colors.Button} onClick={() => { HandleNavigate('Signup') }} />
+          <MainButton title="Signup" color={Colors.Button} onClick={() => { HandleNavigate('VerifyScreen') }} />
         </View>
 
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
