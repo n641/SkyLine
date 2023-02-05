@@ -5,13 +5,14 @@ import Colors from '../Conestant/Colors';
 import { Entypo } from '@expo/vector-icons';
 
 
-export default function CustomTF({ placeholder, keyboardType, type, label, required, width , icon }) {
+export default function CustomTF({ placeholder, keyboardType, type, label, required, width , icon , onAddText }) {
     const [text, onChangeText] = useState(type);
     const [click, setclick] = useState(true);
 
     const HandleOnpress =()=>{
         setclick(!click)
     }
+
     return (
         <View style={{ margin: 10, justifyContent: 'center', height: 30 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -21,7 +22,7 @@ export default function CustomTF({ placeholder, keyboardType, type, label, requi
             <View style={styles.container}>
                 <TextInput
                     style={[styles.input, { width: width }]}
-                    onChangeText={onChangeText}
+                    onChangeText={onAddText}
                     value={text}
                     placeholder={placeholder}
                     placeholderTextColor={Colors.Hint_text_field}
@@ -50,7 +51,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: "item",
         alignItems: 'center',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        color:"white"
     },
     label: {
         fontFamily: 'item',

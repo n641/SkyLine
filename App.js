@@ -5,7 +5,7 @@ import Navigation from "./Navigator/Navigations";
 
 import { useFonts } from 'expo-font';
 
-import SigninScreen from './Screens/Auth_Screens/SignInScreen';
+import VerifyScreen from './Screens/Auth_Screens/VerifyScreen';
 
 
 export default function App() {
@@ -19,8 +19,8 @@ export default function App() {
   }
 
   return (
-    <Navigation />
-    // <SigninScreen/>
+    // <Navigation />
+    <VerifyScreen/>
   );
 }
 

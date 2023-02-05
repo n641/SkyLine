@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, ScrollView } from 'react-native'
-import React from 'react'
+import React , {useState} from 'react'
 
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -14,8 +14,47 @@ import Logo from '../../assets/logo-light.png'
 import Link from '../../Components/Link'
 
 
-export default function SignUpScreen() {
+export default function SignUpScreen({ navigation }) {
   const { width } = useWindowDimensions()
+  const [FirstName, setFirstName] = useState("")
+  const [SecondName, setSecondName] = useState("")
+  const [UserName, setUserName] = useState("")
+  const [Date, setDate] = useState("")
+  const [Email, setEmail] = useState("")
+  const [Pass, setPass] = useState("")
+  const [ConformPass, setConformPass] = useState("")
+  const [Address, setAddress] = useState("")
+
+  const HandleNavigate = (name) => {
+    navigation.navigate(name)
+  }
+  const HandleEmail = (text) => {
+    setEmail(text)
+  }
+  const HandlePass = (text) => {
+    setPass(text)
+  }
+  const HandleConformPass = (text) => {
+    setConformPass(text)
+  }
+  const HandleFirstName = (text) => {
+    setFirstName(text)
+  }
+  const HandleSecondName = (text) => {
+    setSecondName(text)
+  }
+  const HandleUserNmae = (text) => {
+    setUserName(text)
+  }
+  const HandleDate = (text) => {
+    setDate(text)
+  }
+  const HandleAddress = (text) => {
+    setAddress(text)
+  }
+
+
+
   return (
     <ScrollView style={styles.screen}>
       <ImageBackground source={img} resizeMode="cover" style={styles.backGround} blurRadius={5}>
@@ -29,30 +68,30 @@ export default function SignUpScreen() {
         </View>
 
         <View>
-          <View style={{ flexDirection: 'row' , marginVertical:20 }}>
-            <CustomTF placeholder="Noha" keyboardType="default" type="" label="First Name" width={(width / 2 - 30 )} required={true} />
-            <CustomTF placeholder="Mohammed" keyboardType="default" type="" label="Second Name" width={(width / 2 - 30 )} required={true} />
+          <View style={{ flexDirection: 'row', marginVertical: 20}}>
+            <CustomTF placeholder="Noha" keyboardType="default" type="" label="First Name" width={(width / 2 - 40)} required={true} onAddText={HandleFirstName} />
+            <CustomTF placeholder="Mohammed" keyboardType="default" type="" label="Second Name" width={(width / 2 - 40)} required={true} />
           </View>
-          <View style={{ flexDirection: 'row' , marginVertical:20}}>
-            <CustomTF placeholder="NohaMohammed123" keyboardType="default" type="" label="User Name" width={(width / 2 - 30 )} required={true} />
-            <CustomTF placeholder="DD/MM/YYYY" keyboardType="default" type="" label="Birth Date" width={(width / 2 - 30 )} required={true} />
+          <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+            <CustomTF placeholder="NohaMohammed123" keyboardType="default" type="" label="User Name" width={(width / 2 - 40)} required={true} onAddText={HandleSecondName} />
+            <CustomTF placeholder="DD/MM/YYYY" keyboardType="default" type="" label="Birth Date" width={(width / 2 - 40)} required={true} />
           </View>
-          <View style={{ alignItems: 'center' , marginVertical:20}}>
-            <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} />
+          <View style={{ alignItems: 'center', marginVertical: 20 }}>
+            <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} onAddText={HandleEmail} />
           </View>
-          <View style={{ alignItems: 'center' , marginVertical:20}}>
-            <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 50 - 24)} required={true} icon={true} />
+          <View style={{ alignItems: 'center', marginVertical: 20 }}>
+            <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandlePass} />
           </View>
-          <View style={{ alignItems: 'center' , marginVertical:20}}>
-            <CustomTF placeholder="*******" keyboardType="'default'" type="" label="Confirm-Password" width={(width - 50 - 24)} required={true} icon={true} />
+          <View style={{ alignItems: 'center', marginVertical: 20 }}>
+            <CustomTF placeholder="*******" keyboardType="'default'" type="" label="Confirm-Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandleConformPass} />
           </View>
-          <View style={{ alignItems: 'center' , marginVertical:20}}>
-            <CustomTF placeholder="" keyboardType="'default'" type="" label="Adress" width={(width - 50)} required={false} />
+          <View style={{ alignItems: 'center', marginVertical: 20 }}>
+            <CustomTF placeholder="" keyboardType="'default'" type="" label="Adress" width={(width - 50)} required={false} onAddText={HandleAddress} />
           </View>
         </View>
 
-        <View style={{ width: width , alignItems:'flex-end', marginRight:15 }}>
-          <Link title='Have already acount!' textSize={18} onpress={()=>{}}/>
+        <View style={{ width: width, alignItems: 'flex-end', marginRight: 15 }}>
+          <Link title='Have already acount!' textSize={18} onpress={() => { HandleNavigate('Signin') }} />
         </View>
 
 
@@ -62,9 +101,9 @@ export default function SignUpScreen() {
 
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text style={styles.footer}>-- or with --</Text>
-          <View style={{flexDirection:'row' , alignItems:'center' , justifyContent:'center'}}>
-          <MaterialIcons name="facebook" size={40} color={Colors.face_logo}  style={{marginHorizontal:15}}/>
-          <FontAwesome5 name="google" size={40} color={Colors.Google_logo}  style={{marginHorizontal:15}}/>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <MaterialIcons name="facebook" size={40} color={Colors.face_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
+            <FontAwesome5 name="google" size={30} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
           </View>
         </View>
 
@@ -101,7 +140,7 @@ const styles = StyleSheet.create({
   footer: {
     fontFamily: 'item',
     color: "white",
-    fontSize: 35
+    fontSize: 30
 
   }
 })

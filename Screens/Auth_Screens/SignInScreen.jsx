@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -13,8 +13,21 @@ import img from '../../assets/bg3.png'
 import Logo from '../../assets/logo-light.png'
 import Link from '../../Components/Link'
 
-export default function SigninScreen() {
+export default function SigninScreen({ navigation }) {
     const { width } = useWindowDimensions()
+    const [Email, setEmail] = useState("")
+    const [Pass, setPass] = useState("")
+
+    const HandleNavigate = (name) => {
+        navigation.navigate(name)
+    }
+    const HandleEmail = (text)=>{
+        setEmail(text)
+    }
+    const HandlePass = (text)=>{
+        setPass(text)
+    }
+    
     return (
         <View style={styles.screen}>
             <ImageBackground source={img} resizeMode="cover" style={styles.backGround} blurRadius={5}>
@@ -30,19 +43,19 @@ export default function SigninScreen() {
                 <View>
 
                     <View style={{ alignItems: 'center' }}>
-                        <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} />
+                        <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} onAddText={HandleEmail} />
                     </View>
-                    <View style={{ width: width , marginEnd:15 ,alignItems:"flex-end"  }}>
-                        <Link title='Dont have account?' onpress={() => { }} textSize={18}/>
+                    <View style={{ width: width, marginEnd: 15, alignItems: "flex-end" }}>
+                        <Link title='Dont have account?' onpress={() => { HandleNavigate('Signup') }} textSize={18} />
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 50 - 24)} required={true} icon={true} />
+                        <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandlePass} />
                     </View>
 
                 </View>
 
-                <View style={{ width: width , marginEnd:10 ,alignItems:"flex-end" }}>
-                    <Link title='Forget the password?' onpress={() => { }} textSize={18}/>
+                <View style={{ width: width, marginEnd: 10, alignItems: "flex-end" }}>
+                    <Link title='Forget the password?' onpress={() => { }} textSize={18} />
                 </View>
 
 
@@ -52,9 +65,9 @@ export default function SigninScreen() {
 
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={styles.footer}>-- or with --</Text>
-                    <View style={{flexDirection:'row' , alignItems:'center' , justifyContent:'center'}}>
-                        <MaterialIcons name="facebook" size={40} color={Colors.face_logo}  style={{marginHorizontal:15}}/>
-                        <FontAwesome5 name="google" size={40} color={Colors.Google_logo}  style={{marginHorizontal:15}}/>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        <MaterialIcons name="facebook" size={40} color={Colors.face_logo} style={{ marginHorizontal: 15 }} />
+                        <FontAwesome5 name="google" size={30} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} />
                     </View>
                 </View>
 
@@ -99,7 +112,7 @@ const styles = StyleSheet.create({
     footer: {
         fontFamily: 'item',
         color: "white",
-        fontSize: 35
+        fontSize: 30
 
     }
 })
