@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, ScrollView } from 'react-native'
 import React, { useState } from 'react'
+import axios from '../../Api/axios';
+
 
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -17,6 +19,27 @@ export default function SigninScreen({ navigation }) {
     const { width } = useWindowDimensions()
     const [Email, setEmail] = useState("")
     const [Pass, setPass] = useState("")
+
+    const loginUrl = "/api/v1/users/login"
+
+    const HandleLogin = async () => {
+        const response = await axios.post(loginUrl, JSON.stringify({
+            email: Email,
+            password: Pass
+        }),
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+        )
+        .catch(e=>console.log(e))
+        console.log(response.data)
+
+        if(response){
+            //navigate
+            // console.log()
+        }
+    }
 
     const HandleNavigate = (name) => {
         navigation.navigate(name)
@@ -43,7 +66,6 @@ export default function SigninScreen({ navigation }) {
                     </View>
                     <Text style={styles.title}>Sign In</Text>
                 </View>
-
                 <View>
 
                     <View style={{ alignItems: 'center' }}>
@@ -64,7 +86,7 @@ export default function SigninScreen({ navigation }) {
 
 
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <MainButton title="Signup" color={Colors.Button} onClick={() => { HandleNavigate('Signup') }} />
+                    <MainButton title="SignIn" color={Colors.Button} onClick={() => { HandleLogin() }} />
                 </View>
 
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>

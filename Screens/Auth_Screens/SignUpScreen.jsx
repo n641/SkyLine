@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 
+import axios from '../../Api/axios';
+
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -14,12 +16,14 @@ import Logo from '../../assets/logo-light.png'
 import Link from '../../Components/Link'
 
 
+
+
 export default function SignUpScreen({ navigation }) {
   const { width } = useWindowDimensions()
   const [FirstName, setFirstName] = useState("")
   const [SecondName, setSecondName] = useState("")
   const [UserName, setUserName] = useState("")
-  const [Date, setDate] = useState("")
+  const [Date, setDate] = useState()
   const [Email, setEmail] = useState("")
   const [Pass, setPass] = useState("")
   const [ConformPass, setConformPass] = useState("")
@@ -53,6 +57,31 @@ export default function SignUpScreen({ navigation }) {
     setAddress(text)
   }
 
+  const signupUrl = '/api/v1/users/signup';
+  const HandleSignup = async () => {
+    const response = await axios.post(signupUrl, JSON.stringify({
+        firstName:FirstName,
+        lastName:SecondName,
+        username:UserName,
+        birthDate:Date,
+        email: Email,
+        password: Pass,
+        passwordConfirm:ConformPass,
+        // address:Address
+    }),
+        {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+        }
+    )
+    .catch(e=>console.log(response))
+    // console.log(response.data)
+
+    // if(response){
+        //navigate
+        // console.log()
+    // }
+}
 
 
   return (
@@ -74,11 +103,11 @@ export default function SignUpScreen({ navigation }) {
         <View>
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
             <CustomTF placeholder="Noha" keyboardType="default" type="" label="First Name" width={(width / 2 - 40)} required={true} onAddText={HandleFirstName}  text={FirstName}/>
-            <CustomTF placeholder="Mohammed" keyboardType="default" type="" label="Second Name" width={(width / 2 - 40)} required={true} />
+            <CustomTF placeholder="Mohammed" keyboardType="default" type="" label="Second Name" width={(width / 2 - 40)} required={true} onAddText={HandleSecondName} text={SecondName} />
           </View>
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-            <CustomTF placeholder="NohaMohammed123" keyboardType="default" type="" label="User Name" width={(width / 2 - 40)} required={true} onAddText={HandleSecondName} text={SecondName} />
-            <CustomTF placeholder="DD/MM/YYYY" keyboardType="default" type="" label="Birth Date" width={(width / 2 - 40)} required={true} />
+            <CustomTF placeholder="NohaMohammed123" keyboardType="default" type="" label="User Name" width={(width / 2 - 40)} required={true} onAddText={HandleUserNmae} text={UserName} />
+            <CustomTF placeholder="YYYY-MM-DD" keyboardType="default" type="" label="Birth Date" width={(width / 2 - 40)} required={true} onAddText={HandleDate} text={Date} />
           </View>
           <View style={{ alignItems: 'center', marginVertical: 20 }}>
             <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} onAddText={HandleEmail} text={Email} />
@@ -100,7 +129,7 @@ export default function SignUpScreen({ navigation }) {
 
 
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <MainButton title="Signup" color={Colors.Button} onClick={() => { HandleNavigate('VerifyScreen') }} />
+          <MainButton title="Signup" color={Colors.Button} onClick={() => { HandleSignup() }} />
         </View>
 
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
