@@ -1,12 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+
+import Navigation from "./Navigator/Navigations";
+
+import { useFonts } from 'expo-font';
+
+import SigninScreen from './Screens/Auth_Screens/SignInScreen';
+
 
 export default function App() {
+
+  const [fontsLoaded] = useFonts({
+    item: require('./assets/fonts/Itim-Regular.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return <ActivityIndicator size={'small'} color={'blue'} />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Navigation />
+    // <SigninScreen/>
   );
 }
 
