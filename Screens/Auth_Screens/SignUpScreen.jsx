@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, ScrollView, Alert } from 'react-native'
 import React, { useState } from 'react'
 
 import axios from '../../Api/axios';
+import handleSubmitEmail from '../../Validatation/ValidateEmail'
 
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -57,31 +58,67 @@ export default function SignUpScreen({ navigation }) {
     setAddress(text)
   }
 
+  const HandleError = () => {
+    if (FirstName && SecondName && UserName && Date && Email && Pass && ConformPass) {
+
+      const isValid = handleSubmitEmail(Email)
+      if (!isValid) {  //problem
+        Alert.alert('Oppsssss....', 'Please provide a valid email', [
+          {
+            text: 'Cancell',
+            onPress: () => { },
+          }
+        ])
+        return false
+      }
+      // console.log(isValid)
+
+      if (Pass != ConformPass) {
+        Alert.alert('Oppsssss....', 'Passwords are not the same!', [
+          {
+            text: 'Cancell',
+            onPress: () => { },
+          }
+        ])
+        return false
+      }
+
+    } else {
+      Alert.alert('Waittt....', 'please ,sure that all required fields are written', [
+        {
+          text: 'Cancell',
+          onPress: () => { },
+        }
+      ])
+      return false
+    }
+  }
+
   const signupUrl = '/api/v1/users/signup';
   const HandleSignup = async () => {
-    const response = await axios.post(signupUrl, JSON.stringify({
-        firstName:FirstName,
-        lastName:SecondName,
-        username:UserName,
-        birthDate:Date,
+    if (HandleError()) {
+      const response = await axios.post(signupUrl, JSON.stringify({
+        firstName: FirstName,
+        lastName: SecondName,
+        username: UserName,
+        birthDate: Date,
         email: Email,
         password: Pass,
-        passwordConfirm:ConformPass,
+        passwordConfirm: ConformPass,
         // address:Address
-    }),
+      }),
         {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
         }
-    )
-    .catch(e=>console.log(response))
-    // console.log(response.data)
-
-    // if(response){
-        //navigate
-        // console.log()
-    // }
-}
+      )
+        .catch(e => console.log(e))
+      
+        if (response) {
+          navigation.navigate("VerifyScreen")
+        }
+      }
+    }
 
 
   return (
@@ -101,13 +138,13 @@ export default function SignUpScreen({ navigation }) {
         </View>
 
         <View>
-          <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-            <CustomTF placeholder="Noha" keyboardType="default" type="" label="First Name" width={(width / 2 - 40)} required={true} onAddText={HandleFirstName}  text={FirstName}/>
-            <CustomTF placeholder="Mohammed" keyboardType="default" type="" label="Second Name" width={(width / 2 - 40)} required={true} onAddText={HandleSecondName} text={SecondName} />
+          <View style={{ flexDirection: 'row', marginVertical: 20, marginHorizontal: 10 }}>
+            <CustomTF placeholder="Noha" keyboardType="default" type="" label="First Name" width={(width / 2 - 50)} required={true} onAddText={HandleFirstName} text={FirstName} />
+            <CustomTF placeholder="Mohammed" keyboardType="default" type="" label="Second Name" width={(width / 2 - 50)} required={true} onAddText={HandleSecondName} text={SecondName} />
           </View>
-          <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-            <CustomTF placeholder="NohaMohammed123" keyboardType="default" type="" label="User Name" width={(width / 2 - 40)} required={true} onAddText={HandleUserNmae} text={UserName} />
-            <CustomTF placeholder="YYYY-MM-DD" keyboardType="default" type="" label="Birth Date" width={(width / 2 - 40)} required={true} onAddText={HandleDate} text={Date} />
+          <View style={{ flexDirection: 'row', marginVertical: 20, marginHorizontal: 10 }}>
+            <CustomTF placeholder="NohaMohammed123" keyboardType="default" type="" label="User Name" width={(width / 2 - 50)} required={true} onAddText={HandleUserNmae} text={UserName} />
+            <CustomTF placeholder="YYYY-MM-DD" keyboardType="default" type="" label="Birth Date" width={(width / 2 - 50)} required={true} onAddText={HandleDate} text={Date} />
           </View>
           <View style={{ alignItems: 'center', marginVertical: 20 }}>
             <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} onAddText={HandleEmail} text={Email} />
@@ -136,7 +173,7 @@ export default function SignUpScreen({ navigation }) {
           <Text style={styles.footer}>-- or with --</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
             <MaterialIcons name="facebook" size={40} color={Colors.face_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
-            <FontAwesome5 name="google" size={30} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
+            <FontAwesome5 name="google" size={33} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
           </View>
         </View>
 
