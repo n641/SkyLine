@@ -1,13 +1,16 @@
-import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, ScrollView, Alert, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 
+
 import axios from '../../Api/axios';
-import handleSubmitEmail from '../../Validatation/ValidateEmail'
+import validateEmail from '../../Validatation/validateEmail'
+import validatepass from '../../Validatation/validatepass';
 
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import CAlert from '../../Components/CAlert';
 import MainButton from '../../Components/MainButton'
 import CustomTF from '../../Components/CustomTF';
 import Colors from '../../Conestant/Colors'
@@ -15,33 +18,49 @@ import Colors from '../../Conestant/Colors'
 import img from '../../assets/bg3.png'
 import Logo from '../../assets/logo-light.png'
 import Link from '../../Components/Link'
+import success from '../../assets/success.png'
+import wrong from '../../assets/warning.png'
 
 export default function SigninScreen({ navigation }) {
     const { width } = useWindowDimensions()
     const [Email, setEmail] = useState("")
     const [Pass, setPass] = useState("")
 
+    const [visible, setVisible] = useState(false)
+    const [title, settitle] = useState("")
+    const [AlertLogo, setAlertLogo] = useState('')
+
+    const [visibleForm, setvisibleForm] = useState(false)
+    const [titleForm, settitleForm] = useState("")
+    const [AlertLogoForm, setAlertLogoForm] = useState(wrong)
+
+
     const HandleError = () => {
         if (Email && Pass) {
-            const isValid = handleSubmitEmail(Email)
-            if (!isValid) {  //problem
-                Alert.alert('Oppsssss....', 'Please provide a valid email', [
-                    {
-                        text: 'Cancell',
-                        onPress: () => { },
-                    }
-                ])
+
+            const isValidEmail = validateEmail(Email)
+            const isValidpass = validatepass(Pass)
+
+            if (!isValidEmail) {
+                settitleForm('Please provide a valid email')
+                setAlertLogoForm(wrong)
+                setvisibleForm(true)
                 return false
+
             }
+            // else if (!isValidpass) { //error with validate
+            //     settitleForm('Please provide a valid password')
+            //     setAlertLogoForm(wrong)
+            //     setvisibleForm(true)
+            //     return false
+            // }
+
             return true
 
         } else {
-            Alert.alert('Waittt....', 'please ,sure that all fields are written', [
-                {
-                    text: 'Cancell',
-                    onPress: () => { },
-                }
-            ])
+            settitleForm('Waittt....\n please ,sure that all fields are written ')
+            setAlertLogoForm(wrong)
+            setvisibleForm(true)
             return false
         }
     }
@@ -59,14 +78,18 @@ export default function SigninScreen({ navigation }) {
                 }
             )
                 .catch(e => console.log(e))
-            // console.log(response.data)
+            console.log(response.data) //save token
 
             if (response) {
-                navigation.navigate('Home')
+            settitle("login successfully")
+            setAlertLogo(success)
+            setVisible(true)
             }
-        }else{
-            console.log("errrrr")
+
+        } else {
+            console.log("error")
         }
+
     }
 
     const HandleNavigate = (name) => {
@@ -81,7 +104,20 @@ export default function SigninScreen({ navigation }) {
 
     return (
         <View style={styles.screen}>
+
             <ImageBackground source={img} resizeMode="cover" style={styles.backGround} blurRadius={5}>
+
+                {/* //////////////////////////////////Custome Alert//////////////////////////////////// */}
+                <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+                    setvisibleForm(false)
+                }} />
+
+                <CAlert visible={visible} icon={AlertLogo} title={title} onClick={() => {
+                    setVisible(false)
+                    HandleNavigate('Home')
+                }} />
+
+                {/* /////////////////////////////////////////////////////////////////////////////////////////////// */}
 
                 <View style={[styles.containerLogo, { width: width }]}>
                     <Image source={Logo} style={styles.Image} />
@@ -167,5 +203,21 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 30
 
-    }
+    },
+    header: {
+        width: '100%',
+        height: 20,
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modelBG: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 })

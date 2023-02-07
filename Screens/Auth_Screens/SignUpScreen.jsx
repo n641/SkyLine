@@ -2,12 +2,15 @@ import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, Sc
 import React, { useState } from 'react'
 
 import axios from '../../Api/axios';
-import handleSubmitEmail from '../../Validatation/ValidateEmail'
+import validateEmail from '../../Validatation/validateEmail'
+import validatepass from '../../Validatation/validatepass';
+import validateUserName from '../../Validatation/validateUserName'
 
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import CAlert from '../../Components/CAlert';
 import MainButton from '../../Components/MainButton'
 import CustomTF from '../../Components/CustomTF';
 import Colors from '../../Conestant/Colors'
@@ -15,8 +18,8 @@ import Colors from '../../Conestant/Colors'
 import img from '../../assets/bg3.png'
 import Logo from '../../assets/logo-light.png'
 import Link from '../../Components/Link'
-
-
+import success from '../../assets/success.png'
+import wrong from '../../assets/warning.png'
 
 
 export default function SignUpScreen({ navigation }) {
@@ -29,6 +32,14 @@ export default function SignUpScreen({ navigation }) {
   const [Pass, setPass] = useState("")
   const [ConformPass, setConformPass] = useState("")
   const [Address, setAddress] = useState("")
+
+  const [visible, setVisible] = useState(false)
+  const [title, settitle] = useState("")
+  const [AlertLogo, setAlertLogo] = useState(success)
+
+  const [visibleForm, setvisibleForm] = useState(false)
+  const [titleForm, settitleForm] = useState("")
+  const [AlertLogoForm, setAlertLogoForm] = useState(wrong)
 
   const HandleNavigate = (name) => {
     navigation.navigate(name)
@@ -61,35 +72,42 @@ export default function SignUpScreen({ navigation }) {
   const HandleError = () => {
     if (FirstName && SecondName && UserName && Date && Email && Pass && ConformPass) {
 
-      const isValid = handleSubmitEmail(Email)
-      if (!isValid) {  //problem
-        Alert.alert('Oppsssss....', 'Please provide a valid email', [
-          {
-            text: 'Cancell',
-            onPress: () => { },
-          }
-        ])
-        return false
-      }
-      // console.log(isValid)
+      const isValidUsername = validateUserName(Pass)
+      const isValidEmail = validateEmail(Email)
+      const isValidpass = validatepass(Pass)
 
-      if (Pass != ConformPass) {
-        Alert.alert('Oppsssss....', 'Passwords are not the same!', [
-          {
-            text: 'Cancell',
-            onPress: () => { },
-          }
-        ])
+
+      if (!isValidEmail) {
+        settitleForm('Oppsssss....\nPlease provide a valid email')
+        setAlertLogoForm(wrong)
+        setvisibleForm(true)
+        return false
+
+      }
+      else if (!isValidpass) {
+        settitleForm('Oppsssss....\n Please provide a valid password ')
+        setAlertLogoForm(wrong)
+        setvisibleForm(true)
+        return false
+
+      } else if (!isValidUsername) {
+        settitleForm('Oppsssss....\n Please provide a valid UserName')
+        setAlertLogoForm(wrong)
+        setvisibleForm(true)
+        return false
+
+      } else if (Pass != ConformPass) {
+        settitleForm('Waittt....\n Passwords are not the same!')
+        setAlertLogoForm(wrong)
+        setvisibleForm(true)
         return false
       }
+      return true
 
     } else {
-      Alert.alert('Waittt....', 'please ,sure that all required fields are written', [
-        {
-          text: 'Cancell',
-          onPress: () => { },
-        }
-      ])
+      settitleForm('Waittt....\n please ,sure that all required fields are written')
+      setAlertLogoForm(wrong)
+      setvisibleForm(true)
       return false
     }
   }
@@ -97,33 +115,47 @@ export default function SignUpScreen({ navigation }) {
   const signupUrl = '/api/v1/users/signup';
   const HandleSignup = async () => {
     if (HandleError()) {
-      const response = await axios.post(signupUrl, JSON.stringify({
-        firstName: FirstName,
-        lastName: SecondName,
-        username: UserName,
-        birthDate: Date,
-        email: Email,
-        password: Pass,
-        passwordConfirm: ConformPass,
-        // address:Address
-      }),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
-      )
-        .catch(e => console.log(e))
-      
-        if (response) {
-          navigation.navigate("VerifyScreen")
-        }
-      }
+      //   const response = await axios.post(signupUrl, JSON.stringify({
+      //     firstName: FirstName,
+      //     lastName: SecondName,
+      //     username: UserName,
+      //     birthDate: Date,
+      //     email: Email,
+      //     password: Pass,
+      //     passwordConfirm: ConformPass,
+      //     // address:Address
+      //   }),
+      //     {
+      //       headers: { 'Content-Type': 'application/json' },
+      //       withCredentials: true
+      //     }
+      //   )
+      //     .catch(e => console.log(e))
+
+      //   if (response) {
+      settitle("register successfully")
+      setAlertLogo(success)
+      setVisible(true)
+      //   }
     }
+  }
 
 
   return (
     <ScrollView style={styles.screen}>
       <ImageBackground source={img} resizeMode="cover" style={styles.backGround} blurRadius={5}>
+
+        {/* //////////////////////////////////Custome Alert//////////////////////////////////// */}
+        <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+          setvisibleForm(false)
+        }} />
+
+        <CAlert visible={visible} icon={AlertLogo} title={title} onClick={() => {
+          setVisible(false)
+          HandleNavigate('Home')
+        }} />
+
+        {/* /////////////////////////////////////////////////////////////////////////////////////////////// */}
 
         <View style={[styles.containerLogo, { width: width }]}>
           <Image source={Logo} style={styles.Image} />
