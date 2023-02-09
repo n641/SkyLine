@@ -23,16 +23,16 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 10,
-        maxWidth: 220,
+        // maxWidth: 220,
         minWidth: 170,
         maxHeight: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 15
+        margin: 15,
     },
     title: {
         fontFamily: "item",
         fontSize: 32,
-        color: "white"
+        color: "white",
     }
 })

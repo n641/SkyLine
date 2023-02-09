@@ -6,14 +6,14 @@ import { Entypo } from '@expo/vector-icons';
 
 
 export default function CustomTF({ placeholder, keyboardType, label, required, width , icon , onAddText , text }) {
-    const [click, setclick] = useState(true);
+    const [click, setclick] = useState(false);
 
     const HandleOnpress =()=>{
         setclick(!click)
     }
 
     return (
-        <View style={{ margin: 10, justifyContent: 'center', height: 30 }}>
+        <View style={{ margin: 10, justifyContent: 'center', height: 30 , marginHorizontal:15}}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={styles.label}>{label}</Text>
                 {required ? <Text style={styles.astrisk}>*</Text> : null}
@@ -25,7 +25,7 @@ export default function CustomTF({ placeholder, keyboardType, label, required, w
                     value={text}
                     placeholder={placeholder}
                     placeholderTextColor={Colors.Hint_text_field}
-                    keyboardType='default'
+                    keyboardType={keyboardType}
                     secureTextEntry={!click}
                 />
               {icon?<Entypo name={click?"eye":"eye-with-line"} size={24} color="white" onPress={()=>{HandleOnpress()}}/>:null}

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions, ScrollView, Alert, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions } from 'react-native'
 import React, { useState } from 'react'
 
 
@@ -91,7 +91,6 @@ export default function SigninScreen({ navigation }) {
         }
 
     }
-
     const HandleNavigate = (name) => {
         navigation.navigate(name)
     }
@@ -145,7 +144,7 @@ export default function SigninScreen({ navigation }) {
                 </View>
 
                 <View style={{ width: width, marginEnd: 10, alignItems: "flex-end" }}>
-                    <Link title='Forget the password?' onpress={() => { }} textSize={18} />
+                    <Link title='Forget the password?' onpress={() => {HandleNavigate('ResetPassword') }} textSize={18} />
                 </View>
 
 
