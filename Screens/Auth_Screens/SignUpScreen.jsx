@@ -73,7 +73,6 @@ export default function SignUpScreen({ navigation }) {
     const currentDate = selectedDate;
     setShow(!show);
     setDate(currentDate);
-    console.log(date)
   };
   const showMode = (currentMode) => {
     setShow(!show);

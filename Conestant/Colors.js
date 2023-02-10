@@ -13,6 +13,7 @@ export default {
     links:"#040EFF",
     face_logo:"#0711FF",
     Google_logo:"#FF0000",
-    Hint_text_field:"#4E4E4E"
+    Hint_text_field:"#4E4E4E",
+    Gray:'#999999'
 
 }
