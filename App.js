@@ -5,7 +5,7 @@ import Navigation from "./Navigator/Navigations";
 
 import { useFonts } from 'expo-font';
 
-import SigninScreen from './Screens/Auth_Screens/ForgetPasswordScreens/PhoneNumberFP'
+import SigninScreen from './Screens/Auth_Screens/CompleteInfoScreen'
 
 export default function App() {
 

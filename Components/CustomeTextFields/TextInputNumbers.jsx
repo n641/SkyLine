@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native'
 import React, { useState, useRef } from 'react'
 
-import MainButton from './MainButton'
-import Link from './Link'
+import MainButton from '../MainButton'
+import Link from '../Link'
 
 export default function TextInputNumbers({ navigation }) {
     const [number1, setnumber1] = useState(0)

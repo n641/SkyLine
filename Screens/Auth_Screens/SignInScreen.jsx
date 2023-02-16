@@ -10,9 +10,9 @@ import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import CAlert from '../../Components/CAlert';
+import CAlert from '../../Components/CustomeAlerts/CAlert';
 import MainButton from '../../Components/MainButton'
-import CustomTF from '../../Components/CustomTF';
+import CustomTF from '../../Components/CustomeTextFields/CustomTF';
 import Colors from '../../Conestant/Colors'
 
 import img from '../../assets/bg3.png'
@@ -33,6 +33,16 @@ export default function SigninScreen({ navigation }) {
     const [visibleForm, setvisibleForm] = useState(false)
     const [titleForm, settitleForm] = useState("")
     const [AlertLogoForm, setAlertLogoForm] = useState(wrong)
+
+    const HandleNavigate = (name) => {
+        navigation.navigate(name)
+    }
+    const HandleEmail = (text) => {
+        setEmail(text)
+    }
+    const HandlePass = (text) => {
+        setPass(text)
+    }
 
 
     const HandleError = () => {
@@ -91,16 +101,27 @@ export default function SigninScreen({ navigation }) {
         }
 
     }
-    const HandleNavigate = (name) => {
-        navigation.navigate(name)
-    }
-    const HandleEmail = (text) => {
-        setEmail(text)
-    }
-    const HandlePass = (text) => {
-        setPass(text)
+
+    const GoogleLogin = '/api/v1/users/auth/google';
+
+    const HandleLoginGoogle = async () => {
+      
+            const response = await axios.get(GoogleLogin)
+            
+            
+            console.log(response) //save token
+
+            // if (response) {
+            // settitle("login successfully")
+            // setAlertLogo(success)
+            // setVisible(true)
+            // }
+
+       
+
     }
 
+    
     return (
         <View style={styles.screen}>
 
@@ -157,7 +178,7 @@ export default function SigninScreen({ navigation }) {
                         <Text style={styles.footer}>-- or with --</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                             <MaterialIcons name="facebook" size={40} color={Colors.face_logo} style={{ marginHorizontal: 15 }} />
-                            <FontAwesome5 name="google" size={33} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} />
+                            <FontAwesome5 name="google" size={33} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onPress={()=>{HandleLoginGoogle()}}/>
                         </View>
                     </View>
                 </View>

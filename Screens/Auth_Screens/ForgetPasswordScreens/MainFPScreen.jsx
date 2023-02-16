@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-import OnboardingItem from '../../../Components/OnboardingItem';
+import OnboardingItem from '../../../Components/OnboardingItem/OnboardingItem';
 import Link from '../../../Components/Link';
 import Colors from '../../../Conestant/Colors';
 

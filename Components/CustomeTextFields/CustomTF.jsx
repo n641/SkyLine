@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TextInput, useWindowDimensions } from 'react-native'
 import React, {useState} from 'react'
 
-import Colors from '../Conestant/Colors';
+import Colors from '../../Conestant/Colors';
 import { Entypo } from '@expo/vector-icons';
 
 

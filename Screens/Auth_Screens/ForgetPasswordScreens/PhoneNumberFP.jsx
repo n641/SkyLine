@@ -1,8 +1,8 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import React from 'react'
 
-import OnboardingItem from '../../../Components/OnboardingItem';
-import TextInputNumbers from '../../../Components/TextInputNumbers';
+import OnboardingItem from '../../../Components/OnboardingItem/OnboardingItem';
+import TextInputNumbers from '../../../Components/CustomeTextFields/TextInputNumbers';
 import Link from '../../../Components/Link';
 import Colors from '../../../Conestant/Colors';
 

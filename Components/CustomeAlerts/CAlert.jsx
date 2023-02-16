@@ -24,7 +24,7 @@ const CAlert = ({ visible, icon ,onClick , title }) => {
                 <View style={styles.header}>
                     <TouchableOpacity onPress={onClick}>
                         <Image
-                            source={require('../assets/ok.png')}
+                            source={require('../../assets/ok.png')}
                             style={{ height: 50, width: 120 }}
                         />
                     </TouchableOpacity>

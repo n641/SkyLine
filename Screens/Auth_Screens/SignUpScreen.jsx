@@ -11,10 +11,10 @@ import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import CAlert from '../../Components/CAlert';
+import CAlert from '../../Components/CustomeAlerts/CAlert';
 import MainButton from '../../Components/MainButton'
-import CustomTF from '../../Components/CustomTF';
-import DatePickerTF from '../../Components/DatePickerTF';
+import CustomTF from '../../Components/CustomeTextFields/CustomTF';
+import DatePickerTF from '../../Components/CustomeTextFields/DatePickerTF';
 import Colors from '../../Conestant/Colors'
 
 import img from '../../assets/bg3.png'

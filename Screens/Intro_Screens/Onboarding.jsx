@@ -4,16 +4,15 @@ import { StyleSheet, Text, View, Dimensions, Image, FlatList, Animated } from 'r
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from '../../Conestant/Colors';
 
-
 import Sliders from '../../Conestant/Data/Sliders';
-import OnboardingItem from '../../Components/OnboardingItem';
-import Paginator from '../../Components/Paginator';
-import NextButton from '../../Components/NextButton';
+import OnboardingItem from '../../Components/OnboardingItem/OnboardingItem';
+import Paginator from '../../Components/OnboardingItem/Paginator';
+import NextButton from '../../Components/OnboardingItem/NextButton';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height
 
-const Onboarding = ({navigation}) => {
+const Onboarding = ({ navigation }) => {
     const [currentIndex, setCurrentIndex] = useState(0)
     const scrollX = useRef(new Animated.Value(0)).current;
     const slidesRef = useRef(null)

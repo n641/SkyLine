@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { AntDesign } from '@expo/vector-icons';
 
-import Colors from '../Conestant/Colors';
+import Colors from '../../Conestant/Colors';
 const DatePickerTF = ({ label, required, width, date, mode, show, onChange, showDatepicker }) => {
 
 

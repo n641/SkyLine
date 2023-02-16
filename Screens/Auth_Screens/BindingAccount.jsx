@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, useWindowDimensions } from 'react-native
 import React from 'react'
 
 import { LinearGradient } from "expo-linear-gradient";
-import OnboardingItem from '../../Components/OnboardingItem';
+import OnboardingItem from '../../Components/OnboardingItem/OnboardingItem';
 import Colors from '../../Conestant/Colors';
 
 import img from '../../assets/onBinding.png'
