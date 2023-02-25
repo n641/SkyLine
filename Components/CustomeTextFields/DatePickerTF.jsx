@@ -10,7 +10,7 @@ const DatePickerTF = ({ label, required, width, date, mode, show, onChange, show
 
 
     return (
-        <TouchableOpacity style={{ margin: 10, justifyContent: 'center', height: 30, width: width }}
+        <TouchableOpacity style={{ margin: 10, justifyContent: 'center', width: width }}
             onPress={showDatepicker}
         >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

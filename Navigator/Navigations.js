@@ -4,9 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 import SplashScreen from "../Screens/Intro_Screens/SplashScreen";
-import StartScreen from '../Screens/Auth_Screens/StartScreen';
-import SignInScreen from '../Screens/Auth_Screens/SignInScreen';
-import SignUpScreen from '../Screens/Auth_Screens/SignUpScreen';
+import AnimatedLogin from '../Screens/Auth_Screens/MainAuthScreens/AnimatedLogin';
 import VerifyScreen from '../Screens/Auth_Screens/VerifyScreen';
 import BindingAccount from '../Screens/Auth_Screens/BindingAccount';
 import mainFPScreen from '../Screens/Auth_Screens/ForgetPasswordScreens/MainFPScreen';
@@ -21,15 +19,12 @@ const Navigation = () => {
         <NavigationContainer >
             <Stack.Navigator screenOptions={{headerShown:false , animation:'slide_from_bottom'}}  >
                 <Stack.Screen name="SplashScreen" component={SplashScreen}  />
-                <Stack.Screen name="StartScreen" component={StartScreen} />
-                <Stack.Screen name="Signin" component={SignInScreen} />
-                 <Stack.Screen name="Signup" component={SignUpScreen} />
+                <Stack.Screen name="AnimatedLogin" component={AnimatedLogin}  />
                  <Stack.Screen name="VerifyScreen" component={VerifyScreen} />
                  <Stack.Screen name="BindingAccount" component={BindingAccount} />
                  <Stack.Screen name="ResetPassword" component={mainFPScreen} />
                  <Stack.Screen name="ResetPasswordByGmail" component={GmailFP} />
                  <Stack.Screen name="ResetPasswordByPhone" component={PhoneNumberFp} />
-
                  <Stack.Screen name="Home" component={Home} />
 
 

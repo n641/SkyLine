@@ -27,7 +27,7 @@ const Onboarding = ({ navigation }) => {
         if (currentIndex < Sliders.length - 1) {
             slidesRef.current.scrollToIndex({ index: currentIndex + 1 })
         } else {
-            navigation.navigate('StartScreen')
+            navigation.navigate('AnimatedLogin')
         }
     }
 

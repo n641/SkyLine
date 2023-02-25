@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, Image, useWindowDimensions } from 'react-native'
+import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, useWindowDimensions } from 'react-native'
 import React, { useState } from 'react'
 
 
@@ -91,9 +91,9 @@ export default function SigninScreen({ navigation }) {
             console.log(response.data) //save token
 
             if (response) {
-            settitle("login successfully")
-            setAlertLogo(success)
-            setVisible(true)
+                settitle("login successfully")
+                setAlertLogo(success)
+                setVisible(true)
             }
 
         } else {
@@ -103,31 +103,25 @@ export default function SigninScreen({ navigation }) {
     }
 
     const GoogleLogin = '/api/v1/users/auth/google';
-
+    var source;
     const HandleLoginGoogle = async () => {
-      
-            const response = await axios.get(GoogleLogin)
-            
-            
-            console.log(response) //save token
 
-            // if (response) {
-            // settitle("login successfully")
-            // setAlertLogo(success)
-            // setVisible(true)
-            // }
+        const response = await axios.get(GoogleLogin)
 
-       
+        console.log(response.data) //save token
 
+        if (response) {
+
+        }
     }
 
-    
+
     return (
-        <View style={styles.screen}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.containerKeyboard}>
+            <ScrollView contentContainerStyle={styles.screen}>
 
-            <ImageBackground source={img} resizeMode="cover" style={styles.backGround} blurRadius={5}>
-
-                {/* //////////////////////////////////Custome Alert//////////////////////////////////// */}
                 <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
                     setvisibleForm(false)
                 }} />
@@ -137,39 +131,29 @@ export default function SigninScreen({ navigation }) {
                     HandleNavigate('Home')
                 }} />
 
-                {/* /////////////////////////////////////////////////////////////////////////////////////////////// */}
-
-                <View style={[styles.containerLogo, { width: width }]}>
-                    <Image source={Logo} style={styles.Image} />
-                </View>
-                <View style={{ marginStart: 15, justifyContent: 'center' }}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <FontAwesome name="minus" size={34} color="white" />
-                        <FontAwesome name="minus" size={34} color="white" style={{ left: -2 }} />
-                        <FontAwesome name="minus" size={34} color="white" style={{ left: -4 }} />
-                    </View>
-                    <Text style={styles.title}>Sign In</Text>
-                </View>
                 <View>
 
-                    <View style={{ alignItems: 'center', marginTop: 10 }}>
+                    <View style={{ alignItems: 'center', }}>
                         <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} onAddText={HandleEmail} text={Email} />
                     </View>
+
                     <View style={{ width: width, marginEnd: 15, alignItems: "flex-end" }}>
                         <Link title='Dont have account?' onpress={() => { HandleNavigate('Signup') }} textSize={18} />
                     </View>
+
                     <View style={{ alignItems: 'center' }}>
                         <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandlePass} text={Pass} />
                     </View>
 
+
+                    <View style={{ width: width, marginEnd: 10, alignItems: "flex-end" }}>
+                        <Link title='Forget the password?' onpress={() => { HandleNavigate('ResetPassword') }} textSize={18} />
+                    </View>
+
                 </View>
 
-                <View style={{ width: width, marginEnd: 10, alignItems: "flex-end" }}>
-                    <Link title='Forget the password?' onpress={() => {HandleNavigate('ResetPassword') }} textSize={18} />
-                </View>
 
-
-                <View style={{ marginTop: 30 }}>
+                <View >
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <MainButton title="SignIn" color={Colors.Button} onClick={() => { HandleLogin() }} />
                     </View>
@@ -177,40 +161,24 @@ export default function SigninScreen({ navigation }) {
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={styles.footer}>-- or with --</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <MaterialIcons name="facebook" size={40} color={Colors.face_logo} style={{ marginHorizontal: 15 }} />
-                            <FontAwesome5 name="google" size={33} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onPress={()=>{HandleLoginGoogle()}}/>
+                            <MaterialIcons name="facebook" size={30} color={Colors.face_logo} style={{ marginHorizontal: 15 }} />
+                            <FontAwesome5 name="google" size={23} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onPress={() => { HandleLoginGoogle() }} />
                         </View>
                     </View>
                 </View>
-            </ImageBackground>
-        </View>
+
+
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
 
 const styles = StyleSheet.create({
     screen: {
-        flex: 1,
+        justifyContent: 'flex-end'
     },
-    containerLogo: {
-        alignItems: 'flex-end'
-    },
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    backGround: {
-        flex: 1,
-    },
-    Image: {
-        width: 45,
-        height: 54,
-        resizeMode: "contain",
-
-    },
-    title: {
-        fontFamily: 'item',
-        fontSize: 50,
-        color: "white",
+    containerKeyboard: {
+        backgroundColor: 'black'
     },
     link: {
         fontFamily: 'item',
@@ -221,23 +189,7 @@ const styles = StyleSheet.create({
     footer: {
         fontFamily: 'item',
         color: "white",
-        fontSize: 30
+        fontSize: 20
 
-    },
-    header: {
-        width: '100%',
-        height: 20,
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    modelBG: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
 })

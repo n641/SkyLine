@@ -5,7 +5,7 @@ import Navigation from "./Navigator/Navigations";
 
 import { useFonts } from 'expo-font';
 
-import SigninScreen from './Screens/Auth_Screens/CompleteInfoScreen'
+import SigninScreen from './Screens/Auth_Screens/MainAuthScreens/AnimatedLogin'
 
 export default function App() {
 

@@ -5,15 +5,15 @@ import Colors from '../../Conestant/Colors';
 import { Entypo } from '@expo/vector-icons';
 
 
-export default function CustomTF({ placeholder, keyboardType, label, required, width , icon , onAddText , text }) {
-    const [click, setclick] = useState(false);
+export default function CustomTF({ placeholder, keyboardType, label, required, width , icon , onAddText , text , onPressIn , onPressOut }) {
+    const [click, setclick] = useState(true);
 
     const HandleOnpress =()=>{
         setclick(!click)
     }
 
     return (
-        <View style={{ margin: 10, justifyContent: 'center', height: 30 , marginHorizontal:15}}>
+        <View style={{ justifyContent: 'center',marginHorizontal:15}}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={styles.label}>{label}</Text>
                 {required ? <Text style={styles.astrisk}>*</Text> : null}
@@ -27,8 +27,10 @@ export default function CustomTF({ placeholder, keyboardType, label, required, w
                     placeholderTextColor={Colors.Hint_text_field}
                     keyboardType={keyboardType}
                     secureTextEntry={!click}
+                    onPressIn={onPressIn}
+                    onEndEditing={onPressOut}
                 />
-              {icon?<Entypo name={click?"eye":"eye-with-line"} size={24} color="white" onPress={()=>{HandleOnpress()}}/>:null}
+              {icon?<Entypo name={!click?"eye-with-line":"eye"} size={24} color="white" onPress={()=>{HandleOnpress()}}/>:null}
 
             </View>
         </View>

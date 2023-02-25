@@ -137,7 +137,7 @@ export default function SignUpScreen({ navigation }) {
         firstName: FirstName,
         lastName: SecondName,
         username: UserName,
-        birthDate: date.toJSON().substring(0,10),
+        birthDate: date.toJSON().substring(0, 10),
         email: Email,
         password: Pass,
         passwordConfirm: ConformPass,
@@ -161,78 +161,70 @@ export default function SignUpScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'height' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.containerKeyboard}>
-      <ScrollView style={styles.screen}>
+      <ScrollView contentContainerStyle={styles.screen}>
 
-        <ImageBackground source={img} resizeMode="cover" style={styles.backGround} blurRadius={5}>
 
-          {/* //////////////////////////////////Custome Alert//////////////////////////////////// */}
-          <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
-            setvisibleForm(false)
-          }} />
+        {/* //////////////////////////////////Custome Alert//////////////////////////////////// */}
+        <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+          setvisibleForm(false)
+        }} />
 
-          <CAlert visible={visible} icon={AlertLogo} title={title} onClick={() => {
-            setVisible(false)
-            HandleNavigate('Home')
-          }} />
+        <CAlert visible={visible} icon={AlertLogo} title={title} onClick={() => {
+          setVisible(false)
+          HandleNavigate('Home')
+        }} />
 
-          {/* /////////////////////////////////////////////////////////////////////////////////////////////// */}
+        {/* /////////////////////////////////////////////////////////////////////////////////////////////// */}
 
-          <View style={[styles.containerLogo, { width: width }]}>
-            <Image source={Logo} style={styles.Image} />
-          </View>
-          <View style={{ marginStart: 15, justifyContent: 'center' }}>
-            <View style={{ flexDirection: 'row' }}>
-              <FontAwesome name="minus" size={34} color="white" />
-              <FontAwesome name="minus" size={34} color="white" style={{ left: -2 }} />
-              <FontAwesome name="minus" size={34} color="white" style={{ left: -4 }} />
-            </View>
-            <Text style={styles.title}>Sign Up</Text>
+        <View>
+
+          <View style={{ flexDirection: 'row', marginHorizontal: 5 }}>
+            <CustomTF placeholder="Noha" keyboardType="default" type="" label="First Name" width={(width / 2 - 60)} required={true} onAddText={HandleFirstName} text={FirstName} />
+            <CustomTF placeholder="Mohammed" keyboardType="default" type="" label="Second Name" width={(width / 2 - 60)} required={true} onAddText={HandleSecondName} text={SecondName} />
           </View>
 
-          <View>
-            <View style={{ flexDirection: 'row', marginVertical: 20, marginHorizontal: 5 }}>
-              <CustomTF placeholder="Noha" keyboardType="default" type="" label="First Name" width={(width / 2 - 50)} required={true} onAddText={HandleFirstName} text={FirstName} />
-              <CustomTF placeholder="Mohammed" keyboardType="default" type="" label="Second Name" width={(width / 2 - 50)} required={true} onAddText={HandleSecondName} text={SecondName} />
-            </View>
-            <View style={{ flexDirection: 'row', marginVertical: 20, marginHorizontal: 5 }}>
-              <CustomTF placeholder="NohaMohammed123" keyboardType="default" type="" label="User Name" width={(width / 2 - 50)} required={true} onAddText={HandleUserNmae} text={UserName} />
-              {/* <CustomTF placeholder="YYYY-MM-DD" keyboardType="default" type="" label="Birth Date" width={(width / 2 - 50)} required={true} onAddText={HandleDate} text={Date} /> */}
-              <DatePickerTF label="Birth Date" width={(width / 2 - 33)} required={true} date={date} mode={mode} show={show} showDatepicker={showDatepicker} onChange={HandleDate} />
-            </View>
-            <View style={{ alignItems: 'center', marginVertical: 20 }}>
-              <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 50)} required={true} onAddText={HandleEmail} text={Email} />
-            </View>
-            <View style={{ alignItems: 'center', marginVertical: 20 }}>
-              <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandlePass} Text={Pass} />
-            </View>
-            <View style={{ alignItems: 'center', marginVertical: 20 }}>
-              <CustomTF placeholder="*******" keyboardType="'default'" type="" label="Confirm-Password" width={(width - 50 - 24)} required={true} icon={true} onAddText={HandleConformPass} text={ConformPass} />
-            </View>
-            <View style={{ alignItems: 'center', marginVertical: 20 }}>
-              <CustomTF placeholder="" keyboardType="'default'" type="" label="Adress" width={(width - 50)} required={false} onAddText={HandleAddress} text={Address} />
-            </View>
+          <View style={{ flexDirection: 'row', marginHorizontal: 5 }}>
+            <CustomTF placeholder="NohaMohammed123" keyboardType="default" type="" label="User Name" width={(width / 2 - 60)} required={true} onAddText={HandleUserNmae} text={UserName} />
+            <DatePickerTF label="Birth Date" width={(width / 2 - 43)} required={true} date={date} mode={mode} show={show} showDatepicker={showDatepicker} onChange={HandleDate} />
           </View>
 
-          <View style={{ width: width, alignItems: 'flex-end', marginRight: 15 }}>
-            <Link title='Have already acount!' textSize={18} onpress={() => { HandleNavigate('Signin') }} />
+          <View style={{ alignItems: 'center'}}>
+            <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 80)} required={true} onAddText={HandleEmail} text={Email} />
           </View>
 
-
-          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <MainButton title="Signup" color={Colors.Button} onClick={() => { HandleSignup() }} />
+          <View style={{ alignItems: 'center', }}>
+            <CustomTF placeholder="*******" keyboardType="default" type="" label="Password" width={(width - 80 - 24)} required={true} icon={true} onAddText={HandlePass} Text={Pass} />
           </View>
 
-          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={styles.footer}>-- or with --</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-              <MaterialIcons name="facebook" size={40} color={Colors.face_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
-              <FontAwesome5 name="google" size={33} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
-            </View>
+          <View style={{ alignItems: 'center', }}>
+            <CustomTF placeholder="*******" keyboardType="'default'" type="" label="Confirm-Password" width={(width - 80 - 24)} required={true} icon={true} onAddText={HandleConformPass} text={ConformPass} />
           </View>
 
-        </ImageBackground>
+          <View style={{ alignItems: 'center', }}>
+            <CustomTF placeholder="" keyboardType="'default'" type="" label="Adress" width={(width - 80)} required={false} onAddText={HandleAddress} text={Address} />
+          </View>
+
+        </View>
+
+        <View style={{ width: width, alignItems: 'flex-end', marginRight: 15 }}>
+          <Link title='Have already acount!' textSize={15} onpress={() => { HandleNavigate('Signin') }} />
+        </View>
+
+
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <MainButton title="Signup" color={Colors.Button} onClick={() => { HandleSignup() }} />
+        </View>
+
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={styles.footer}>-- or with --</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <MaterialIcons name="facebook" size={30} color={Colors.face_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
+            <FontAwesome5 name="google" size={23} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
+          </View>
+        </View>
+
       </ScrollView >
     </KeyboardAvoidingView>
 
@@ -241,37 +233,20 @@ export default function SignUpScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
+    // flex: 1,
+    justifyContent: 'flex-end'
   },
   containerKeyboard: {
-    flex: 1,
-    backgroundColor:"black"
+    // flex: 1,
+    backgroundColor: "black"
   },
   containerLogo: {
     alignItems: 'flex-end'
   },
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  backGround: {
-    flex: 1,
-  },
-  Image: {
-    width: 45,
-    height: 54,
-    resizeMode: "contain",
-
-  },
-  title: {
-    fontFamily: 'item',
-    fontSize: 50,
-    color: "white",
-  },
   footer: {
     fontFamily: 'item',
     color: "white",
-    fontSize: 30
+    fontSize: 20
 
   }
 })
