@@ -20,7 +20,7 @@ export default function CustomTF({ placeholder, keyboardType, label, required, w
             </View>
             <View style={styles.container}>
                 <TextInput
-                    style={[styles.input, { width: width }]}
+                    style={[styles.input, { width: width  }]}
                     onChangeText={onAddText}
                     value={text}
                     placeholder={placeholder}
@@ -29,6 +29,7 @@ export default function CustomTF({ placeholder, keyboardType, label, required, w
                     secureTextEntry={!click}
                     onPressIn={onPressIn}
                     onEndEditing={onPressOut}
+                
                 />
               {icon?<Entypo name={!click?"eye-with-line":"eye"} size={24} color="white" onPress={()=>{HandleOnpress()}}/>:null}
 

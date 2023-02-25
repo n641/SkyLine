@@ -39,7 +39,7 @@ export default function AnimatedLogin({ navigation }) {
   const imagePostion = useSharedValue(1);
 
   const imageAnimatedStyle = useAnimatedStyle(() => {
-    const interpolation = interpolate(imagePostion.value, [0, 1], [Signup ? -height / 0.95 : -height / 0.95, 0])
+    const interpolation = interpolate(imagePostion.value, [0, 1], [Signup ? -height / 0.95 : -height / 1.4, 0])
     return {
       transform: [{ translateY: withTiming(interpolation, { duration: 1000 }) }]
     }
@@ -84,6 +84,11 @@ export default function AnimatedLogin({ navigation }) {
     if (!Signup) {
       setSignup(true)
     }
+  }
+
+  const handleDontHaveAcouunt = () => {
+    imagePostion.value = 1;
+    setSignup(false)
   }
 
 
@@ -132,11 +137,11 @@ export default function AnimatedLogin({ navigation }) {
       </View>
 
 
-      <Animated.View style={[styles.inputContainer, formAnimatedStyle, { marginVertical: -120 }]}>
+      <Animated.View style={[styles.inputContainer, formAnimatedStyle, { }]}>
 
 
         {Signup ?
-          (<SignUpScreen />) : <SigninScreen />
+          (<SignUpScreen DontHaveAcouunt={() => { handleDontHaveAcouunt() }} navigation={navigation} />) : <SigninScreen DontHaveAcouunt={() => { handleDontHaveAcouunt() }} navigation={navigation} />
         }
 
 

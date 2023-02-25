@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     },
     inputContainer:{
         marginHorizontal:10,
-        marginBottom:10,
+        marginBottom:5,
         ...StyleSheet.absoluteFill,
         zIndex:-1,
         justifyContent:"flex-end",

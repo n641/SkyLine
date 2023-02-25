@@ -21,7 +21,7 @@ import Link from '../../Components/Link'
 import success from '../../assets/success.png'
 import wrong from '../../assets/warning.png'
 
-export default function SigninScreen({ navigation }) {
+export default function SigninScreen({ navigation , DontHaveAcouunt }) {
     const { width } = useWindowDimensions()
     const [Email, setEmail] = useState("")
     const [Pass, setPass] = useState("")
@@ -108,7 +108,7 @@ export default function SigninScreen({ navigation }) {
 
         const response = await axios.get(GoogleLogin)
 
-        console.log(response.data) //save token
+        // console.log(response.data) //save token
 
         if (response) {
 
@@ -119,7 +119,10 @@ export default function SigninScreen({ navigation }) {
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.containerKeyboard}>
+            style={styles.containerKeyboard}
+            // keyboardVerticalOffset={50}
+         
+            >
             <ScrollView contentContainerStyle={styles.screen}>
 
                 <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
@@ -138,7 +141,7 @@ export default function SigninScreen({ navigation }) {
                     </View>
 
                     <View style={{ width: width, marginEnd: 15, alignItems: "flex-end" }}>
-                        <Link title='Dont have account?' onpress={() => { HandleNavigate('Signup') }} textSize={18} />
+                        <Link title='Dont have account?' onpress={ ()=>{DontHaveAcouunt()} } textSize={18} />
                     </View>
 
                     <View style={{ alignItems: 'center' }}>
@@ -161,8 +164,8 @@ export default function SigninScreen({ navigation }) {
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={styles.footer}>-- or with --</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <MaterialIcons name="facebook" size={30} color={Colors.face_logo} style={{ marginHorizontal: 15 }} />
-                            <FontAwesome5 name="google" size={23} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onPress={() => { HandleLoginGoogle() }} />
+                            <MaterialIcons name="facebook" size={40} color={Colors.face_logo} style={{ marginHorizontal: 15 }} />
+                            <FontAwesome5 name="google" size={33} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onPress={() => { HandleLoginGoogle() }} />
                         </View>
                     </View>
                 </View>
@@ -178,7 +181,9 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end'
     },
     containerKeyboard: {
-        backgroundColor: 'black'
+        backgroundColor: 'black',
+        justifyContent:'space-evenly',
+        overflow:'hidden'
     },
     link: {
         fontFamily: 'item',
@@ -189,7 +194,7 @@ const styles = StyleSheet.create({
     footer: {
         fontFamily: 'item',
         color: "white",
-        fontSize: 20
+        fontSize: 30
 
     },
 })

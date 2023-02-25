@@ -24,7 +24,7 @@ import success from '../../assets/success.png'
 import wrong from '../../assets/warning.png'
 
 
-export default function SignUpScreen({ navigation }) {
+export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
   const { width } = useWindowDimensions()
   const [FirstName, setFirstName] = useState("")
   const [SecondName, setSecondName] = useState("")
@@ -208,8 +208,8 @@ export default function SignUpScreen({ navigation }) {
 
         </View>
 
-        <View style={{ width: width, alignItems: 'flex-end', marginRight: 15 }}>
-          <Link title='Have already acount!' textSize={15} onpress={() => { HandleNavigate('Signin') }} />
+        <View style={{ width: width, marginStart: 20 }}>
+          <Link title='Have already acount!' textSize={15} onpress={() => { DontHaveAcouunt() }} />
         </View>
 
 
@@ -220,8 +220,8 @@ export default function SignUpScreen({ navigation }) {
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text style={styles.footer}>-- or with --</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <MaterialIcons name="facebook" size={30} color={Colors.face_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
-            <FontAwesome5 name="google" size={23} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
+            <MaterialIcons name="facebook" size={40} color={Colors.face_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
+            <FontAwesome5 name="google" size={33} color={Colors.Google_logo} style={{ marginHorizontal: 15 }} onpress={() => { }} />
           </View>
         </View>
 
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
   containerKeyboard: {
     // flex: 1,
-    backgroundColor: "black"
+    backgroundColor: "black",
   },
   containerLogo: {
     alignItems: 'flex-end'
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   footer: {
     fontFamily: 'item',
     color: "white",
-    fontSize: 20
+    fontSize: 30
 
   }
 })
