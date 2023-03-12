@@ -178,7 +178,8 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
 
 const styles = StyleSheet.create({
     screen: {
-        justifyContent: 'flex-end'
+    backgroundColor:Colors.first_dark_splash,
+    justifyContent: 'flex-end',
     },
     containerKeyboard: {
         backgroundColor: 'black',

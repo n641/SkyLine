@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     screen:{
         flex:1,
         justifyContent:"flex-end",
-        backgroundColor:"black"
+        backgroundColor:colors.first_dark_splash,
     },
     button:{
         backgroundColor:colors.Button,

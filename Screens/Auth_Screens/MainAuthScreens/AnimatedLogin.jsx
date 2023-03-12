@@ -1,39 +1,26 @@
-import { StyleSheet, Text, View, Dimensions, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import styles from './AuthStyle'
 import React, { useState } from 'react'
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withSpring } from 'react-native-reanimated'
-
-import axios from '../../../Api/axios';
-import validateEmail from '../../../Validatation/validateEmail'
-import validatepass from '../../../Validatation/validatepass';
-import validateUserName from '../../../Validatation/validateUserName'
+import { LinearGradient } from "expo-linear-gradient";
 
 
-import { FontAwesome } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../Conestant/Colors'
 import Svg, { Image, Ellipse, ClipPath } from 'react-native-svg'
 
 
 import BG from '../../../assets/bg1.png'
-import logoLight from '../../../assets/logo-light.png'
 import logoDark from '../../../assets/logo-dark.png'
+import logoLight from '../../../assets/logo-light.png'
 
 import SignUpScreen from '../SignUpScreen';
 import SigninScreen from '../SignInScreen';
 import MainButton from '../../../Components/MainButton'
-import CustomTF from '../../../Components/CustomeTextFields/CustomTF'
-import DatePickerTF from '../../../Components/CustomeTextFields/DatePickerTF';
-import CAlert from '../../../Components/CustomeAlerts/CAlert';
-import Link from '../../../Components/Link'
-import success from '../../../assets/success.png'
-import wrong from '../../../assets/warning.png'
+
 
 export default function AnimatedLogin({ navigation }) {
   const { height, width } = Dimensions.get('window')
   const [Signup, setSignup] = useState(false)
-  const [Above, setAbove] = useState(false)
 
   ///////////////////////////////////////////animation////////////////////////
   const imagePostion = useSharedValue(1);
@@ -113,9 +100,9 @@ export default function AnimatedLogin({ navigation }) {
           />
 
           <Image
-            href={logoDark}
-            width={width - 25}
-            height={height - 80}
+            href={logoLight}
+            width={width}
+            height={height/1.9}
             clipPath='url(#clipPathId)'
           />
 
@@ -137,7 +124,7 @@ export default function AnimatedLogin({ navigation }) {
       </View>
 
 
-      <Animated.View style={[styles.inputContainer, formAnimatedStyle, { }]}>
+      <Animated.View style={[styles.inputContainer, formAnimatedStyle, {}]}>
 
 
         {Signup ?

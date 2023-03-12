@@ -234,7 +234,9 @@ export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
 const styles = StyleSheet.create({
   screen: {
     // flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    backgroundColor:Colors.first_dark_splash,
+
   },
   containerKeyboard: {
     // flex: 1,
