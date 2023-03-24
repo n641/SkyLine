@@ -19,7 +19,7 @@ const Home = () => {
     <NavigationContainer >
       <Tab.Navigator
         tabBar={(props) => <AnimatedTabBar {...props} />}
-        // screenOptions={{headerShown:false}}
+        screenOptions={{headerShown:false}}
       >
         <Tab.Screen name="Home" 
         options={{
@@ -52,7 +52,7 @@ const Home = () => {
 
 const PlaceHolderScreen = () => {
   return (
-    <View style={{ flex: 1, backgroundColor: '#604AE6' }} />
+    <View style={{ flex: 1, backgroundColor: 'black' }} />
   )
 }
 
@@ -69,7 +69,6 @@ const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, des
   }
 
   const [layout, dispatch] = useReducer(reducer, [])
-  console.log(layout)
 
   const xOffset = useDerivedValue(() => {
     // Our code hasn't finished rendering yet, so we can't use the layout values
@@ -95,7 +94,7 @@ const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, des
 
 
   return (
-    <View style={[styles.tabBar, { paddingBottom: bottom }]}>
+    <View style={[styles.tabBar, { paddingBottom: bottom +12 , borderRadius:20}]}>
       <AnimatedSvg
         width={110}
         height={60}
@@ -103,7 +102,7 @@ const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, des
         style={[styles.activeBackground, animatedStyles]}
       >
         <Path
-          fill="#604AE6"
+          fill="black"
           d="M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z"
         />
       </AnimatedSvg>
@@ -210,6 +209,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     height: 50,
-    width: 50,
+    width: 55,
   }
 })

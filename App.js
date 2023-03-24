@@ -18,8 +18,8 @@ export default function App() {
   }
 
   return (
-    // <Navigation />
-    <SigninScreen/>
+    <Navigation />
+    // <SigninScreen/>
   );
 }
 
