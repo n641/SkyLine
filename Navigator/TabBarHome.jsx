@@ -11,6 +11,7 @@ import Animated, { useAnimatedStyle, withTiming, useDerivedValue } from 'react-n
 import Colors from '../Conestant/Colors'
 
 import Home from '../Screens/Home/Home'
+import CustomDrawer from './CustomDrawer'
 
 
 const Tab = createBottomTabNavigator();
@@ -28,27 +29,27 @@ const TabBarHome = () => {
           // @ts-ignore
           tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lotties/42174-home.json')} style={styles.icon} />,
         }}
-        component={Home} />
+        component={CustomDrawer} />
         <Tab.Screen name="Settings" 
          options={{
           // @ts-ignore
           tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lotties/38199-settings-roll.json')} style={styles.icon} />,
         }}
-        component={Home} />
+        component={CustomDrawer} />
         <Tab.Screen name="tickets"
          options={{
           // @ts-ignore
           tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lotties/37179-travel-tickets.json')} style={styles.icon} />,
         }}
-        component={Home} />
+        component={CustomDrawer} />
         <Tab.Screen name="profile"
          options={{
           // @ts-ignore
           tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../assets/lotties/116876-person-animation.json')} style={styles.icon} />,
         }}
-        component={Home} />
+        component={CustomDrawer} />
       </Tab.Navigator>
-    </NavigationContainer>
+     </NavigationContainer>
   )
 }
 
@@ -90,7 +91,7 @@ const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, des
         style={[styles.activeBackground, animatedStyles]}
       >
         <Path
-          fill={Colors.third_dark_screen}
+          fill={Colors.fourth_dark_splash}
           d="M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z"
         />
       </AnimatedSvg>
