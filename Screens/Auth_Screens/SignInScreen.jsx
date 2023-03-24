@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 
 import axios from '../../Api/axios';
-import validateEmail from '../../Validatation/validateEmail'
+// import validateEmail from '../../Validatation/ValidateEmail'
 import validatepass from '../../Validatation/validatepass';
 
 import { FontAwesome } from '@expo/vector-icons';
@@ -15,8 +15,6 @@ import MainButton from '../../Components/MainButton'
 import CustomTF from '../../Components/CustomeTextFields/CustomTF';
 import Colors from '../../Conestant/Colors'
 
-import img from '../../assets/bg3.png'
-import Logo from '../../assets/logo-light.png'
 import Link from '../../Components/Link'
 import success from '../../assets/success.png'
 import wrong from '../../assets/warning.png'
@@ -48,7 +46,8 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
     const HandleError = () => {
         if (Email && Pass) {
 
-            const isValidEmail = validateEmail(Email)
+            const isValidEmail = true
+            // validateEmail(Email)
             const isValidpass = validatepass(Pass)
 
             if (!isValidEmail) {

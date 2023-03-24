@@ -10,13 +10,12 @@ import BindingAccount from '../Screens/Auth_Screens/BindingAccount';
 import mainFPScreen from '../Screens/Auth_Screens/ForgetPasswordScreens/MainFPScreen';
 import GmailFP from '../Screens/Auth_Screens/ForgetPasswordScreens/GmailFP'
 import PhoneNumberFp from '../Screens/Auth_Screens/ForgetPasswordScreens/PhoneNumberFP'
-import Home from '../Screens/Home/Home';
+import Home from './TabBarHome';
 
 const Stack = createNativeStackNavigator();
 
-const Navigation = () => {
+const AuthNavigator = () => {
     return(
-        <NavigationContainer >
             <Stack.Navigator screenOptions={{headerShown:false , animation:'slide_from_bottom'}}  >
                 <Stack.Screen name="SplashScreen" component={SplashScreen}  />
                 <Stack.Screen name="AnimatedLogin" component={AnimatedLogin}  />
@@ -26,11 +25,20 @@ const Navigation = () => {
                  <Stack.Screen name="ResetPasswordByGmail" component={GmailFP} />
                  <Stack.Screen name="ResetPasswordByPhone" component={PhoneNumberFp} />
                  <Stack.Screen name="Home" component={Home} />
+            </Stack.Navigator>
+    )
+}
 
-
+const MainNaigator = () => {
+    return(
+        <NavigationContainer >
+            <Stack.Navigator screenOptions={{headerShown:false , animation:'slide_from_bottom'}}  >
+                <Stack.Screen name="AuthNavigator" component={AuthNavigator}  />
+                 <Stack.Screen name="Home" component={Home} />
             </Stack.Navigator>
         </NavigationContainer>
     )
 }
 
-export default Navigation
+
+export default MainNaigator
