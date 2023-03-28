@@ -5,7 +5,7 @@ import Navigation from "./Navigator/Navigations";
 
 import { useFonts } from 'expo-font';
 
-import SigninScreen from './Navigator/CustomDrawer'
+import SigninScreen from './Screens/Home/TicketSearch'
 
 export default function App() {
 
@@ -18,8 +18,8 @@ export default function App() {
   }
 
   return (
-    <Navigation />
-    // <SigninScreen/>
+    // <Navigation />
+    <SigninScreen/>
   );
 }
 

@@ -1,0 +1,90 @@
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
+import React, { useState } from 'react'
+
+import OneWayScreen from './OneWayScreen'
+
+const listTab = [
+  {
+    status: 'one Way',
+    Key: 1
+  },
+  {
+    status: 'Round Trip',
+    Key: 2
+
+  },
+  {
+    status: 'Multi Destination',
+    Key: 3
+
+
+  }
+]
+
+
+export default function TabBarOFSearchTickets() {
+  const [Active, setActive] = useState('one Way')
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.listTab}>
+        {
+          listTab.map((e, i) => {
+            return (
+              <TouchableOpacity
+                style={[styles.btn, Active === e.status && styles.btnTabActive]}
+                onPress={() => { setActive(e.status) }}
+              >
+                <Text key={e.Key} style={styles.textbtn}>{e.status}</Text>
+              </TouchableOpacity>
+            )
+          })
+        }
+      </View>
+      {
+        Active === 'one Way' ?
+          <OneWayScreen />
+
+          : Active === 'Round Trip' ?
+            <Text>nour</Text>
+
+            :
+            <Text>nermien</Text>
+
+      }
+    </SafeAreaView>
+
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 15,
+    marginTop: 37,
+    margin: 20
+  },
+  listTab: {
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    marginBottom: 20
+  },
+  btn: {
+    width: Dimensions.get('window').width / 3.4,
+    flexDirection: 'row',
+    borderColor: '#EBEBEB',
+    padding: 4,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  textbtn: {
+    fontSize: 16,
+    fontFamily: 'item'
+  },
+  btnTabActive: {
+    backgroundColor: '#00A7CC',
+    borderRadius: 15,
+    // width: Dimensions.get('window').width / 9
+  }
+})
