@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions } fr
 import React, { useState } from 'react'
 
 import OneWayScreen from './OneWayScreen'
+import MultiDestinationScreen from './MultiDestinationScreen'
+import RoundTripScreen from './RoundTripScreen'
 
 const listTab = [
   {
@@ -22,7 +24,7 @@ const listTab = [
 ]
 
 
-export default function TabBarOFSearchTickets() {
+export default function TabBarOFSearchTickets({navigation}) {
   const [Active, setActive] = useState('one Way')
   return (
     <SafeAreaView style={styles.container}>
@@ -42,13 +44,14 @@ export default function TabBarOFSearchTickets() {
       </View>
       {
         Active === 'one Way' ?
-          <OneWayScreen />
+          <OneWayScreen navigation={navigation} />
 
           : Active === 'Round Trip' ?
-            <Text>nour</Text>
+            <RoundTripScreen navigation={navigation}/>
 
             :
-            <Text>nermien</Text>
+            <MultiDestinationScreen navigation={navigation}/>
+
 
       }
     </SafeAreaView>
@@ -59,9 +62,9 @@ export default function TabBarOFSearchTickets() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     marginTop: 37,
-    margin: 20
+    // margin: 20
   },
   listTab: {
     backgroundColor: '#fff',

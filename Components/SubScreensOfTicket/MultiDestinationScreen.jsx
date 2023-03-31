@@ -19,10 +19,12 @@ import Colors from '../../Conestant/Colors';
 
 const width = Dimensions.get('window').width;
 
-export default function OneWayScreen({navigation}) {
+
+export default function MultiDestinationScreen({navigation}) {
     const [From, setFrom] = React.useState();
     const [to, setTo] = React.useState();
     const [Class, setClass] = useState();
+    const [countryMultiDestination, setcountryMultiDestination] = useState()
 
     const [Adult, setAdult] = useState(0);
     const [Children, setChildren] = useState(0);
@@ -45,12 +47,21 @@ export default function OneWayScreen({navigation}) {
 
     ])
 
+    const [InCountries, setInCountries] = useState([
+        'Egypt/Cairo',
+        'Egypt/Hurgada',
+
+    ])
+
+
     const [Classes, setClasses] = useState([
         'First class',
         'Business',
         'economy'
 
     ])
+
+
 
 
     const HandleDate = (event, selectedDate) => {
@@ -79,10 +90,9 @@ export default function OneWayScreen({navigation}) {
             setIsOpen(true);
         }, 100);
     }, []);
-
     const handleSheetChanges = useCallback((index) => {
         setTextOfPassenger(`Adults: ${Adult} , Children: ${Children} ,  infant: ${infant}`)
-    }, [Adult, Children, infant]);
+    }, []);
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
@@ -212,7 +222,7 @@ export default function OneWayScreen({navigation}) {
             <View style={[styles.DateContainer]} >
 
                 <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 3, marginBottom: -15, marginTop: 2 }}>
-                    <Text style={styles.label}>Class</Text>
+                    <Text style={styles.label}>To</Text>
                     <Text style={styles.astrisk}>*</Text>
                 </View>
 
@@ -223,6 +233,39 @@ export default function OneWayScreen({navigation}) {
                         setClass(selectedItem)
                     }}
                     defaultButtonText={Classes[0]}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        return selectedItem;
+                    }}
+                    rowTextForSelection={(item, index) => {
+                        return item;
+                    }}
+                    buttonStyle={styles.dropdown1BtnStyle}
+                    buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                    renderDropdownIcon={isOpened => {
+                        return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'white'} size={18} />;
+                    }}
+                    dropdownIconPosition={'right'}
+                    dropdownStyle={styles.dropdown1DropdownStyle}
+                    rowStyle={styles.dropdown1RowStyle}
+                    rowTextStyle={styles.dropdown1RowTxtStyle}
+                />
+            </View>
+
+            {/* //////////////////////////////////Countries////////////////////////////////// */}
+            <View style={[styles.DateContainer]} >
+
+                <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 3, marginBottom: -15, marginTop: 2 }}>
+                    <Text style={styles.label}>Countries</Text>
+                    <Text style={styles.astrisk}>*</Text>
+                </View>
+
+                <SelectDropdown
+                    data={InCountries}
+
+                    onSelect={(selectedItem, index) => {
+                        setcountryMultiDestination(selectedItem)
+                    }}
+                    defaultButtonText={InCountries[0]}
                     buttonTextAfterSelection={(selectedItem, index) => {
                         return selectedItem;
                     }}
@@ -260,7 +303,7 @@ export default function OneWayScreen({navigation}) {
             </View>
 
             <View style={{ margin: 20, marginBottom: 50 }}>
-                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen")}} />
+                <MainButton title='Search' onClick={() => {navigation.navigate("ResultTicketsScreen") }} />
             </View>
 
             <BottomSheetModalProvider>
@@ -269,10 +312,9 @@ export default function OneWayScreen({navigation}) {
                         ref={bottomSheetModalRef}
                         index={1}
                         snapPoints={snapPoints}
-                        onChange={handleSheetChanges}
                         onDismiss={() => {
-                            handleSheetChanges()
                             setIsOpen(false)
+                            handleSheetChanges()
                         }}
                     >
                         <Animated.View style={styles.contentContainer}>
@@ -326,6 +368,7 @@ export default function OneWayScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
+
     inputContainer: {
         borderWidth: 1,
         borderColor: '#fff',
@@ -337,7 +380,7 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         borderRadius: 15,
         marginTop: 25,
-        padding: 4,
+        padding: 6,
         width: width - 70
 
     },

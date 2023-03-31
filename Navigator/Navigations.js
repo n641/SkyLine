@@ -12,7 +12,11 @@ import GmailFP from '../Screens/Auth_Screens/ForgetPasswordScreens/GmailFP'
 import PhoneNumberFp from '../Screens/Auth_Screens/ForgetPasswordScreens/PhoneNumberFP'
 import Home from './TabBarHome';
 import CustomDrawer from './CustomDrawer'
-import TicketSearch from '../Screens/Home/TicketSearch';
+import TicketSearch from '../Screens/Home/Tickets/TicketSearch';
+import ResultTicketsScreen from '../Screens/Home/Tickets/ResultTicketsScreen';
+import DetailsTicket from '../Screens/Home/Tickets/DetailsTicket';
+import BookSeatScreen from '../Screens/Home/Tickets/BookSeatScreen';
+import FinalBookTicket from '../Screens/Home/Tickets/FinalBookTicket';
 
 
 const Stack = createNativeStackNavigator();
@@ -38,7 +42,10 @@ const MainNaigator = () => {
                 <Stack.Screen name="Home" component={CustomDrawer} />
                 <Stack.Screen name="AuthNavigator" component={AuthNavigator} />
                 <Stack.Screen name="TicketSearch" component={TicketSearch} />
-
+                <Stack.Screen name="ResultTicketsScreen" component={ResultTicketsScreen} />
+                <Stack.Screen name="DetailsTicket" component={DetailsTicket} />
+                <Stack.Screen name="BookSeatScreen" component={BookSeatScreen} />
+                <Stack.Screen name="FinalBookTicket" component={FinalBookTicket} />
             </Stack.Navigator>
         </NavigationContainer>
     )

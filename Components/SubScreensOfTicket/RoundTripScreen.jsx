@@ -19,7 +19,8 @@ import Colors from '../../Conestant/Colors';
 
 const width = Dimensions.get('window').width;
 
-export default function OneWayScreen({navigation}) {
+
+export default function RoundTripScreen({navigation}) {
     const [From, setFrom] = React.useState();
     const [to, setTo] = React.useState();
     const [Class, setClass] = useState();
@@ -29,9 +30,14 @@ export default function OneWayScreen({navigation}) {
     const [infant, setinfant] = useState(0)
     const [TextOfPassenger, setTextOfPassenger] = useState("Click to choose passengers")
 
-    const [date, setDate] = useState(new Date())
+    const [dateDeparturn, setDateDeparturn] = useState(new Date())
+    const [showdateDeparturn, setShowdateDeparturn] = useState(false);
+
+    const [Returndate, setReturndate] = useState(new Date())
+    const [showReturndate, setReturndateShow] = useState(false);
+
     const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
+
 
     const [CountriesFrom, setCountriesFrom] = useState([
         'Egypt/Cairo',
@@ -53,17 +59,34 @@ export default function OneWayScreen({navigation}) {
     ])
 
 
-    const HandleDate = (event, selectedDate) => {
+    const HandledateDeparturn = (event, selectedDate) => {
         const currentDate = selectedDate;
-        setShow(!show);
-        setDate(currentDate);
+        setShowdateDeparturn(!showdateDeparturn);
+        setDateDeparturn(currentDate);
     };
-    const showMode = (currentMode) => {
-        setShow(!show);
+    const HandleshowdateDeparturn = (currentMode) => {
+        setShowdateDeparturn(!showdateDeparturn);
         setMode(currentMode);
     };
+
+    // ///////////////////////////////////////////////////////////////////////////////
+
+    const HandleReturndate = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setReturndateShow(!showReturndate);
+        setReturndate(currentDate);
+    };
+    const showModeReturndate = (currentMode) => {
+        setReturndateShow(!showReturndate);
+        setMode(currentMode);
+    };
+
     const showDatepicker = () => {
-        showMode('date');
+        HandleshowdateDeparturn('date');
+    }
+
+    const showDatepicker2 = () => {
+        showModeReturndate('date')
     }
 
     const [IsOpen, setIsOpen] = useState(false)
@@ -79,7 +102,6 @@ export default function OneWayScreen({navigation}) {
             setIsOpen(true);
         }, 100);
     }, []);
-
     const handleSheetChanges = useCallback((index) => {
         setTextOfPassenger(`Adults: ${Adult} , Children: ${Children} ,  infant: ${infant}`)
     }, [Adult, Children, infant]);
@@ -179,35 +201,68 @@ export default function OneWayScreen({navigation}) {
                 </View>
             </View>
 
-            {/* //////////////////////////////////Date/////////////////////////////////////////// */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                {/* //////////////////////////////////Date2/////////////////////////////////////////// */}
 
-            <TouchableOpacity style={styles.DateContainer}
-                onPress={showDatepicker}
-            >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={styles.label}>departure </Text>
-                    <Text style={styles.astrisk}>*</Text>
-                </View>
-                <View style={styles.container}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10 }}>
-                        <Text style={styles.text}>  {date.toJSON().substring(0, 10)}</Text>
-                        <AntDesign name="calendar" size={30} color="white" />
+                <TouchableOpacity style={styles.DateContainer2}
+                    onPress={showDatepicker}
+                >
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={styles.label}>departure </Text>
+                        <Text style={styles.astrisk}>*</Text>
                     </View>
-                </View>
-                {show &&
-                    (
-                        <DateTimePicker
-                            testID="dateTimePicker"
-                            value={date}
-                            mode={mode}
-                            is24Hour={true}
-                            onChange={HandleDate}
-                            disabled="spinner"
-                            dateFormat='yyyy-mm-dd'
-                        />
-                    )
-                }
-            </TouchableOpacity>
+                    <View style={styles.container}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 0 }}>
+                            <Text style={styles.text}>  {dateDeparturn.toJSON().substring(0, 10)}</Text>
+                            <AntDesign name="calendar" size={25} color="white" />
+                        </View>
+                    </View>
+                    {showdateDeparturn &&
+                        (
+                            <DateTimePicker
+                                testID="dateTimePicker"
+                                value={dateDeparturn}
+                                mode={mode}
+                                is24Hour={true}
+                                onChange={HandledateDeparturn}
+                                disabled="spinner"
+                                dateFormat='yyyy-mm-dd'
+                            />
+                        )
+                    }
+                </TouchableOpacity>
+
+                {/* //////////////////////////////////Date/////////////////////////////////////////// */}
+
+                <TouchableOpacity style={styles.DateContainer2}
+                    onPress={showDatepicker2}
+                >
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={styles.label}>Return </Text>
+                        <Text style={styles.astrisk}>*</Text>
+                    </View>
+                    <View style={styles.container}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 0 }}>
+                            <Text style={styles.text}>  {Returndate.toJSON().substring(0, 10)}</Text>
+                            <AntDesign name="calendar" size={25} color="white" />
+                        </View>
+                    </View>
+                    {showReturndate &&
+                        (
+                            <DateTimePicker
+                                testID="dateTimePicker"
+                                value={Returndate}
+                                mode={mode}
+                                is24Hour={true}
+                                onChange={HandleReturndate}
+                                disabled="spinner"
+                                dateFormat='yyyy-mm-dd'
+                            />
+                        )
+                    }
+                </TouchableOpacity>
+
+            </View>
             {/* //////////////////////////////////class////////////////////////////////// */}
             <View style={[styles.DateContainer]} >
 
@@ -260,7 +315,7 @@ export default function OneWayScreen({navigation}) {
             </View>
 
             <View style={{ margin: 20, marginBottom: 50 }}>
-                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen")}} />
+                <MainButton title='Search' onClick={() => {navigation.navigate("ResultTicketsScreen") }} />
             </View>
 
             <BottomSheetModalProvider>
@@ -271,8 +326,8 @@ export default function OneWayScreen({navigation}) {
                         snapPoints={snapPoints}
                         onChange={handleSheetChanges}
                         onDismiss={() => {
-                            handleSheetChanges()
                             setIsOpen(false)
+                            handleSheetChanges()
                         }}
                     >
                         <Animated.View style={styles.contentContainer}>
@@ -320,12 +375,12 @@ export default function OneWayScreen({navigation}) {
                 </Animated.View>
             </BottomSheetModalProvider>
 
-
         </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
+
     inputContainer: {
         borderWidth: 1,
         borderColor: '#fff',
@@ -337,13 +392,22 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         borderRadius: 15,
         marginTop: 25,
-        padding: 4,
+        padding: 6,
         width: width - 70
+    },
+    DateContainer2: {
+        borderWidth: 1,
+        borderColor: 'white',
+        borderRadius: 15,
+        marginTop: 25,
+        padding: 5,
+        width: width / 2 - 50,
+        marginHorizontal: 13
 
     },
     text: {
         fontFamily: 'item',
-        fontSize: 22,
+        fontSize: width / 25,
         color: '#fff'
     },
     titlePassengers: {
