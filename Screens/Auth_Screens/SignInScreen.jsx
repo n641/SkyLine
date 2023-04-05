@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, useWindowDimensions } from 'react-native'
-import React, { useState } from 'react'
-
+import React, { useState , useCallback } from 'react'
+import { useSelector , useDispatch } from 'react-redux';
+import {saveToken} from '../../store/actions/auth'
 
 import axios from '../../Api/axios';
 // import validateEmail from '../../Validatation/ValidateEmail'
@@ -31,6 +32,9 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
     const [visibleForm, setvisibleForm] = useState(false)
     const [titleForm, settitleForm] = useState("")
     const [AlertLogoForm, setAlertLogoForm] = useState(wrong)
+
+    const dispatch = useDispatch();
+    
 
     const HandleNavigate = (name) => {
         navigation.navigate(name)
@@ -74,6 +78,12 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
         }
     }
 
+    const saveAuth = useCallback((token) => {
+        // console.log("token in function")
+        console.log(token)
+        dispatch(saveToken(token))
+      }, [dispatch])
+
     const loginUrl = "/api/v1/users/login"
     const HandleLogin = async () => {
         if (HandleError()) {
@@ -87,9 +97,11 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
                 }
             )
                 .catch(e => console.log(e))
-            console.log(response.data) //save token
+            // console.log(response.data) //save token
 
             if (response) {
+                // console.log(response.data.token)
+                saveAuth(response.data.token)
                 settitle("login successfully")
                 setAlertLogo(success)
                 setVisible(true)
@@ -100,6 +112,7 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
         }
 
     }
+    
 
     const GoogleLogin = '/api/v1/users/auth/google';
     var source;
