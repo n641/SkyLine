@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TextInput, Dimensions, TouchableOpacity, ScrollView, Animated } from 'react-native'
 import React from 'react'
-import { useRef, useState, useMemo, useCallback } from 'react';
+import { useRef, useState, useMemo, useCallback, useEffect } from 'react';
 import {
     BottomSheetModal,
     BottomSheetModalProvider,
@@ -19,7 +19,7 @@ import Colors from '../../Conestant/Colors';
 
 const width = Dimensions.get('window').width;
 
-export default function OneWayScreen({navigation}) {
+export default function OneWayScreen({ navigation }) {
     const [From, setFrom] = React.useState();
     const [to, setTo] = React.useState();
     const [Class, setClass] = useState();
@@ -33,30 +33,12 @@ export default function OneWayScreen({navigation}) {
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
-    const [CountriesFrom, setCountriesFrom] = useState([
-        'Egypt/Cairo',
-        'Egypt/Hurgada',
-
-    ])
-
-    const [CountriesTo, setCountriesTo] = useState([
-        'Egypt/Cairo',
-        'Egypt/Hurgada',
-
-    ])
-
-    const [Classes, setClasses] = useState([
-        'First class',
-        'Business',
-        'economy'
-
-    ])
-
 
     const HandleDate = (event, selectedDate) => {
         const currentDate = selectedDate;
         setShow(!show);
         setDate(currentDate);
+        console.log(currentDate)
     };
     const showMode = (currentMode) => {
         setShow(!show);
@@ -83,6 +65,46 @@ export default function OneWayScreen({navigation}) {
     const handleSheetChanges = useCallback((index) => {
         setTextOfPassenger(`Adults: ${Adult} , Children: ${Children} ,  infant: ${infant}`)
     }, [Adult, Children, infant]);
+
+    // /////////////////////////////////////////////////
+    const [CountriesFrom, setCountriesFrom] = useState([])
+
+    const [CountriesTo, setCountriesTo] = useState([])
+
+    const [Classes, setClasses] = useState([
+        'First A',
+        'Business',
+        'Economy'
+    ])
+
+    const [loading, setLoading] = useState(true);
+    const [Data, setData] = useState([])
+
+    const from = new Set();
+    const too = new Set();
+
+    const fetchData = async () => {
+        const resp = await fetch("https://skyline-backend.cyclic.app//api/v1/flights?fields=from,to");
+        const data = await resp.json();
+        setData(data.data);
+        setLoading(false);
+
+
+        Data.map((item) => {
+            from.add(item.from)
+            too.add(item.to)
+        })
+        setCountriesFrom(Array.from(from));
+        setCountriesTo(Array.from(too))
+
+
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    ////////////////////////////////////////////////////
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
@@ -243,7 +265,7 @@ export default function OneWayScreen({navigation}) {
 
             {/* ////////////////////////////passengers////////////////////////////// */}
 
-            <View style={[styles.DateContainer]} >
+            {/* <View style={[styles.DateContainer]} >
 
                 <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 10, marginBottom: -10 }}
                 >
@@ -257,13 +279,16 @@ export default function OneWayScreen({navigation}) {
                     style={{ margin: 10, marginLeft: 25 }}>
                     <Text style={styles.text}>{TextOfPassenger}</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
             <View style={{ margin: 20, marginBottom: 50 }}>
-                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen")}} />
+                <MainButton title='Search' onClick={() => {
+                    navigation.navigate("ResultTicketsScreen",
+                        { from: From, to: to, classes: Class, date: date.toJSON().substring(0, 10) })
+                }} />
             </View>
 
-            <BottomSheetModalProvider>
+            {/* <BottomSheetModalProvider>
                 <Animated.View style={styles.container}>
                     <BottomSheetModal
                         ref={bottomSheetModalRef}
@@ -318,7 +343,7 @@ export default function OneWayScreen({navigation}) {
                         </Animated.View>
                     </BottomSheetModal>
                 </Animated.View>
-            </BottomSheetModalProvider>
+            </BottomSheetModalProvider> */}
 
 
         </ScrollView>

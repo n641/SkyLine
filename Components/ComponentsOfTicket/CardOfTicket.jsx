@@ -14,7 +14,7 @@ import Airplane from '../../assets/Airplane.png';
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function CardOfTicket({ image, flightNum, From, TO, DateFrom, DateTo, duration, date, gate, sala, classs, bag, price, navigation }) {
+export default function CardOfTicket({ image, flightNum, From, TO, DateFrom, DateTo, duration, date, gate, sala, classs, bag, price, navigation ,id , Seats }) {
     const Data = {
         image: image ,
         flightNum: flightNum ,
@@ -28,12 +28,15 @@ export default function CardOfTicket({ image, flightNum, From, TO, DateFrom, Dat
         sala:sala ,
         classs: classs ,
         bag:bag ,
-        price:price 
+        price:price,
+        id:id,
+        Seats:Seats
     }
+    console.log(Seats)
     return (
         <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: 15 }}
             onPress={() => {
-                navigation.navigate('DetailsTicket', {Data:Data})
+                navigation.navigate('DetailsTicket', {Data:Data })
             }}
         >
             <View style={{

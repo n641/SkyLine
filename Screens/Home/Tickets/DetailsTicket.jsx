@@ -43,6 +43,10 @@ export default function DetailsTicket({ navigation, route }) {
     const classs = Data.classs
     const bag = Data.bag
     const price = Data.price
+    const id = Data.id
+    const Seats = Data.Seats
+
+    console.log(Seats)
 
     return (
         <ImageBackground
@@ -61,7 +65,7 @@ export default function DetailsTicket({ navigation, route }) {
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', margin: 15 }}
                     onPress={() => {
-                        navigation.navigate('DetailsTicket')
+                        navigation.navigate('DetailsTicket' , {id:id})
                     }}
                 >
                     <View style={{
@@ -86,13 +90,13 @@ export default function DetailsTicket({ navigation, route }) {
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20 }}>
                             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={styles.text}>16:24 PM</Text>
-                                <Text style={[styles.text, { color: 'gray' }]}>Tokyo</Text>
+                                <Text style={styles.text}>1{DateFrom} PM</Text>
+                                <Text style={[styles.text, { color: 'gray' }]}>{From}</Text>
                             </View>
 
                             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={styles.text}>16:24 PM</Text>
-                                <Text style={[styles.text, { color: 'gray' }]}>Tokyo</Text>
+                                <Text style={styles.text}>{DateTo} PM</Text>
+                                <Text style={[styles.text, { color: 'gray' }]}>{TO}</Text>
                             </View>
                         </View>
 
@@ -125,7 +129,7 @@ export default function DetailsTicket({ navigation, route }) {
                         <View>
                             <View style={{ flexDirection: 'row', marginLeft: 40, alignItems: 'center', marginBottom: 10 }}>
                                 <Text style={styles.text}>Cabin bag : </Text>
-                                <Text style={[styles.text, { color: 'gray' }]}>3KG</Text>
+                                <Text style={[styles.text, { color: 'gray' }]}>{bag}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginLeft: 40, alignItems: 'center' }}>
                                 <Text style={styles.text}>luggages : </Text>
@@ -161,7 +165,7 @@ export default function DetailsTicket({ navigation, route }) {
 
                                 <View style={{ marginLeft: 10 }}>
                                     <MainButton title='Confirm' onClick={() => {
-                                        navigation.navigate('BookSeatScreen')
+                                        navigation.navigate('BookSeatScreen' , {id :id})
                                     }} />
                                 </View>
 

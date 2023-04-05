@@ -5,10 +5,12 @@ import {
   Dimensions,
   FlatList,
   Text,
-  Animated
+  Animated,
+  ActivityIndicator
 } from "react-native";
 
-import React, { useRef, useState, useMemo, useCallback } from "react";
+import React, { useRef, useState, useMemo, useCallback, useEffect } from "react";
+import CAlert from "../../../Components/CustomeAlerts/CAlert";
 
 import {
   BottomSheetModal,
@@ -20,62 +22,50 @@ import bg from '../../../assets/bg-dark.jpg';
 import AirplaneData from "../../../Components/ComponentsOfTicket/AirplaneData";
 import CardOfTicket from "../../../Components/ComponentsOfTicket/CardOfTicket";
 
+import wrong from '../../../assets/warning.png'
+
+
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function ResultTicketsScreen({ navigation }) {
+export default function ResultTicketsScreen({ navigation, route }) {
 
-  const [Tickets, setTickets] = useState([
-    {
-      image: 'https://logodownload.org/wp-content/uploads/2020/03/egyptair-logo-1.png',
-      flightNum: 'EY120',
-      From: 'Tokyo',
-      TO: 'Tokyo',
-      DateFrom: '16:24',
-      DateTo: '20:24',
-      duration: "4H 0m",
-      date: '01 January 2023',
-      gate: '4',
-      sala: '2',
-      class: 'Economy',
-      bag: 1,
-      price: '50',
-      id: '1'
-    },
-    {
-      image: 'https://logodownload.org/wp-content/uploads/2020/03/egyptair-logo-1.png',
-      flightNum: 'EY120',
-      From: 'Tokyo',
-      TO: 'Tokyo',
-      DateFrom: '16:24',
-      DateTo: '20:24',
-      duration: "4H 0m",
-      date: '01 January 2023',
-      gate: '4',
-      sala: '2',
-      class: 'Economy',
-      bag: 1,
-      price: '50',
-      id: '2'
-    },
-    {
-      image: 'https://logodownload.org/wp-content/uploads/2020/03/egyptair-logo-1.png',
-      flightNum: 'EY120',
-      From: 'Tokyo',
-      TO: 'Tokyo',
-      DateFrom: '16:24',
-      DateTo: '20:24',
-      duration: "4H 0m",
-      date: '01 January 2023',
-      gate: '4',
-      sala: '2',
-      class: 'Economy',
-      bag: 1,
-      price: '50',
-      id: '3'
-    },
-  ])
+  const { from, to, classes, date } = route.params;
+  // console.log(from)
+  // console.log(to)
+  // console.log(date)
+  // console.log(classes)
+  const [visibleForm, setvisibleForm] = useState(false)
+  const [titleForm, settitleForm] = useState("There are no planes at that time for that country")
+
+  const [loading, setLoading] = useState(true);
+  const [Tickets, setTickets] = useState([])
+
+  // //////////////////////////////////fetch data//////////////////////////////////////////////
+
+  const fetchData = async () => {
+    const resp = await fetch(`https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&to=${to}&date=${date}`);
+    const data = await resp.json();
+    setTickets(data.data);
+
+    if (data.data.length == 0) {
+      setvisibleForm(true)
+    }
+
+    // console.log("data length")
+    // console.log(data.data.length)
+
+    if (data.data.length != 0) {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  ///////////////////////////////////////////////////////////////////////////////////
 
   const [IsOpen, setIsOpen] = useState(false)
   const bottomSheetModalRef = useRef(null);
@@ -99,6 +89,10 @@ export default function ResultTicketsScreen({ navigation }) {
     handlePresentModalPress()
   }
 
+  const HandleNavigate = (name) => {
+    navigation.navigate(name)
+  }
+
 
   return (
     <ImageBackground
@@ -107,8 +101,25 @@ export default function ResultTicketsScreen({ navigation }) {
       style={{
         width: width,
         height: height + 50,
+        backgroundColor: loading ? 'gray' : 'rgba(0,0,0,0.0)'
       }}
     >
+
+      {loading &&
+        <View style={{
+          width: width,
+          height: height,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <ActivityIndicator size="large" color={'#00ff00'} />
+        </View>
+      }
+
+      <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+        setvisibleForm(false)
+        navigation.goBack()
+      }} />
 
       <View style={{ marginTop: 20, marginBottom: 290 }}>
 
@@ -116,22 +127,25 @@ export default function ResultTicketsScreen({ navigation }) {
 
         <FlatList
           data={Tickets}
-          renderItem={({ item }) => <CardOfTicket
-            image={item.image}
-            flightNum={item.flightNum}
-            From={item.From}
-            TO={item.TO}
-            DateFrom={item.DateFrom}
-            DateTo={item.DateTo}
-            duration={item.duration}
-            date={item.date}
-            gate={item.gate}
-            sala={item.sala}
-            classs={item.class}
-            bag={item.bag}
-            price={item.price}
-            navigation={navigation}
-          />}
+          renderItem={({ item }) =>
+            <CardOfTicket
+              image={"https://logodownload.org/wp-content/uploads/2020/03/egyptair-logo-1.png"}
+              flightNum={item.flightNo}
+              From={item.from}
+              TO={item.to}
+              DateFrom={item.fromDate}
+              DateTo={item.toDate}
+              duration={"6h 0m"}
+              date={item.date.substring(0, 9)}
+              gate={item.gate}
+              sala={"5"}
+              classs={item.classes}
+              bag={item.maxBagPerPerson}
+              price={item.price}
+              navigation={navigation}
+              id={item.id}
+              seats={item.Seats}
+            />}
           keyExtractor={item => item.id}
         />
 

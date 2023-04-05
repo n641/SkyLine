@@ -5,8 +5,7 @@ import Navigation from "./Navigator/Navigations";
 
 import { useFonts } from 'expo-font';
 
-import SigninScreen from './Screens/Home/Tickets/BookSeatScreen'
-// import 'react-native-gesture-handler';
+import SigninScreen from './Screens/Home/Tickets/FinalBookTicket'
 import {  GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {

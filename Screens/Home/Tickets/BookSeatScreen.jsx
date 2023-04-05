@@ -7,10 +7,10 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    ScrollView,
+    ActivityIndicator,
 
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -21,48 +21,53 @@ import AirplaneData from "../../../Components/ComponentsOfTicket/AirplaneData";
 import MainButton from '../../../Components/MainButton'
 
 
+
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 
-export default function BookSeatScreen({ navigation }) {
+export default function BookSeatScreen({ navigation, route }) {
+
+    const { id } = route.params;
+    // console.log(id)
+
     let SelectedSeats = [];
 
     const [Row1, setRow1] = useState([  //right side
-        { id: 'A1', empty: true, selected: false },
-        { id: 'B1', empty: false, selected: false },
-        { id: 'A2', empty: true, selected: false },
-        { id: 'B2', empty: false, selected: true },
-        { id: 'A3', empty: true, selected: false },
-        { id: 'B3', empty: false, selected: false },
-        { id: 'A2', empty: true, selected: false },
-        { id: 'B4', empty: true, selected: false },
-        { id: 'A5', empty: false, selected: true },
-        { id: 'B5', empty: true, selected: false },
-        { id: 'A6', empty: true, selected: false },
-        { id: 'B6', empty: false, selected: true },
+        // { id: 'A1', empty: true, selected: false },
+        // { id: 'B1', empty: false, selected: false },
+        // { id: 'A2', empty: true, selected: false },
+        // { id: 'B2', empty: true, selected: false },
+        // { id: 'A3', empty: true, selected: false },
+        // { id: 'B3', empty: false, selected: false },
+        // { id: 'A2', empty: true, selected: false },
+        // { id: 'B4', empty: true, selected: false },
+        // { id: 'A5', empty: false, selected: true },
+        // { id: 'B5', empty: true, selected: false },
+        // { id: 'A6', empty: true, selected: false },
+        // { id: 'B6', empty: false, selected: true },
 
     ])
 
     const [Row2, setRow2] = useState([ //left side
-        { id: 'C1', empty: false, selected: false },
-        { id: 'D1', empty: true, selected: false },
-        { id: 'E1', empty: false, selected: false },
-        { id: 'C2', empty: false, selected: true },
-        { id: 'D2', empty: true, selected: false },
-        { id: 'E2', empty: false, selected: false },
-        { id: 'C3', empty: true, selected: false },
-        { id: 'A2', empty: true, selected: false },
-        { id: 'E3', empty: true, selected: false },
-        { id: 'C4', empty: true, selected: false },
-        { id: 'D4', empty: false, selected: false },
-        { id: 'E4', empty: true, selected: false },
-        { id: 'A2', empty: true, selected: false },
-        { id: 'D5', empty: true, selected: false },
-        { id: 'E5', empty: true, selected: false },
-        { id: 'C6', empty: true, selected: false },
-        { id: 'D6', empty: false, selected: true },
-        { id: 'E6', empty: true, selected: false },
+        // { id: 'C1', empty: false, selected: false },
+        // { id: 'D1', empty: true, selected: false },
+        // { id: 'E1', empty: false, selected: false },
+        // { id: 'C2', empty: false, selected: true },
+        // { id: 'D2', empty: true, selected: false },
+        // { id: 'E2', empty: false, selected: false },
+        // { id: 'C3', empty: true, selected: false },
+        // { id: 'A2', empty: true, selected: false },
+        // { id: 'E3', empty: true, selected: false },
+        // { id: 'C4', empty: true, selected: false },
+        // { id: 'D4', empty: false, selected: false },
+        // { id: 'E4', empty: true, selected: false },
+        // { id: 'A2', empty: true, selected: false },
+        // { id: 'D5', empty: true, selected: false },
+        // { id: 'E5', empty: true, selected: false },
+        // { id: 'C6', empty: true, selected: false },
+        // { id: 'D6', empty: false, selected: true },
+        // { id: 'E6', empty: true, selected: false },
     ])
 
 
@@ -131,6 +136,27 @@ export default function BookSeatScreen({ navigation }) {
     getSelectedSeats()
     // console.log(...SelectedSeats)
 
+
+    // ////////////////////////////////////////////////
+    const [loading, setLoading] = useState(true);
+
+    const fetchData = async () => {
+        const resp = await fetch(`https://skyline-backend.cyclic.app/api/v1/flights/${id}`);
+        const data = await resp.json();
+        // setTickets(data.data);
+        if (data.data.length != 0) {
+            setLoading(false);
+        }
+
+        setRow1(data.data.data.Seats.Row1)
+        setRow2(data.data.data.Seats.Row2)
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+    // ///////////////////////////////////////////////
+
     return (
         <ImageBackground
             source={bg}
@@ -140,7 +166,16 @@ export default function BookSeatScreen({ navigation }) {
                 height: height + 50,
             }}
         >
-            {/* <ScrollView style={{ marginBottom: 50 }}> */}
+            {loading &&
+                <View style={{
+                    width: width,
+                    height: height,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <ActivityIndicator size="large" color={'#00ff00'} />
+                </View>
+            }
 
             <View>
                 <View>
@@ -152,11 +187,11 @@ export default function BookSeatScreen({ navigation }) {
                         </View>
                         <View style={{
                             alignItems: 'center',
-                            marginTop: height/11,
-                            marginStart: width/5.5,
-                            
+                            marginTop: height / 11,
+                            marginStart: width / 5.5,
+
                         }}>
-                            <Text style={[styles.title , {textAlign:'center'}]}>Choose Seat</Text>
+                            <Text style={[styles.title, { textAlign: 'center' }]}>Choose Seat</Text>
                         </View>
                     </View>
                 </View>
