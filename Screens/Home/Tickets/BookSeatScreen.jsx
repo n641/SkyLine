@@ -148,6 +148,8 @@ export default function BookSeatScreen({ navigation, route }) {
             setLoading(false);
         }
 
+        // console.log(data)
+
         setRow1(data.data.data.Seats.Row1)
         setRow2(data.data.data.Seats.Row2)
     };
@@ -370,7 +372,7 @@ export default function BookSeatScreen({ navigation, route }) {
 
                     </View>
                     <MainButton title='Done' onClick={() => {
-                        navigation.navigate('FinalBookTicket')
+                        navigation.navigate('FinalBookTicket',{id:id})
                     }} />
                 </View>
             </View>

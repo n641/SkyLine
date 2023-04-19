@@ -21,7 +21,7 @@ import bg from '../../../assets/bg-dark.jpg';
 
 import AirplaneData from "../../../Components/ComponentsOfTicket/AirplaneData";
 import CardOfTicket from "../../../Components/ComponentsOfTicket/CardOfTicket";
-
+import InputRange from "../../../Components/InputRange";
 import wrong from '../../../assets/warning.png'
 
 
@@ -43,19 +43,20 @@ export default function ResultTicketsScreen({ navigation, route }) {
   const [Tickets, setTickets] = useState([])
 
   // //////////////////////////////////fetch data//////////////////////////////////////////////
-
+  var url = "";
+  if (to == "Every Thing") {
+    url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&date=${date}`
+  } else {
+    url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&to=${to}&date=${date}`
+  }
   const fetchData = async () => {
-    const resp = await fetch(`https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&to=${to}&date=${date}`);
+    const resp = await fetch(url);
     const data = await resp.json();
     setTickets(data.data);
 
     if (data.data.length == 0) {
       setvisibleForm(true)
     }
-
-    // console.log("data length")
-    // console.log(data.data.length)
-
     if (data.data.length != 0) {
       setLoading(false);
     }
@@ -143,10 +144,10 @@ export default function ResultTicketsScreen({ navigation, route }) {
               bag={item.maxBagPerPerson}
               price={item.price}
               navigation={navigation}
-              id={item.id}
+              id={item._id}
               seats={item.Seats}
             />}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id}
         />
 
       </View>
@@ -163,6 +164,11 @@ export default function ResultTicketsScreen({ navigation, route }) {
               setIsOpen(false)
             }}
           >
+            <View>
+              <InputRange min={0} max={1000} steps={10} title='nono' onValueChange={(range)=>{console.log(range)}}/>
+            </View>
+
+           
 
           </BottomSheetModal>
         </Animated.View>

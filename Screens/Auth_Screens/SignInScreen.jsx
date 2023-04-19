@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, useWindowDimensions } from 'react-native'
-import React, { useState , useCallback } from 'react'
-import { useSelector , useDispatch } from 'react-redux';
-import {saveToken} from '../../store/actions/auth'
+import React, { useState, useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { saveToken } from '../../store/actions/auth'
 
 import axios from '../../Api/axios';
 // import validateEmail from '../../Validatation/ValidateEmail'
@@ -20,7 +20,7 @@ import Link from '../../Components/Link'
 import success from '../../assets/success.png'
 import wrong from '../../assets/warning.png'
 
-export default function SigninScreen({ navigation , DontHaveAcouunt }) {
+export default function SigninScreen({ navigation, DontHaveAcouunt }) {
     const { width } = useWindowDimensions()
     const [Email, setEmail] = useState("")
     const [Pass, setPass] = useState("")
@@ -34,7 +34,7 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
     const [AlertLogoForm, setAlertLogoForm] = useState(wrong)
 
     const dispatch = useDispatch();
-    
+
 
     const HandleNavigate = (name) => {
         navigation.navigate(name)
@@ -82,7 +82,7 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
         // console.log("token in function")
         console.log(token)
         dispatch(saveToken(token))
-      }, [dispatch])
+    }, [dispatch])
 
     const loginUrl = "/api/v1/users/login"
     const HandleLogin = async () => {
@@ -96,7 +96,14 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
                     withCredentials: true
                 }
             )
-                .catch(e => console.log(e))
+                .catch(error => {
+                    console.log(error)
+                    if (error.response.status == 404) {  // don't find email
+                        console.log("enter valid email")
+                    }
+                }
+
+                )
             // console.log(response.data) //save token
 
             if (response) {
@@ -112,7 +119,7 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
         }
 
     }
-    
+
 
     const GoogleLogin = '/api/v1/users/auth/google';
     var source;
@@ -132,9 +139,9 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.containerKeyboard}
-            // keyboardVerticalOffset={50}
-         
-            >
+        // keyboardVerticalOffset={50}
+
+        >
             <ScrollView contentContainerStyle={styles.screen}>
 
                 <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
@@ -153,7 +160,7 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
                     </View>
 
                     <View style={{ width: width, marginEnd: 15, alignItems: "flex-end" }}>
-                        <Link title='Dont have account?' onpress={ ()=>{DontHaveAcouunt()} } textSize={18} />
+                        <Link title='Dont have account?' onpress={() => { DontHaveAcouunt() }} textSize={18} />
                     </View>
 
                     <View style={{ alignItems: 'center' }}>
@@ -190,13 +197,13 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
 
 const styles = StyleSheet.create({
     screen: {
-    backgroundColor:Colors.first_dark_splash,
-    justifyContent: 'flex-end',
+        backgroundColor: Colors.first_dark_splash,
+        justifyContent: 'flex-end',
     },
     containerKeyboard: {
         backgroundColor: 'black',
-        justifyContent:'space-evenly',
-        overflow:'hidden'
+        justifyContent: 'space-evenly',
+        overflow: 'hidden'
     },
     link: {
         fontFamily: 'item',

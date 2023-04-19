@@ -52,7 +52,7 @@ export default function CustomDrawer({navigation}) {
                     marginTop: 20
                 }}>Jenna Ezarik</Text>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>{navigation.navigate("MainProfileScreen")}}>
                     <Text style={{
                         marginTop: 6,
                         color: 'white'

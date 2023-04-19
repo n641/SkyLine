@@ -1,5 +1,5 @@
 import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Colors from '../../Conestant/Colors';
 import bg from '../../assets/bg-dark.jpg';
@@ -9,6 +9,8 @@ import CustomTF from '../../Components/CustomeTextFields/CustomTF';
 import BoxOfCategories from '../../Components/BoxOfCategories'
 
 import { LinearGradient } from "expo-linear-gradient";
+
+import * as Linking from 'expo-linking';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -51,6 +53,31 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
   const HandleNavigate = (name) => {
     navigation.navigate(name)
   }
+
+  // //////////////////////////////////////////////////////////////////////////////
+
+  const [data, setdata] = useState()
+
+  const handleDeepLinking = (event) => {
+    let data = Linking.parse(event.url)
+    setdata(data)
+  }
+
+  useEffect(() => {
+    async function getinitalurl() {  // if app in background and start it this method will call and restore data from link init the deep link
+      const initalurl = await Linking.getInitialURL();
+      if (initalurl) setdata(Linking.parse(initalurl))
+      console.log("hi")
+    }
+
+    const subscription = Linking.addEventListener('url', handleDeepLinking);
+    if (!data) {
+      getinitalurl();
+    }
+    return () => subscription.remove();
+  })
+
+  /////////////////////////////////////////////////////////////////////////////
 
   return (
     <Animated.View style={{
@@ -123,15 +150,19 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
 
                   <CustomTF placeholder="where are you going?" keyboardType="default" type="" label="" width={(width - 50)} onAddText={HandleSearch} text={Search} white={true} />
 
-                  <View style={{flexDirection:'row', alignItems:'center' , justifyContent:'center'}}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                     <BoxOfCategories title='Ticket' HandleNavigate={HandleNavigate} routename='TicketSearch' />
-                    <BoxOfCategories title='Hotel' HandleNavigate={HandleNavigate}  routename='TicketSearch'/>
-                    <BoxOfCategories title='Agency' HandleNavigate={HandleNavigate}  routename='TicketSearch'/>
-                    <BoxOfCategories title='Taki' HandleNavigate={HandleNavigate}  routename='TicketSearch'/>
+                    <BoxOfCategories title='Hotel' HandleNavigate={HandleNavigate} routename='TicketSearch' />
+                    <BoxOfCategories title='Agency' HandleNavigate={HandleNavigate} routename='TicketSearch' />
+                    <BoxOfCategories title='Taki' HandleNavigate={HandleNavigate} routename='TicketSearch' />
 
                   </View>
 
                 </ImageBackground>
+
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 50 }}>
+                  <Text style={{ fontFamily: 'item', fontSize: 25 }}>{data ? JSON.stringify(data) : "App don't open from deep link"}</Text>
+                </View>
 
               </Animated.View>
               :

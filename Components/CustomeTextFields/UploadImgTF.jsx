@@ -12,7 +12,7 @@ import defaultImg from '../../assets/UploadImg.png'
 
 const { width, height } = Dimensions.get('window');
 
-export default function UploadImgTF({ label, required , selectedImage ,setSelectedImage }) {
+export default function UploadImgTF({ label, required , selectedImage ,setSelectedImage , HideEditicon }) {
 
     const PlaceholderImage = defaultImg
 
@@ -34,14 +34,14 @@ export default function UploadImgTF({ label, required , selectedImage ,setSelect
     return (
         <View>
 
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start' , justifyContent:'center' }}>
                 <Text style={styles.label}>{label}</Text>
                 {required ? <Text style={styles.astrisk}>*</Text> : null}
             </View>
 
             <View style={styles.ContainerImg}>
                 <TouchableOpacity onPress={() => { pickImageAsync() }}>
-                    <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} />
+                    <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} HideEditicon={HideEditicon} />
                 </TouchableOpacity>
                 <Text style={styles.uploadText}>Upload Img</Text>
             </View>
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
     ContainerImg: {
         alignItems: 'center',
         marginTop: 10,
-        borderColor: 'white',
-        borderWidth: 1,
+        // borderColor: 'white',
+        // borderWidth: 1,
         borderStyle: 'dashed',
         width: width / 2.2,
         justifyContent: 'center'

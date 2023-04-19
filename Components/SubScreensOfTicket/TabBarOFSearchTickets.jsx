@@ -24,7 +24,7 @@ const listTab = [
 ]
 
 
-export default function TabBarOFSearchTickets({navigation}) {
+export default function TabBarOFSearchTickets({ navigation }) {
   const [Active, setActive] = useState('one Way')
   return (
     <SafeAreaView style={styles.container}>
@@ -33,10 +33,11 @@ export default function TabBarOFSearchTickets({navigation}) {
           listTab.map((e, i) => {
             return (
               <TouchableOpacity
+                key={e.Key}
                 style={[styles.btn, Active === e.status && styles.btnTabActive]}
                 onPress={() => { setActive(e.status) }}
               >
-                <Text key={e.Key} style={styles.textbtn}>{e.status}</Text>
+                <Text style={styles.textbtn}>{e.status}</Text>
               </TouchableOpacity>
             )
           })
@@ -47,10 +48,10 @@ export default function TabBarOFSearchTickets({navigation}) {
           <OneWayScreen navigation={navigation} />
 
           : Active === 'Round Trip' ?
-            <RoundTripScreen navigation={navigation}/>
+            <RoundTripScreen navigation={navigation} />
 
             :
-            <MultiDestinationScreen navigation={navigation}/>
+            <MultiDestinationScreen navigation={navigation} />
 
 
       }

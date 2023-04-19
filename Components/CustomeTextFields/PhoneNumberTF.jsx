@@ -41,6 +41,7 @@ export default function PhoneNumberTF({  placeholder, keyboardType, label, requi
                         placeholder={placeholder}
                         placeholderTextColor={Colors.Hint_text_field}
                         keyboardType={keyboardType}
+                        maxLength={11}
                     />
                 </View>
 
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         flexDirection: 'row',
         alignItems: 'center',
-        width: width - 60,
+        width: width - 70,
     },
     input: {
         minHeight: 40,

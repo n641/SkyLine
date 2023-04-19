@@ -46,7 +46,7 @@ export default function DetailsTicket({ navigation, route }) {
     const id = Data.id
     const Seats = Data.Seats
 
-    console.log(Seats)
+    // console.log(id)
 
     return (
         <ImageBackground

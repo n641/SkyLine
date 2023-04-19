@@ -8,6 +8,8 @@ import {
 } from 'react-native'
 import React from 'react'
 
+import axios from '../../../Api/axios';
+
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -19,13 +21,100 @@ import MainButton from '../../../Components/MainButton'
 
 import QR from '../../../assets/QRcode.png'
 
-
+import { printToFileAsync } from 'expo-print';
+import { shareAsync } from 'expo-sharing';
+import { useState, useEffect } from 'react';
 
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function FinalBookTicket({ navigation }) {
+export default function FinalBookTicket({ navigation, route }) {
+
+    const { id } = route.params;
+    // console.log("id in final screen")
+    // console.log(id)
+    const [Directurl, setDirecturl] = useState()
+
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ticket</title>
+        <style>
+            body {
+                font-size: 16px;
+                color: rgb(255, 196, 0);
+            }
+
+            h1 {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hello, UppLabs!</h1>
+    </body>
+    </html>
+`;
+    const data = {
+        name: 'Divyesh Barad',
+        email: 'divyesh@gmail.com',
+        address: 'Rajkot',
+    }
+
+
+    const html = `
+    <html>
+        <body>
+            <h2>Hi ${data.name}</h2>
+            <h4>Email: ${data.email}</h4>
+            <h4>Address: ${data.address}</h4>
+        </body>
+    </html>
+`;
+
+    const generatePdf = async () => {
+        const file = await printToFileAsync({
+            html: html,
+            base64: false,
+        });
+        await shareAsync(file.uri);
+    }
+
+    var url = `https://skyline-backend.cyclic.app/api/v1/bookings/checkout-session/flights/${id}/A2`;
+
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2FmNDMwYTY4NmUxNjM3Y2Y4MmU0MCIsImlhdCI6MTY4MTg1NDU5MiwiZXhwIjoxNjg5NjMwNTkyfQ.qxv6mzBc34gpnx0fC92sFue7VLJ-gFOHp7vUos8VK5o"
+
+    const fetchdata = async () => {
+        const response = await axios.get(url,
+            {
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                withCredentials: true
+            }
+        )
+            .catch(error => {
+                console.log(error)
+            }
+
+            )
+
+        // console.log(response.data.session.url)
+
+        if (response) {
+            setDirecturl(response.data.session.url)
+            // console.log(response.session.url)
+        }
+
+    }
+
+
+    useEffect(() => {
+        fetchdata();
+    }, []);
+
     return (
         <ImageBackground
             source={bg}
@@ -168,22 +257,24 @@ export default function FinalBookTicket({ navigation }) {
                         borderRadius: 15,
                         width: width - 80,
                         height: height / 4,
-                        alignItems:'center',
-                        justifyContent:'center'
+                        alignItems: 'center',
+                        justifyContent: 'center'
 
                     }}>
 
                         <Image
                             source={QR}
-                            style={{ width: width/3, height: height / 5.3, resizeMode: 'stretch' }}
+                            style={{ width: width / 3, height: height / 5.3, resizeMode: 'stretch' }}
                         />
 
                     </View>
 
                     <View style={{ flexDirection: 'row', margin: 10, justifyContent: 'space-evenly', width: width }}>
 
-                        <MainButton title='Download' onClick={() => { }} />
-                        <MainButton title='Done' onClick={() => { }} />
+                        <MainButton title='Download' onClick={() => { generatePdf() }} />
+                        <MainButton title='Done' onClick={() => {
+                            navigation.navigate("PaymentWV", { Directurl: Directurl })
+                        }} />
 
                     </View>
 
@@ -192,6 +283,8 @@ export default function FinalBookTicket({ navigation }) {
             </ScrollView>
         </ImageBackground>
     )
+
+
 }
 
 const styles = StyleSheet.create({

@@ -9,10 +9,14 @@ export default function TextInputNumbers({ navigation }) {
     const [number2, setnumber2] = useState(0)
     const [number3, setnumber3] = useState(0)
     const [number4, setnumber4] = useState(0)
+    const [number5, setnumber5] = useState(0)
+    const [number6, setnumber6] = useState(0)
 
     const ref_input2 = useRef();
     const ref_input3 = useRef();
-    const ref_input4=useRef();
+    const ref_input4 = useRef();
+    const ref_input5 = useRef();
+    const ref_input6 = useRef();
 
 
     const HandleNavigate = (name) => {
@@ -22,22 +26,24 @@ export default function TextInputNumbers({ navigation }) {
     return (
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ flexDirection: 'row', margin: 10 }}>
+
                 <TextInput
                     style={styles.input}
                     value={number1}
                     maxLength={1}
                     autoFocus={true}
-                    onChangeText={(num) =>{ 
+                    onChangeText={(num) => {
                         setnumber1(num)
                         ref_input2.current.focus()
                     }}
                     keyboardType='numeric'
                 />
+
                 <TextInput
                     style={styles.input}
                     value={number2}
                     maxLength={1}
-                    onChangeText={(num) =>{ 
+                    onChangeText={(num) => {
                         setnumber2(num)
                         ref_input3.current.focus()
                     }}
@@ -45,11 +51,12 @@ export default function TextInputNumbers({ navigation }) {
                     keyboardType='numeric'
 
                 />
+
                 <TextInput
                     style={styles.input}
                     value={number3}
                     maxLength={1}
-                    onChangeText={(num) =>{ 
+                    onChangeText={(num) => {
                         setnumber3(num)
                         ref_input4.current.focus()
                     }}
@@ -57,19 +64,46 @@ export default function TextInputNumbers({ navigation }) {
                     keyboardType='numeric'
 
                 />
+
                 <TextInput
                     style={styles.input}
                     value={number4}
                     maxLength={1}
-                    ref={ref_input4}
-                    onChangeText={(num) =>{ 
+                    onChangeText={(num) => {
                         setnumber4(num)
+                        ref_input5.current.focus()
+                    }}
+                    ref={ref_input4}
+                    keyboardType='numeric'
+
+                />
+
+                <TextInput
+                    style={styles.input}
+                    value={number5}
+                    maxLength={1}
+                    onChangeText={(num) => {
+                        setnumber5(num)
+                        ref_input6.current.focus()
+                    }}
+                    ref={ref_input5}
+                    keyboardType='numeric'
+
+                />
+
+                <TextInput
+                    style={styles.input}
+                    value={number6}
+                    maxLength={1}
+                    ref={ref_input6}
+                    onChangeText={(num) => {
+                        setnumber6(num)
                         // Button Action
                     }}
                     keyboardType='numeric'
                 />
             </View>
-            <MainButton title="Comfirm" onClick={() => { }}  />
+            <MainButton title="Comfirm" onClick={() => { }} />
             <View>
                 <Link title='Resend?' textSize={20} onpress={() => { HandleNavigate('Signup') }} />
             </View>
@@ -80,7 +114,7 @@ export default function TextInputNumbers({ navigation }) {
 const styles = StyleSheet.create({
     input: {
         height: 40,
-        margin: 12,
+        margin: 5,
         borderWidth: 1,
         padding: 8,
         borderRadius: 8,
@@ -89,7 +123,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
         fontFamily: "item",
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 })
