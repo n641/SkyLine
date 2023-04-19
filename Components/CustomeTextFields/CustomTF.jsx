@@ -1,26 +1,29 @@
 import { StyleSheet, Text, View, TextInput, useWindowDimensions } from 'react-native'
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
 import Colors from '../../Conestant/Colors';
 import { Entypo } from '@expo/vector-icons';
 
 
-export default function CustomTF({ placeholder, keyboardType, label, required, width , icon , onAddText , text , onPressIn , onPressOut }) {
+export default function CustomTF({ placeholder, keyboardType, label, required, width, icon, onAddText, text, onPressIn, onPressOut, white }) {
     const [click, setclick] = useState(true);
 
-    const HandleOnpress =()=>{
+    const HandleOnpress = () => {
         setclick(!click)
     }
 
     return (
-        <View style={{ justifyContent: 'center',marginHorizontal:15}}>
+        <View style={{ justifyContent: 'center', marginHorizontal: 15 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={styles.label}>{label}</Text>
                 {required ? <Text style={styles.astrisk}>*</Text> : null}
             </View>
-            <View style={styles.container}>
+            <View style={[styles.container, { backgroundColor: white ? 'white' : 'rgba(0,0,0,0.1)' }]}>
                 <TextInput
-                    style={[styles.input, { width: width  }]}
+                    style={[styles.input, {
+                        width: width,
+                        justifyContent: 'center'
+                    }]}
                     onChangeText={onAddText}
                     value={text}
                     placeholder={placeholder}
@@ -29,9 +32,9 @@ export default function CustomTF({ placeholder, keyboardType, label, required, w
                     secureTextEntry={!click}
                     onPressIn={onPressIn}
                     onEndEditing={onPressOut}
-                
+
                 />
-              {icon?<Entypo name={!click?"eye-with-line":"eye"} size={24} color="white" onPress={()=>{HandleOnpress()}}/>:null}
+                {icon ? <Entypo name={!click ? "eye-with-line" : "eye"} size={24} color="white" onPress={() => { HandleOnpress() }} /> : null}
 
             </View>
         </View>
@@ -39,14 +42,15 @@ export default function CustomTF({ placeholder, keyboardType, label, required, w
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         height: 40,
         borderWidth: 1,
         paddingHorizontal: 5,
         borderColor: "white",
         borderRadius: 7,
         alignItems: 'center',
-        flexDirection:'row'
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     input: {
         minHeight: 40,
@@ -54,7 +58,7 @@ const styles = StyleSheet.create({
         fontFamily: "item",
         alignItems: 'center',
         justifyContent: 'flex-end',
-        color:"white"
+        color: "white"
     },
     label: {
         fontFamily: 'item',

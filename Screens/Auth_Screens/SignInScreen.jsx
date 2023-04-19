@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, useWindowDimensions } from 'react-native'
-import React, { useState } from 'react'
-
+import React, { useState, useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { saveToken } from '../../store/actions/auth'
 
 import axios from '../../Api/axios';
-import validateEmail from '../../Validatation/validateEmail'
+// import validateEmail from '../../Validatation/ValidateEmail'
 import validatepass from '../../Validatation/validatepass';
 
 import { FontAwesome } from '@expo/vector-icons';
@@ -15,13 +16,11 @@ import MainButton from '../../Components/MainButton'
 import CustomTF from '../../Components/CustomeTextFields/CustomTF';
 import Colors from '../../Conestant/Colors'
 
-import img from '../../assets/bg3.png'
-import Logo from '../../assets/logo-light.png'
 import Link from '../../Components/Link'
 import success from '../../assets/success.png'
 import wrong from '../../assets/warning.png'
 
-export default function SigninScreen({ navigation , DontHaveAcouunt }) {
+export default function SigninScreen({ navigation, DontHaveAcouunt }) {
     const { width } = useWindowDimensions()
     const [Email, setEmail] = useState("")
     const [Pass, setPass] = useState("")
@@ -33,6 +32,9 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
     const [visibleForm, setvisibleForm] = useState(false)
     const [titleForm, settitleForm] = useState("")
     const [AlertLogoForm, setAlertLogoForm] = useState(wrong)
+
+    const dispatch = useDispatch();
+
 
     const HandleNavigate = (name) => {
         navigation.navigate(name)
@@ -48,7 +50,8 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
     const HandleError = () => {
         if (Email && Pass) {
 
-            const isValidEmail = validateEmail(Email)
+            const isValidEmail = true
+            // validateEmail(Email)
             const isValidpass = validatepass(Pass)
 
             if (!isValidEmail) {
@@ -75,6 +78,12 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
         }
     }
 
+    const saveAuth = useCallback((token) => {
+        // console.log("token in function")
+        console.log(token)
+        dispatch(saveToken(token))
+    }, [dispatch])
+
     const loginUrl = "/api/v1/users/login"
     const HandleLogin = async () => {
         if (HandleError()) {
@@ -87,10 +96,19 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
                     withCredentials: true
                 }
             )
-                .catch(e => console.log(e))
-            console.log(response.data) //save token
+                .catch(error => {
+                    console.log(error)
+                    if (error.response.status == 404) {  // don't find email
+                        console.log("enter valid email")
+                    }
+                }
+
+                )
+            // console.log(response.data) //save token
 
             if (response) {
+                // console.log(response.data.token)
+                saveAuth(response.data.token)
                 settitle("login successfully")
                 setAlertLogo(success)
                 setVisible(true)
@@ -101,6 +119,7 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
         }
 
     }
+
 
     const GoogleLogin = '/api/v1/users/auth/google';
     var source;
@@ -120,9 +139,9 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.containerKeyboard}
-            // keyboardVerticalOffset={50}
-         
-            >
+        // keyboardVerticalOffset={50}
+
+        >
             <ScrollView contentContainerStyle={styles.screen}>
 
                 <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
@@ -141,7 +160,7 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
                     </View>
 
                     <View style={{ width: width, marginEnd: 15, alignItems: "flex-end" }}>
-                        <Link title='Dont have account?' onpress={ ()=>{DontHaveAcouunt()} } textSize={18} />
+                        <Link title='Dont have account?' onpress={() => { DontHaveAcouunt() }} textSize={18} />
                     </View>
 
                     <View style={{ alignItems: 'center' }}>
@@ -178,13 +197,13 @@ export default function SigninScreen({ navigation , DontHaveAcouunt }) {
 
 const styles = StyleSheet.create({
     screen: {
-    backgroundColor:Colors.first_dark_splash,
-    justifyContent: 'flex-end',
+        backgroundColor: Colors.first_dark_splash,
+        justifyContent: 'flex-end',
     },
     containerKeyboard: {
         backgroundColor: 'black',
-        justifyContent:'space-evenly',
-        overflow:'hidden'
+        justifyContent: 'space-evenly',
+        overflow: 'hidden'
     },
     link: {
         fontFamily: 'item',

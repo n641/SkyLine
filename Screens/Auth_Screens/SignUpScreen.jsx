@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
 
 import axios from '../../Api/axios';
-import validateEmail from '../../Validatation/validateEmail'
+// import validateEmail from '../../Validatation/validateEmail'
 import validatepass from '../../Validatation/validatepass';
 import validateUserName from '../../Validatation/validateUserName'
 
@@ -17,8 +17,6 @@ import CustomTF from '../../Components/CustomeTextFields/CustomTF';
 import DatePickerTF from '../../Components/CustomeTextFields/DatePickerTF';
 import Colors from '../../Conestant/Colors'
 
-import img from '../../assets/bg3.png'
-import Logo from '../../assets/logo-light.png'
 import Link from '../../Components/Link'
 import success from '../../assets/success.png'
 import wrong from '../../assets/warning.png'
@@ -89,7 +87,8 @@ export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
     if (FirstName && SecondName && UserName && Date && Email && Pass && ConformPass) {
 
       const isValidUsername = validateUserName(Pass)
-      const isValidEmail = validateEmail(Email)
+      const isValidEmail =true
+      //  validateEmail(Email)
       const isValidpass = validatepass(Pass)
 
 

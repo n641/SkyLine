@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         maxWidth: width/1.6,
-        minWidth: width / 1.6,
+        minWidth: width / 2.6,
         maxHeight: 55,
         alignItems: 'center',
         justifyContent: 'center',
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: "item",
-        fontSize: 32,
+        fontSize: width / 15,
         color: "white",
     }
 })

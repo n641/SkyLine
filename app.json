@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme":"myapp",
     "name": "SkyLine",
     "slug": "SkyLine",
     "version": "1.0.0",

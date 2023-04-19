@@ -104,7 +104,7 @@ const SplashScreen = ({ navigation }) => {
             ])
                 .start();
 
-        }, 10000);
+        }, 1000);
 
     }, [])
 

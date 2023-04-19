@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 
-import Navigation from "./Navigator/Navigations";
-
 import { useFonts } from 'expo-font';
 
-import SigninScreen from './Screens/Home/Home'
+import Navigation from "./Navigator/Navigations";
+import SigninScreen from './Screens/Home/Tickets/TicketSearch'
+
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import ReduxThunk from 'redux-thunk';
+
+import AuthReducer from './store/reducers/auth'
+
+
+const rootreducer = combineReducers({
+  Auth: AuthReducer,
+})
+
+const store = createStore(rootreducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
 
@@ -18,8 +32,12 @@ export default function App() {
   }
 
   return (
-    <Navigation />
-    // <SigninScreen/>
+    <Provider store={store}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Navigation />
+        {/* <SigninScreen /> */}
+      </GestureHandlerRootView>
+    </Provider>
   );
 }
 

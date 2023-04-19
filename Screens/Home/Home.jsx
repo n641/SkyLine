@@ -1,214 +1,199 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useReducer , useRef , useEffect } from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import { BottomTabBarProps, BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Colors from '../../Conestant/Colors'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import Svg, { Path } from 'react-native-svg'
-import { Pressable } from 'react-native'
+import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground } from 'react-native'
+import React, { useState, useEffect } from 'react'
 
-import Lottie from 'lottie-react-native';
+import Colors from '../../Conestant/Colors';
+import bg from '../../assets/bg-dark.jpg';
 
-import Animated, { useAnimatedStyle, withTiming, useDerivedValue } from 'react-native-reanimated'
 
-const Tab = createBottomTabNavigator();
-const AnimatedSvg = Animated.createAnimatedComponent(Svg)
+import CustomTF from '../../Components/CustomeTextFields/CustomTF';
+import BoxOfCategories from '../../Components/BoxOfCategories'
 
-const Home = () => {
-  return (
-    <NavigationContainer >
-      <Tab.Navigator
-        tabBar={(props) => <AnimatedTabBar {...props} />}
-        screenOptions={{headerShown:false}}
-      >
-        <Tab.Screen name="Home" 
-        options={{
-          // @ts-ignore
-          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../../assets/lotties/42174-home.json')} style={styles.icon} />,
-        }}
-        component={PlaceHolderScreen} />
-        <Tab.Screen name="Settings" 
-         options={{
-          // @ts-ignore
-          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../../assets/lotties/38199-settings-roll.json')} style={styles.icon} />,
-        }}
-        component={PlaceHolderScreen} />
-        <Tab.Screen name="tickets"
-         options={{
-          // @ts-ignore
-          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../../assets/lotties/55114-tickets.json')} style={styles.icon} />,
-        }}
-        component={PlaceHolderScreen} />
-        <Tab.Screen name="profile"
-         options={{
-          // @ts-ignore
-          tabBarIcon: ({ ref }) => <Lottie ref={ref} loop={false} source={require('../../assets/lotties/9992-name-profile-icon-animation-filled.json')} style={styles.icon} />,
-        }}
-        component={PlaceHolderScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  )
-}
+import { LinearGradient } from "expo-linear-gradient";
 
-const PlaceHolderScreen = () => {
-  return (
-    <View style={{ flex: 1, backgroundColor: 'black' }} />
-  )
-}
+import * as Linking from 'expo-linking';
 
-const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, descriptors }) => {
-  const { bottom } = useSafeAreaInsets();
+const height = Dimensions.get('window').height;
+const width = Dimensions.get('window').width;
 
-  const reducer = (state, action) => {
-    // Add the new value to the state
-    return [...state, { x: action.x, index: action.index }]
+
+export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOffset, menu, HandleSetShowMenu, close, currentTab, navigation }) {
+
+  const [Search, setSearch] = useState()
+  const HandleDrawer = () => {
+    Animated.timing(scaleValue, {
+      toValue: showMenu ? 1 : 0.88,
+      duration: 300,
+      useNativeDriver: true
+    })
+      .start()
+
+    Animated.timing(offsetValue, {
+      // YOur Random Value...
+      toValue: showMenu ? 0 : 230,
+      duration: 300,
+      useNativeDriver: true
+    })
+      .start()
+
+    Animated.timing(closeButtonOffset, {
+      // YOur Random Value...
+      toValue: !showMenu ? -30 : 0,
+      duration: 300,
+      useNativeDriver: true
+    })
+      .start()
+
+    HandleSetShowMenu(!showMenu)
   }
 
-  const handleLayout = (event, index) => {
-    dispatch({ x: event.nativeEvent.layout.x, index })
+  const HandleSearch = (val) => {
+    setSearch(val)
   }
 
-  const [layout, dispatch] = useReducer(reducer, [])
+  const HandleNavigate = (name) => {
+    navigation.navigate(name)
+  }
 
-  const xOffset = useDerivedValue(() => {
-    // Our code hasn't finished rendering yet, so we can't use the layout values
-    if (layout.length !== routes.length) return 0;
-    // We can use the layout values
-    // Copy layout to avoid errors between different threads
-    // We subtract 25 so the active background is centered behind our TabBar Components
-    // 20 pixels is the width of the left part of the svg (the quarter circle outwards)
-    // 5 pixels come from the little gap between the active background and the circle of the TabBar Components
-    return [...layout].find(({ index }) => index === activeIndex)?.x - 25
-    // Calculate the offset new if the activeIndex changes (e.g. when a new tab is selected)
-    // or the layout changes (e.g. when the components haven't finished rendering yet)
-  }, [activeIndex, layout])
+  // //////////////////////////////////////////////////////////////////////////////
 
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      // translateX to the calculated offset with a smooth transition
-      transform: [{ translateX: withTiming(xOffset.value, { duration: 300 }) }],
-    }
-  })
+  const [data, setdata] = useState()
 
-
-
-
-  return (
-    <View style={[styles.tabBar, { paddingBottom: bottom +12 , borderRadius:20}]}>
-      <AnimatedSvg
-        width={110}
-        height={60}
-        viewBox="0 0 110 60"
-        style={[styles.activeBackground, animatedStyles]}
-      >
-        <Path
-          fill="black"
-          d="M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z"
-        />
-      </AnimatedSvg>
-
-      <View style={styles.tabBarContainer}>
-        {routes.map((route, index) => {
-          const active = index === activeIndex
-          const { options } = descriptors[route.key]
-          return (
-            <TabBarComponent
-              key={route.key}
-              active={active}
-              options={options}
-              onLayout={(e) => { handleLayout(e, index) }}
-              onPress={() => {
-                navigation.navigate(route.name)
-              }}
-            />
-          )
-        })}
-      </View>
-    </View>
-  )
-}
-
-// type TabBarComponentProps = {
-//   active?: boolean
-//   options: BottomTabNavigationOptions
-//   onLayout: (e: LayoutChangeEvent) => void
-//   onPress: () => void
-// }
-
-const TabBarComponent = ({active,options, onPress, onLayout }) => {
-
-  const ref = useRef(null)
+  const handleDeepLinking = (event) => {
+    let data = Linking.parse(event.url)
+    setdata(data)
+  }
 
   useEffect(() => {
-    if (active && ref?.current) {
-      // @ts-ignore
-      ref.current.play()
+    async function getinitalurl() {  // if app in background and start it this method will call and restore data from link init the deep link
+      const initalurl = await Linking.getInitialURL();
+      if (initalurl) setdata(Linking.parse(initalurl))
+      console.log("hi")
     }
-  }, [active])
 
-  const animatedComponentCircleStyles = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: withTiming(active ? 1 : 0, { duration: 250 })
-        }
-      ]
+    const subscription = Linking.addEventListener('url', handleDeepLinking);
+    if (!data) {
+      getinitalurl();
     }
+    return () => subscription.remove();
   })
 
-  const animatedIconContainerStyles = useAnimatedStyle(() => {
-    return {
-      opacity: withTiming(active ? 1 : 0.5, { duration: 250 })
-    }
-  })
+  /////////////////////////////////////////////////////////////////////////////
 
   return (
-    <Pressable onPress={onPress} onLayout={onLayout} style={styles.component}>
-      <Animated.View
-        style={[styles.componentCircle ,animatedComponentCircleStyles ]}
-      />
-      <Animated.View style={[styles.iconContainer , animatedIconContainerStyles]}>
-        {/* @ts-ignore */}
-        {options.tabBarIcon ? options.tabBarIcon({ ref }) : <Text>?</Text>}
-      </Animated.View>
-    </Pressable>
+    <Animated.View style={{
+      // Transforming View...
+      flex: 1,
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      transform: [
+        { scale: scaleValue },
+        { translateX: offsetValue }
+      ]
+    }}>
+
+      <LinearGradient colors={[Colors.first_dark_splash, Colors.second_dark_splash, Colors.second_dark_splash, Colors.fourth_dark_splash]}
+        style={{
+          height: height + 50,
+          borderRadius: showMenu ? 15 : 0,
+        }}
+      >
+
+        <Animated.View style={{
+          paddingVertical: 0,
+          transform: [{
+            translateY: closeButtonOffset
+          }]
+        }}>
+
+          {
+            currentTab == "Home" ?
+
+              <Animated.View style={{}}>
+
+                <ImageBackground source={bg}
+                  resizeMode='stretch'
+                  borderRadius={15}
+                  borderBottomLeftRadius={50}
+                  borderBottomRightRadius={50}
+                  style={{
+                    width: width,
+                    height: height / 2.4,
+                  }}>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginTop: 40,
+                      marginLeft: 15,
+                      alignItems: 'center',
+                    }}>
+
+                    <TouchableOpacity onPress={() => {
+                      HandleDrawer()
+                    }}>
+                      <Image source={showMenu ? close : menu} style={{
+                        width: 26,
+                        height: 25,
+                        tintColor: 'white',
+                      }} />
+                    </TouchableOpacity>
+
+                    <Text style={styles.title}> hi,Noha</Text>
+
+                  </View>
+
+                  <Text style={styles.desc}>Let's discover a new advanture </Text>
+
+
+                  <CustomTF placeholder="where are you going?" keyboardType="default" type="" label="" width={(width - 50)} onAddText={HandleSearch} text={Search} white={true} />
+
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <BoxOfCategories title='Ticket' HandleNavigate={HandleNavigate} routename='TicketSearch' />
+                    <BoxOfCategories title='Hotel' HandleNavigate={HandleNavigate} routename='TicketSearch' />
+                    <BoxOfCategories title='Agency' HandleNavigate={HandleNavigate} routename='TicketSearch' />
+                    <BoxOfCategories title='Taki' HandleNavigate={HandleNavigate} routename='TicketSearch' />
+
+                  </View>
+
+                </ImageBackground>
+
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 50 }}>
+                  <Text style={{ fontFamily: 'item', fontSize: 25 }}>{data ? JSON.stringify(data) : "App don't open from deep link"}</Text>
+                </View>
+
+              </Animated.View>
+              :
+              <View>
+                <Text>nononononoonon</Text>
+              </View>
+          }
+
+        </Animated.View>
+      </LinearGradient >
+    </Animated.View >
+
+
   )
 }
 
-export default Home
-
 const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: 'white',
-  },
-  activeBackground: {
-    position: 'absolute',
-  },
-  tabBarContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-  },
-  component: {
-    height: 60,
-    width: 60,
-    marginTop: -5,
-  },
-  componentCircle: {
+  linearGradient: {
     flex: 1,
-    borderRadius: 30,
-    backgroundColor: 'white',
   },
-  iconContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center'
+  title: {
+    fontFamily: 'item',
+    color: "white",
+    fontSize: 25,
+    marginLeft: 10
   },
-  icon: {
-    height: 50,
-    width: 55,
+  desc: {
+    fontFamily: 'item',
+    color: "white",
+    fontSize: 20,
+    marginLeft: 30,
+    marginTop: 5
   }
 })
