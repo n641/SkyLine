@@ -11,6 +11,7 @@ import BoxOfCategories from '../../Components/BoxOfCategories'
 import { LinearGradient } from "expo-linear-gradient";
 
 import * as Linking from 'expo-linking';
+import HistoryOfTickets from './Tickets/HistoryOfTickets';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -19,29 +20,25 @@ const width = Dimensions.get('window').width;
 export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOffset, menu, HandleSetShowMenu, close, currentTab, navigation }) {
 
   const [Search, setSearch] = useState()
+
   const HandleDrawer = () => {
     Animated.timing(scaleValue, {
       toValue: showMenu ? 1 : 0.88,
       duration: 300,
       useNativeDriver: true
-    })
-      .start()
+    }).start()
 
     Animated.timing(offsetValue, {
-      // YOur Random Value...
       toValue: showMenu ? 0 : 230,
       duration: 300,
       useNativeDriver: true
-    })
-      .start()
+    }).start()
 
     Animated.timing(closeButtonOffset, {
-      // YOur Random Value...
       toValue: !showMenu ? -30 : 0,
       duration: 300,
       useNativeDriver: true
-    })
-      .start()
+    }).start()
 
     HandleSetShowMenu(!showMenu)
   }
@@ -54,7 +51,7 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
     navigation.navigate(name)
   }
 
-  // //////////////////////////////////////////////////////////////////////////////
+  // ///////////////////////////////deep linking///////////////////////////////////////////////
 
   const [data, setdata] = useState()
 
@@ -77,11 +74,8 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
     return () => subscription.remove();
   })
 
-  /////////////////////////////////////////////////////////////////////////////
-
   return (
     <Animated.View style={{
-      // Transforming View...
       flex: 1,
       position: 'absolute',
       top: 0,
@@ -165,10 +159,28 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
                 </View>
 
               </Animated.View>
-              :
-              <View>
-                <Text>nononononoonon</Text>
-              </View>
+
+              : currentTab == "Tickets" ?
+
+                <View style={{ marginTop: 35, margin: 15 }}>
+
+                  <TouchableOpacity onPress={() => {
+                    HandleDrawer()
+                  }}>
+                    <Image source={showMenu ? close : menu} style={{
+                      width: 26,
+                      height: 25,
+                      tintColor: 'white',
+                    }} />
+                  </TouchableOpacity>
+
+                  <HistoryOfTickets />
+                </View>
+
+                :
+                <View>
+                  <Text>nononononoonon</Text>
+                </View>
           }
 
         </Animated.View>

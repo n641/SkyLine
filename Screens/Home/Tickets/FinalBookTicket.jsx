@@ -32,39 +32,14 @@ const width = Dimensions.get('window').width;
 export default function FinalBookTicket({ navigation, route }) {
 
     const { id } = route.params;
-    // console.log("id in final screen")
-    // console.log(id)
+
     const [Directurl, setDirecturl] = useState()
 
-    const htmlContent = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ticket</title>
-        <style>
-            body {
-                font-size: 16px;
-                color: rgb(255, 196, 0);
-            }
-
-            h1 {
-                text-align: center;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Hello, UppLabs!</h1>
-    </body>
-    </html>
-`;
-    const data = {
+     const data = {
         name: 'Divyesh Barad',
         email: 'divyesh@gmail.com',
         address: 'Rajkot',
     }
-
 
     const html = `
     <html>
@@ -93,23 +68,15 @@ export default function FinalBookTicket({ navigation, route }) {
             {
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 withCredentials: true
-            }
-        )
+            })
             .catch(error => {
                 console.log(error)
-            }
-
-            )
-
-        // console.log(response.data.session.url)
+            })
 
         if (response) {
             setDirecturl(response.data.session.url)
-            // console.log(response.session.url)
         }
-
     }
-
 
     useEffect(() => {
         fetchdata();
@@ -203,17 +170,12 @@ export default function FinalBookTicket({ navigation, route }) {
                             }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginTop: 6 }}>
                                     <MaterialIcons name="date-range" size={17} color="white" style={{ marginHorizontal: 4 }} />
-                                    {/* <MaterialIcons name="date-range" size={24} color="black" /> */}
                                     <Text style={styles.Dtext}>Date</Text>
                                 </View>
                                 <Text style={[styles.Dtext, { fontSize: 15 }]}>01 january 2023
                                 </Text>
                             </View>
-
-
                         </View>
-
-
 
                         {/* //row3     */}
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginVertical: 30, width: width / 1.2 }}>
@@ -229,20 +191,13 @@ export default function FinalBookTicket({ navigation, route }) {
                                 <Text style={styles.Dtext}>Class</Text>
                                 <Text style={[styles.text, { color: 'gray' }]}>{"economy"}</Text>
                             </View>
-
                         </View>
-
-
                         {/* //row4     */}
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={styles.Dtext}>Flight Num :
                                 <Text style={[styles.text, { color: 'gray' }]}> {"EY5847"}</Text>
                             </Text>
-
-
                         </View>
-
-
                     </View>
 
                     <View style={{

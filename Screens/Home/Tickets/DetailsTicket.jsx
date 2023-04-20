@@ -29,7 +29,6 @@ const width = Dimensions.get('window').width;
 export default function DetailsTicket({ navigation, route }) {
 
     const { Data } = route.params;
-
     const image = Data.image;
     const flightNum = Data.flightNum
     const From = Data.From
@@ -45,8 +44,6 @@ export default function DetailsTicket({ navigation, route }) {
     const price = Data.price
     const id = Data.id
     const Seats = Data.Seats
-
-    // console.log(id)
 
     return (
         <ImageBackground

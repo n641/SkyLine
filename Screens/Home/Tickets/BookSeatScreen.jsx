@@ -29,47 +29,11 @@ const width = Dimensions.get('window').width;
 export default function BookSeatScreen({ navigation, route }) {
 
     const { id } = route.params;
-    // console.log(id)
-
     let SelectedSeats = [];
 
-    const [Row1, setRow1] = useState([  //right side
-        // { id: 'A1', empty: true, selected: false },
-        // { id: 'B1', empty: false, selected: false },
-        // { id: 'A2', empty: true, selected: false },
-        // { id: 'B2', empty: true, selected: false },
-        // { id: 'A3', empty: true, selected: false },
-        // { id: 'B3', empty: false, selected: false },
-        // { id: 'A2', empty: true, selected: false },
-        // { id: 'B4', empty: true, selected: false },
-        // { id: 'A5', empty: false, selected: true },
-        // { id: 'B5', empty: true, selected: false },
-        // { id: 'A6', empty: true, selected: false },
-        // { id: 'B6', empty: false, selected: true },
-
-    ])
-
-    const [Row2, setRow2] = useState([ //left side
-        // { id: 'C1', empty: false, selected: false },
-        // { id: 'D1', empty: true, selected: false },
-        // { id: 'E1', empty: false, selected: false },
-        // { id: 'C2', empty: false, selected: true },
-        // { id: 'D2', empty: true, selected: false },
-        // { id: 'E2', empty: false, selected: false },
-        // { id: 'C3', empty: true, selected: false },
-        // { id: 'A2', empty: true, selected: false },
-        // { id: 'E3', empty: true, selected: false },
-        // { id: 'C4', empty: true, selected: false },
-        // { id: 'D4', empty: false, selected: false },
-        // { id: 'E4', empty: true, selected: false },
-        // { id: 'A2', empty: true, selected: false },
-        // { id: 'D5', empty: true, selected: false },
-        // { id: 'E5', empty: true, selected: false },
-        // { id: 'C6', empty: true, selected: false },
-        // { id: 'D6', empty: false, selected: true },
-        // { id: 'E6', empty: true, selected: false },
-    ])
-
+    const [Row1, setRow1] = useState([])
+    const [Row2, setRow2] = useState([])
+    const [loading, setLoading] = useState(true);
 
     const onSelectedRow1 = index => {
         let tempRow = [];
@@ -82,12 +46,9 @@ export default function BookSeatScreen({ navigation, route }) {
                 } else {
                     item.selected = true;
                     item.empty = false
-                }
-            }
+                }}
         });
-
         let tempSeats = [];
-
         tempRow.map(item => {
             tempSeats.push(item);
         })
@@ -105,12 +66,10 @@ export default function BookSeatScreen({ navigation, route }) {
                 } else {
                     item.selected = true;
                     item.empty = false
-                }
-            }
+                }}
         });
 
         let tempSeats = [];
-
         tempRow.map(item => {
             tempSeats.push(item);
         })
@@ -129,27 +88,17 @@ export default function BookSeatScreen({ navigation, route }) {
                 SelectedSeats.push(item.id)
             }
         })
-
         return SelectedSeats
-
     }
     getSelectedSeats()
-    // console.log(...SelectedSeats)
 
-
-    // ////////////////////////////////////////////////
-    const [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
         const resp = await fetch(`https://skyline-backend.cyclic.app/api/v1/flights/${id}`);
         const data = await resp.json();
-        // setTickets(data.data);
         if (data.data.length != 0) {
             setLoading(false);
         }
-
-        // console.log(data)
-
         setRow1(data.data.data.Seats.Row1)
         setRow2(data.data.data.Seats.Row2)
     };
@@ -157,7 +106,6 @@ export default function BookSeatScreen({ navigation, route }) {
     useEffect(() => {
         fetchData();
     }, []);
-    // ///////////////////////////////////////////////
 
     return (
         <ImageBackground
@@ -191,15 +139,12 @@ export default function BookSeatScreen({ navigation, route }) {
                             alignItems: 'center',
                             marginTop: height / 11,
                             marginStart: width / 5.5,
-
-                        }}>
+                            }}>
                             <Text style={[styles.title, { textAlign: 'center' }]}>Choose Seat</Text>
                         </View>
                     </View>
                 </View>
             </View>
-
-            {/* //////////////////////////////////////////////////////////////////////////// */}
 
             <View style={{
                 alignItems: 'center',
@@ -234,8 +179,6 @@ export default function BookSeatScreen({ navigation, route }) {
                         </View>
 
                     </View>
-
-                    {/* //////////////////////////////////////////////////////////////////////// */}
 
                     <View style={{ marginHorizontal: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 20 }}>
                         <Text style={[styles.Dtext, { marginHorizontal: 15, fontSize: 20, fontWeight: 'bold' }]}>A</Text>
@@ -342,15 +285,9 @@ export default function BookSeatScreen({ navigation, route }) {
                                 }}
                             />
                         </View>
-
                     </View>
-
                 </View>
-
             </View>
-
-
-            {/* </ScrollView> */}
 
             <View style={{
                 backgroundColor: 'black',

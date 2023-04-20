@@ -21,7 +21,7 @@ export default function AirplaneData({ navigation, Filter , HandleOpenSheet , ti
     return (
         <View>
 
-            <View style={{ flexDirection: 'row', justifyContent: Filter? 'space-between' : 'flex-start', marginHorizontal: 20 , marginTop:10 }}>
+            <View style={{ flexDirection: 'row', justifyContent: Filter? 'space-between' : 'flex-start', marginHorizontal: 20 , marginTop:0 }}>
 
                 <View >
                     <AntDesign name="arrowleft" size={30} color="white" onPress={() => {
@@ -33,7 +33,7 @@ export default function AirplaneData({ navigation, Filter , HandleOpenSheet , ti
 
                 <View style={{
                     alignItems: 'center',
-                    marginTop: 40,
+                    marginTop: 20,
                     marginStart:Filter?0:70
                 }}>
 
@@ -65,7 +65,7 @@ export default function AirplaneData({ navigation, Filter , HandleOpenSheet , ti
 
             </View>
 
-            <View style={{ flexDirection: "row", justifyContent: "space-between", marginHorizontal: 10, marginTop: -20 }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", marginHorizontal: 10, marginTop: 0 }}>
 
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
                     <Text style={styles.text}>Tokyo</Text>

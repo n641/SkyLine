@@ -32,9 +32,8 @@ export default function CardOfTicket({ image, flightNum, From, TO, DateFrom, Dat
         id:id,
         Seats:Seats
     }
-    console.log(Seats)
     return (
-        <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: 15 }}
+        <TouchableOpacity style={{  alignItems: 'center', margin: 15 }}
             onPress={() => {
                 navigation.navigate('DetailsTicket', {Data:Data })
             }}

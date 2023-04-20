@@ -20,7 +20,8 @@ import Colors from '../../Conestant/Colors';
 const width = Dimensions.get('window').width;
 
 
-export default function MultiDestinationScreen({navigation}) {
+export default function MultiDestinationScreen({ navigation }) {
+
     const [From, setFrom] = React.useState();
     const [to, setTo] = React.useState();
     const [Class, setClass] = useState();
@@ -38,19 +39,16 @@ export default function MultiDestinationScreen({navigation}) {
     const [CountriesFrom, setCountriesFrom] = useState([
         'Egypt/Cairo',
         'Egypt/Hurgada',
-
     ])
 
     const [CountriesTo, setCountriesTo] = useState([
         'Egypt/Cairo',
         'Egypt/Hurgada',
-
     ])
 
     const [InCountries, setInCountries] = useState([
         'Egypt/Cairo',
         'Egypt/Hurgada',
-
     ])
 
 
@@ -58,11 +56,7 @@ export default function MultiDestinationScreen({navigation}) {
         'First class',
         'Business',
         'economy'
-
     ])
-
-
-
 
     const HandleDate = (event, selectedDate) => {
         const currentDate = selectedDate;
@@ -137,30 +131,27 @@ export default function MultiDestinationScreen({navigation}) {
                     {/* //////////////////////////////////////////////////////// */}
 
                 </View>
-
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}>
-
                     <View style={{
                         borderBottomWidth: 1,
                         borderBottomColor: '#fff',
                         width: (width - 120)
                     }} />
+
                     <MaterialCommunityIcons name="swap-vertical-bold" size={45} color="white" />
 
                 </View>
 
-                <View style={{
-
-                    margin: 10
-                }} >
+                <View style={{ margin: 10 }} >
 
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 3, marginBottom: -10, margin: -20 }}>
                         <Text style={styles.label}>To</Text>
                         <Text style={styles.astrisk}>*</Text>
+
                     </View>
 
                     <SelectDropdown
@@ -218,7 +209,9 @@ export default function MultiDestinationScreen({navigation}) {
                     )
                 }
             </TouchableOpacity>
+
             {/* //////////////////////////////////class////////////////////////////////// */}
+
             <View style={[styles.DateContainer]} >
 
                 <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 3, marginBottom: -15, marginTop: 2 }}>
@@ -249,6 +242,7 @@ export default function MultiDestinationScreen({navigation}) {
                     rowStyle={styles.dropdown1RowStyle}
                     rowTextStyle={styles.dropdown1RowTxtStyle}
                 />
+
             </View>
 
             {/* //////////////////////////////////Countries////////////////////////////////// */}
@@ -286,27 +280,26 @@ export default function MultiDestinationScreen({navigation}) {
 
             {/* ////////////////////////////passengers////////////////////////////// */}
 
-            <View style={[styles.DateContainer]} >
+            {/* <View style={[styles.DateContainer]} >
 
-                <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 10, marginBottom: -10 }}
-                >
+                <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 10, marginBottom: -10 }}>
                     <Text style={styles.label}>Passengers</Text>
                     <Text style={styles.astrisk}>*</Text>
                 </View>
-
 
                 <TouchableOpacity
                     onPress={() => { handlePresentModalPress() }}
                     style={{ margin: 10, marginLeft: 25 }}>
                     <Text style={styles.text}>{TextOfPassenger}</Text>
                 </TouchableOpacity>
-            </View>
+
+            </View> */}
 
             <View style={{ margin: 20, marginBottom: 50 }}>
-                <MainButton title='Search' onClick={() => {navigation.navigate("ResultTicketsScreen") }} />
+                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen") }} />
             </View>
 
-            <BottomSheetModalProvider>
+            {/* <BottomSheetModalProvider>
                 <Animated.View style={styles.container}>
                     <BottomSheetModal
                         ref={bottomSheetModalRef}
@@ -360,8 +353,7 @@ export default function MultiDestinationScreen({navigation}) {
                         </Animated.View>
                     </BottomSheetModal>
                 </Animated.View>
-            </BottomSheetModalProvider>
-
+            </BottomSheetModalProvider> */}
 
         </ScrollView>
     )

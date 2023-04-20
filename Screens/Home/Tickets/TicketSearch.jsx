@@ -1,17 +1,16 @@
 import { StyleSheet, Text, View, ImageBackground, Dimensions, ScrollView } from 'react-native'
 import React from 'react'
 
-import TabBarOFSearchTickets from '../../../Components/SubScreensOfTicket/TabBarOFSearchTickets';
-
-import Colors from '../../../Conestant/Colors';
-import bg from '../../../assets/bg-dark.jpg';
-
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons';
 
+import Colors from '../../../Conestant/Colors';
+
+import bg from '../../../assets/bg-dark.jpg';
+import TabBarOFSearchTickets from '../../../Components/SubScreensOfTicket/TabBarOFSearchTickets';
+
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
-
 export default function TicketSearch({ navigation }) {
   return (
     <View>
@@ -40,10 +39,9 @@ export default function TicketSearch({ navigation }) {
 
         </View>
         <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
-          style={styles.container}
-        >
+          style={styles.container}>
 
-            <TabBarOFSearchTickets navigation={navigation} />
+          <TabBarOFSearchTickets navigation={navigation} />
 
         </LinearGradient>
 
@@ -54,7 +52,6 @@ export default function TicketSearch({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    // width: width,
     height: (height + 50) / 1.3,
     borderTopLeftRadius: 80,
     borderTopRightRadius: 80

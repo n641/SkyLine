@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View, Dimensions, TextInput } from 'react-native'
 import React from 'react'
 
-import Animated, { useAnimatedStyle, useAnimatedGestureHandler, useSharedValue, useAnimatedProps, runOnJS } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
+import Animated, { useAnimatedStyle, useAnimatedGestureHandler, useSharedValue, useAnimatedProps, runOnJS } from 'react-native-reanimated';
 
 
 const width = Dimensions.get('window').width - 40;
 const MaxWidth = width - 20 / 2 + 6
 
-export default function InputRange({ min, max, steps, title, onValueChange }) {
+export default function InputRange({ min, max, steps, title, onValueChange , HandleFiltermin, HandleFiltermax }) {
 
     const xKnob1 = useSharedValue(0)
     const scaleKnob1 = useSharedValue(1)
@@ -29,7 +29,9 @@ export default function InputRange({ min, max, steps, title, onValueChange }) {
         },
         onEnd: () => {
             scaleKnob1.value = 1
-            runOnJS(onValueChange)({ min: xKnob1.value, max: xKnob2.value });
+            runOnJS(onValueChange)({  min: Math.round((min + (xKnob1.value / MaxWidth) * (max - min)) / steps) * steps, max: Math.round((min + (xKnob2.value / MaxWidth) * (max - min)) / steps) * steps });
+            // runOnJS(HandleFiltermin)((Math.round((min + (xKnob1.value / MaxWidth) * (max - min)) / steps) * steps))
+            // runOnJS(HandleFiltermax)((Math.round((min + (xKnob2.value / MaxWidth) * (max - min)) / steps) * steps))
         }
     })
 
@@ -46,6 +48,8 @@ export default function InputRange({ min, max, steps, title, onValueChange }) {
         onEnd: () => {
             scaleKnob2.value = 1
             runOnJS(onValueChange)({ min: Math.round((min + (xKnob1.value / MaxWidth) * (max - min)) / steps) * steps, max: Math.round((min + (xKnob2.value / MaxWidth) * (max - min)) / steps) * steps });
+            // runOnJS(HandleFiltermin)((Math.round((min + (xKnob1.value / MaxWidth) * (max - min)) / steps) * steps))
+            // runOnJS(HandleFiltermax)((Math.round((min + (xKnob2.value / MaxWidth) * (max - min)) / steps) * steps))
         }
     })
 
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
         borderColor: '#9c44dc',
         borderWidth: 2,
         backgroundColor: '#fff',
-        marginTop: 45,
+        marginTop: 50,
         marginLeft: 8
     }
 })

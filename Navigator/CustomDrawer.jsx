@@ -4,10 +4,12 @@ import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View
 
 import { LinearGradient } from "expo-linear-gradient";
 
+import { Fontisto } from '@expo/vector-icons';
+
 import profile from '../assets/profile.png';
 import home from '../assets/home.png';
-import search from '../assets/search.png';
-import notifications from '../assets/bell.png';
+import Hotel from '../assets/hotelicon.png';
+import Ticket from '../assets/ticketicon.png';
 import settings from '../assets/settings.png';
 import logout from '../assets/logout.png';
 import menu from '../assets/menu.png';
@@ -16,6 +18,7 @@ import close from '../assets/close.png';
 
 import Colors from '../Conestant/Colors';
 import Home from '../Screens/Home/Home';
+import HistoryOfTickets from '../Screens/Home/Tickets/HistoryOfTickets';
 
 const windowWidth = Dimensions.get('window').height;
 
@@ -65,9 +68,9 @@ export default function CustomDrawer({navigation}) {
                     }
 
                     {TabButton(currentTab, setCurrentTab, "Home", home)}
-                    {TabButton(currentTab, setCurrentTab, "Search", search)}
-                    {TabButton(currentTab, setCurrentTab, "Notifications", notifications)}
-                    {TabButton(currentTab, setCurrentTab, "Settings", settings)}
+                    {TabButton(currentTab, setCurrentTab, "Tickets", Ticket)}
+                    {TabButton(currentTab, setCurrentTab, "Hotels", Hotel)}
+                    {TabButton(currentTab, setCurrentTab, "Settings", settings)} 
 
                 </View>
 
@@ -92,8 +95,6 @@ export default function CustomDrawer({navigation}) {
                 navigation={navigation}
             />
 
-
-
         </SafeAreaView>
     )
 }
@@ -104,7 +105,7 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
 
         <TouchableOpacity onPress={() => {
             if (title == "LogOut") {
-                // Do your Stuff...
+                // logout...
             } else {
                 setCurrentTab(title)
             }
@@ -121,7 +122,7 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
             }}>
 
                 <Image source={image} style={{
-                    width: 25, height: 25,
+                    width: 30, height: 30,
                     tintColor: currentTab == title ? "#5359D1" : "white"
                 }}></Image>
 

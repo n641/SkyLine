@@ -1,8 +1,13 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { SafeAreaView } from "react-native";
 
 import { WebView } from 'react-native-webview';
+import { AntDesign } from '@expo/vector-icons';
+
+
+const height = Dimensions.get('window').height;
+const width = Dimensions.get('window').width;
 
 export default function PaymentWV({ navigation, route }) {
 
@@ -15,10 +20,12 @@ export default function PaymentWV({ navigation, route }) {
     const webviewRef = useRef(null)
 
     const backButtonHandler = () => {
-        navigation.navigate('Home')
+        navigation.navigate('HistoryOfTickets')
     }
     const frontButtonHandler = () => {
-        if (webviewRef.current) webviewRef.current.goForward()
+        // if (webviewRef.current) webviewRef.current.goForward()
+        navigation.navigate('Home')
+
     }
 
     return (
@@ -34,11 +41,12 @@ export default function PaymentWV({ navigation, route }) {
             />
 
             <View style={styles.tabBarContainer}>
-                <TouchableOpacity onPress={backButtonHandler}>
+                {/* <TouchableOpacity style={styles.btn1} onPress={backButtonHandler}>
                     <Text style={styles.button}>Back</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={frontButtonHandler}>
-                    <Text style={styles.button}>Forward</Text>
+                </TouchableOpacity> */}
+                <TouchableOpacity style={styles.btn1} onPress={frontButtonHandler}>
+                    <AntDesign name="home" size={24} color="white" />
+                    <Text style={styles.button}>Home</Text>
                 </TouchableOpacity>
             </View>
 
@@ -53,11 +61,22 @@ const styles = StyleSheet.create({
     tabBarContainer: {
         padding: 10,
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        backgroundColor: '#355b8d'
+        alignItems: 'flex-end',
+        position: 'absolute',
+        top: height - 67,
+        margin: 10
     },
     button: {
         color: 'white',
-        fontSize: 24
+        fontSize: 18
+    },
+    btn1: {
+        flexDirection: 'row',
+        backgroundColor: '#355b8d',
+        padding: 10,
+        borderRadius: 15,
+        justifyContent:'space-around',
+        width:130
+
     }
 })

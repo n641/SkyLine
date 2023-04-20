@@ -20,7 +20,7 @@ import Colors from '../../Conestant/Colors';
 const width = Dimensions.get('window').width;
 
 
-export default function RoundTripScreen({navigation}) {
+export default function RoundTripScreen({ navigation }) {
     const [From, setFrom] = React.useState();
     const [to, setTo] = React.useState();
     const [Class, setClass] = useState();
@@ -35,27 +35,25 @@ export default function RoundTripScreen({navigation}) {
 
     const [Returndate, setReturndate] = useState(new Date())
     const [showReturndate, setReturndateShow] = useState(false);
-
     const [mode, setMode] = useState('date');
+
+    const [IsOpen, setIsOpen] = useState(false)
 
 
     const [CountriesFrom, setCountriesFrom] = useState([
         'Egypt/Cairo',
         'Egypt/Hurgada',
-
     ])
 
     const [CountriesTo, setCountriesTo] = useState([
         'Egypt/Cairo',
         'Egypt/Hurgada',
-
     ])
 
     const [Classes, setClasses] = useState([
         'First class',
         'Business',
         'economy'
-
     ])
 
 
@@ -68,8 +66,6 @@ export default function RoundTripScreen({navigation}) {
         setShowdateDeparturn(!showdateDeparturn);
         setMode(currentMode);
     };
-
-    // ///////////////////////////////////////////////////////////////////////////////
 
     const HandleReturndate = (event, selectedDate) => {
         const currentDate = selectedDate;
@@ -89,19 +85,16 @@ export default function RoundTripScreen({navigation}) {
         showModeReturndate('date')
     }
 
-    const [IsOpen, setIsOpen] = useState(false)
     const bottomSheetModalRef = useRef(null);
-
-    // variables
     const snapPoints = useMemo(() => ["25%", "48%"], []);
 
-    // callbacks
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
         setTimeout(() => {
             setIsOpen(true);
         }, 100);
     }, []);
+
     const handleSheetChanges = useCallback((index) => {
         setTextOfPassenger(`Adults: ${Adult} , Children: ${Children} ,  infant: ${infant}`)
     }, [Adult, Children, infant]);
@@ -162,13 +155,9 @@ export default function RoundTripScreen({navigation}) {
                         width: (width - 120)
                     }} />
                     <MaterialCommunityIcons name="swap-vertical-bold" size={45} color="white" />
-
                 </View>
 
-                <View style={{
-
-                    margin: 10
-                }} >
+                <View style={{ margin: 10 }} >
 
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 3, marginBottom: -10, margin: -20 }}>
                         <Text style={styles.label}>To</Text>
@@ -201,8 +190,9 @@ export default function RoundTripScreen({navigation}) {
                 </View>
             </View>
 
+            {/* //////////////////////////////////Date2/////////////////////////////////////////// */}
+
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                {/* //////////////////////////////////Date2/////////////////////////////////////////// */}
 
                 <TouchableOpacity style={styles.DateContainer2}
                     onPress={showDatepicker}
@@ -211,6 +201,7 @@ export default function RoundTripScreen({navigation}) {
                         <Text style={styles.label}>departure </Text>
                         <Text style={styles.astrisk}>*</Text>
                     </View>
+
                     <View style={styles.container}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 0 }}>
                             <Text style={styles.text}>  {dateDeparturn.toJSON().substring(0, 10)}</Text>
@@ -263,7 +254,9 @@ export default function RoundTripScreen({navigation}) {
                 </TouchableOpacity>
 
             </View>
+
             {/* //////////////////////////////////class////////////////////////////////// */}
+
             <View style={[styles.DateContainer]} >
 
                 <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 3, marginBottom: -15, marginTop: 2 }}>
@@ -273,7 +266,6 @@ export default function RoundTripScreen({navigation}) {
 
                 <SelectDropdown
                     data={Classes}
-
                     onSelect={(selectedItem, index) => {
                         setClass(selectedItem)
                     }}
@@ -296,91 +288,15 @@ export default function RoundTripScreen({navigation}) {
                 />
             </View>
 
-            {/* ////////////////////////////passengers////////////////////////////// */}
-
-            <View style={[styles.DateContainer]} >
-
-                <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 10, marginBottom: -10 }}
-                >
-                    <Text style={styles.label}>Passengers</Text>
-                    <Text style={styles.astrisk}>*</Text>
-                </View>
-
-
-                <TouchableOpacity
-                    onPress={() => { handlePresentModalPress() }}
-                    style={{ margin: 10, marginLeft: 25 }}>
-                    <Text style={styles.text}>{TextOfPassenger}</Text>
-                </TouchableOpacity>
-            </View>
-
             <View style={{ margin: 20, marginBottom: 50 }}>
-                <MainButton title='Search' onClick={() => {navigation.navigate("ResultTicketsScreen") }} />
+                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen") }} />
             </View>
-
-            <BottomSheetModalProvider>
-                <Animated.View style={styles.container}>
-                    <BottomSheetModal
-                        ref={bottomSheetModalRef}
-                        index={1}
-                        snapPoints={snapPoints}
-                        onChange={handleSheetChanges}
-                        onDismiss={() => {
-                            setIsOpen(false)
-                            handleSheetChanges()
-                        }}
-                    >
-                        <Animated.View style={styles.contentContainer}>
-                            <Text style={styles.titlePassengers}> Passengers</Text>
-                            <View>
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 25 }}>
-                                    <Text style={{ fontSize: 19 }} >Adults</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="minuscircle" size={24} color="black" onPress={() => { Adult <= 0 ? null : setAdult(Adult - 1) }} />
-                                    </View>
-                                    <Text style={{ fontSize: 19 }}>{Adult}</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="pluscircle" size={24} color="black" onPress={() => { setAdult(Adult + 1) }} />
-                                    </View>
-                                </View>
-
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 25 }}>
-                                    <Text style={{ fontSize: 19 }} >Children</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="minuscircle" size={24} color="black" onPress={() => { Children <= 0 ? null : setChildren(Children - 1) }} />
-                                    </View>
-                                    <Text style={{ fontSize: 19 }}>{Children}</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="pluscircle" size={24} color="black" onPress={() => { setChildren(Children + 1) }} />
-                                    </View>
-                                </View>
-
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 25 }}>
-                                    <Text style={{ fontSize: 19 }} >infant</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="minuscircle" size={24} color="black" onPress={() => { infant <= 0 ? null : setinfant(infant - 1) }} />
-                                    </View>
-                                    <Text style={{ fontSize: 19 }}>{infant}</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="pluscircle" size={24} color="black" onPress={() => { setinfant(infant + 1) }} />
-                                    </View>
-                                </View>
-
-                            </View>
-                        </Animated.View>
-                    </BottomSheetModal>
-                </Animated.View>
-            </BottomSheetModalProvider>
 
         </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-
     inputContainer: {
         borderWidth: 1,
         borderColor: '#fff',

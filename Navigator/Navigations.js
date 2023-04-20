@@ -10,15 +10,19 @@ import BindingAccount from '../Screens/Auth_Screens/BindingAccount';
 import mainFPScreen from '../Screens/Auth_Screens/ForgetPasswordScreens/MainFPScreen';
 import EnterData from '../Screens/Auth_Screens/ForgetPasswordScreens/EnterData';
 import GmailFP from '../Screens/Auth_Screens/ForgetPasswordScreens/GmailFP'
-import PhoneNumberFp from '../Screens/Auth_Screens/ForgetPasswordScreens/PhoneNumberFP'
+import PhoneNumberFp from '../Screens/Auth_Screens/ForgetPasswordScreens/PhoneNumberFP';
+
 import Home from './TabBarHome';
-import CustomDrawer from './CustomDrawer'
+import CustomDrawer from './CustomDrawer';
+
 import TicketSearch from '../Screens/Home/Tickets/TicketSearch';
 import ResultTicketsScreen from '../Screens/Home/Tickets/ResultTicketsScreen';
 import DetailsTicket from '../Screens/Home/Tickets/DetailsTicket';
 import BookSeatScreen from '../Screens/Home/Tickets/BookSeatScreen';
 import FinalBookTicket from '../Screens/Home/Tickets/FinalBookTicket';
 import PaymentWV from '../Screens/Home/Tickets/PaymentWV';
+import HistoryOfTickets from '../Screens/Home/Tickets/HistoryOfTickets';
+
 import MainProfileScreen from '../Screens/Home/Profile/MainProfileScreen';
 import ProfileScreen from '../Screens/Home/Profile/ProfileScreen';
 
@@ -62,6 +66,7 @@ const MainNaigator = () => {
                 <Stack.Screen name="BookSeatScreen" component={BookSeatScreen} />
                 <Stack.Screen name="FinalBookTicket" component={FinalBookTicket} />
                 <Stack.Screen name="PaymentWV" component={PaymentWV} />
+                <Stack.Screen name="HistoryOfTickets" component={HistoryOfTickets} />
                 <Stack.Screen name="MainProfileScreen" component={MainProfileScreen} />
                 <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             </Stack.Navigator>

@@ -13,19 +13,17 @@ const listTab = [
   {
     status: 'Round Trip',
     Key: 2
-
   },
   {
     status: 'Multi Destination',
     Key: 3
-
-
   }
 ]
 
 
 export default function TabBarOFSearchTickets({ navigation }) {
   const [Active, setActive] = useState('one Way')
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.listTab}>
@@ -35,8 +33,7 @@ export default function TabBarOFSearchTickets({ navigation }) {
               <TouchableOpacity
                 key={e.Key}
                 style={[styles.btn, Active === e.status && styles.btnTabActive]}
-                onPress={() => { setActive(e.status) }}
-              >
+                onPress={() => { setActive(e.status) }}>
                 <Text style={styles.textbtn}>{e.status}</Text>
               </TouchableOpacity>
             )
@@ -46,14 +43,9 @@ export default function TabBarOFSearchTickets({ navigation }) {
       {
         Active === 'one Way' ?
           <OneWayScreen navigation={navigation} />
-
           : Active === 'Round Trip' ?
             <RoundTripScreen navigation={navigation} />
-
-            :
-            <MultiDestinationScreen navigation={navigation} />
-
-
+            : <MultiDestinationScreen navigation={navigation} />
       }
     </SafeAreaView>
 
@@ -63,9 +55,7 @@ export default function TabBarOFSearchTickets({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal: 15,
     marginTop: 37,
-    // margin: 20
   },
   listTab: {
     backgroundColor: '#fff',
@@ -89,6 +79,5 @@ const styles = StyleSheet.create({
   btnTabActive: {
     backgroundColor: '#00A7CC',
     borderRadius: 15,
-    // width: Dimensions.get('window').width / 9
   }
 })
