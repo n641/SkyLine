@@ -8,7 +8,7 @@ import Animated, { useAnimatedStyle, useAnimatedGestureHandler, useSharedValue, 
 const width = Dimensions.get('window').width - 40;
 const MaxWidth = width - 20 / 2 + 6
 
-export default function InputRange({ min, max, steps, title, onValueChange , HandleFiltermin, HandleFiltermax }) {
+export default function InputRange({ min, max, steps, title, onValueChange }) {
 
     const xKnob1 = useSharedValue(0)
     const scaleKnob1 = useSharedValue(1)
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         borderColor: '#9c44dc',
         borderWidth: 2,
         backgroundColor: '#fff',
-        marginTop: 50,
+        marginTop: 55,
         marginLeft: 8
     }
 })

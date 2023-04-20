@@ -12,11 +12,13 @@ import {
 
 import React, { useRef, useState, useMemo, useCallback, useEffect } from "react";
 import { BottomSheetModal, BottomSheetModalProvider, } from "@gorhom/bottom-sheet";
+import { RadioButton } from 'react-native-paper';
 
 import CAlert from "../../../Components/CustomeAlerts/CAlert";
 import AirplaneData from "../../../Components/ComponentsOfTicket/AirplaneData";
 import CardOfTicket from "../../../Components/ComponentsOfTicket/CardOfTicket";
 import InputRange from "../../../Components/InputRange";
+import BottomSheetTickets from "../../../Components/FilterTicketsComponent/BottomSheetTickets";
 
 import bg from '../../../assets/bg-dark.jpg';
 import wrong from '../../../assets/warning.png';
@@ -59,7 +61,6 @@ export default function ResultTicketsScreen({ navigation, route }) {
     const resp = await fetch(url).catch(error => console.log(error.message));
     const data = await resp.json();
     setTickets(data.data);
-    // console.log(data)
     setdataLenght(data.results)
 
     if (!data) {
@@ -86,15 +87,13 @@ export default function ResultTicketsScreen({ navigation, route }) {
   }, []);
 
   const handleSheetChanges = useCallback((index) => {
-
     if (to == "Every Thing") {
       url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&date=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}`
     } else {
       url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&to=${to}&date=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}`
     }
-    // console.log(url)
+    console.log(url)
     fetchData(url);
-
   }, [Filtermin, Filtermax]);
 
   const HandleOpenSheet = () => {
@@ -119,9 +118,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
         }}
       >
         <View style={{ marginTop: 20 }}>
-
           <AirplaneData navigation={navigation} Filter={true} title='Flight Search' HandleOpenSheet={HandleOpenSheet} />
-
         </View>
 
         {IsOpen && <BottomSheetModalProvider>
@@ -134,22 +131,13 @@ export default function ResultTicketsScreen({ navigation, route }) {
                 setIsOpen(false)
                 handleSheetChanges()
               }}>
-
-              <View>
-                <InputRange min={0} max={1000} steps={5} title='nono' onValueChange={(range) => {
-                  setFiltermin(range.min)
-                  setFiltermax(range.max)
-                }}
-                  HandleFiltermin={HandleFiltermin}
-                  HandleFiltermax={HandleFiltermax}
-
-                />
-              </View>
-
+              <BottomSheetTickets
+                HandleFiltermin={HandleFiltermin}
+                HandleFiltermax={HandleFiltermax}
+              />
             </BottomSheetModal>
           </Animated.View>
         </BottomSheetModalProvider>}
-
       </ImageBackground>
     )
   }
@@ -177,13 +165,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
           </View>
         }
 
-        <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
-          setvisibleForm(false)
-          navigation.goBack()
-        }} />
-
         <View style={{ marginTop: 20, marginBottom: 20 }}>
-
           <FlatList
             data={Tickets}
             renderItem={({ item }) =>
@@ -208,7 +190,6 @@ export default function ResultTicketsScreen({ navigation, route }) {
             keyExtractor={item => item._id}
             ListHeaderComponent={FlatList_Header}
           />
-
         </View>
 
         <BottomSheetModalProvider>
@@ -221,18 +202,10 @@ export default function ResultTicketsScreen({ navigation, route }) {
                 setIsOpen(false)
                 handleSheetChanges()
               }}>
-
-              <View>
-                <InputRange min={0} max={1000} steps={5} title='nono' onValueChange={(range) => {
-                  setFiltermax(range.max)
-                  setFiltermin(range.min)
-                }}
-                  HandleFiltermin={HandleFiltermin}
-                  HandleFiltermax={HandleFiltermax}
-
-                />
-              </View>
-
+              <BottomSheetTickets
+                HandleFiltermin={HandleFiltermin}
+                HandleFiltermax={HandleFiltermax}
+              />
             </BottomSheetModal>
           </Animated.View>
         </BottomSheetModalProvider>
