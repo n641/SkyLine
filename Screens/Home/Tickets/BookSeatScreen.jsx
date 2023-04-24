@@ -20,6 +20,10 @@ import bg from '../../../assets/bg-dark.jpg';
 import AirplaneData from "../../../Components/ComponentsOfTicket/AirplaneData";
 import MainButton from '../../../Components/MainButton'
 
+import CAlert from '../../../Components/CustomeAlerts/CAlert';
+
+import wrong from '../../../assets/warning.png'
+
 
 
 const height = Dimensions.get('window').height;
@@ -30,6 +34,9 @@ export default function BookSeatScreen({ navigation, route }) {
 
     const { id } = route.params;
     let SelectedSeats = [];
+
+    const [visibleForm, setvisibleForm] = useState(false)
+    const [titleForm, settitleForm] = useState("")
 
     const [Row1, setRow1] = useState([])
     const [Row2, setRow2] = useState([])
@@ -46,7 +53,8 @@ export default function BookSeatScreen({ navigation, route }) {
                 } else {
                     item.selected = true;
                     item.empty = false
-                }}
+                }
+            }
         });
         let tempSeats = [];
         tempRow.map(item => {
@@ -66,7 +74,8 @@ export default function BookSeatScreen({ navigation, route }) {
                 } else {
                     item.selected = true;
                     item.empty = false
-                }}
+                }
+            }
         });
 
         let tempSeats = [];
@@ -116,6 +125,11 @@ export default function BookSeatScreen({ navigation, route }) {
                 height: height + 50,
             }}
         >
+
+            <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+                setvisibleForm(false)
+            }} />
+
             {loading &&
                 <View style={{
                     width: width,
@@ -139,7 +153,7 @@ export default function BookSeatScreen({ navigation, route }) {
                             alignItems: 'center',
                             marginTop: height / 11,
                             marginStart: width / 5.5,
-                            }}>
+                        }}>
                             <Text style={[styles.title, { textAlign: 'center' }]}>Choose Seat</Text>
                         </View>
                     </View>
@@ -309,7 +323,15 @@ export default function BookSeatScreen({ navigation, route }) {
 
                     </View>
                     <MainButton title='Done' onClick={() => {
-                        navigation.navigate('FinalBookTicket',{id:id})
+                        if (SelectedSeats.length == 1) {
+                            navigation.navigate('FinalBookTicket', { id: id , seat:SelectedSeats})
+                        } else if (SelectedSeats.length == 0) {
+                            settitleForm("you must select chair")
+                            setvisibleForm(true)
+                        } else if (SelectedSeats.length > 1) {
+                            settitleForm("you must select no more one chair")
+                            setvisibleForm(true)
+                        }
                     }} />
                 </View>
             </View>

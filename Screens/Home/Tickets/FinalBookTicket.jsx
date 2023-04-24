@@ -20,6 +20,7 @@ import AirplaneData from "../../../Components/ComponentsOfTicket/AirplaneData";
 import MainButton from '../../../Components/MainButton'
 
 import QR from '../../../assets/QRcode.png'
+import QRCode from 'react-native-qrcode-svg';
 
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
@@ -31,11 +32,12 @@ const width = Dimensions.get('window').width;
 
 export default function FinalBookTicket({ navigation, route }) {
 
-    const { id } = route.params;
+    const { id, seat } = route.params;
+    const [Data, setData] = useState()
 
     const [Directurl, setDirecturl] = useState()
 
-     const data = {
+    const data = {
         name: 'Divyesh Barad',
         email: 'divyesh@gmail.com',
         address: 'Rajkot',
@@ -60,10 +62,8 @@ export default function FinalBookTicket({ navigation, route }) {
     }
 
     var url = `https://skyline-backend.cyclic.app/api/v1/bookings/checkout-session/flights/${id}/A2`;
-
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2FmNDMwYTY4NmUxNjM3Y2Y4MmU0MCIsImlhdCI6MTY4MTg1NDU5MiwiZXhwIjoxNjg5NjMwNTkyfQ.qxv6mzBc34gpnx0fC92sFue7VLJ-gFOHp7vUos8VK5o"
-
-    const fetchdata = async () => {
+    const fetchdataurl = async () => {
         const response = await axios.get(url,
             {
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -72,14 +72,21 @@ export default function FinalBookTicket({ navigation, route }) {
             .catch(error => {
                 console.log(error)
             })
-
         if (response) {
             setDirecturl(response.data.session.url)
         }
     }
 
+    var url2 = `https://skyline-backend.cyclic.app//api/v1/flights/${id}`;
+    const fetchData = async () => {
+        const resp = await fetch(url2)
+        const data = await resp.json();
+        setData(data.data.data);
+    };
+
     useEffect(() => {
-        fetchdata();
+        fetchData()
+        fetchdataurl();
     }, []);
 
     return (
@@ -93,7 +100,7 @@ export default function FinalBookTicket({ navigation, route }) {
         >
             <ScrollView >
 
-                <View >
+                <View style={{marginTop:20}} >
                     <AirplaneData navigation={navigation} title='Ticket Detail' />
                 </View>
 
@@ -119,7 +126,7 @@ export default function FinalBookTicket({ navigation, route }) {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
                             <View>
                                 <Text style={[styles.text, { color: 'gray', marginVertical: 3 }]}>BOM</Text>
-                                <Text style={[styles.text, { color: 'white', marginVertical: 3 }]}>Tokyo</Text>
+                                <Text style={[styles.text, { color: 'white', marginVertical: 3 }]}>{Data?.from}</Text>
                             </View>
 
                             <View>
@@ -136,7 +143,7 @@ export default function FinalBookTicket({ navigation, route }) {
 
                             <View>
                                 <Text style={[styles.text, { color: 'gray', marginVertical: 3 }]}>DXp</Text>
-                                <Text style={[styles.text, { color: 'white', marginVertical: 3 }]}>Tokyo</Text>
+                                <Text style={[styles.text, { color: 'white', marginVertical: 3 }]}>{Data?.to}</Text>
                             </View>
 
                         </View>
@@ -148,14 +155,14 @@ export default function FinalBookTicket({ navigation, route }) {
                                 backgroundColor: '#4F4C4C',
                                 borderRadius: 10,
                                 alignItems: 'center',
-                                paddingHorizontal: 25,
-                                paddingVertical: 4
+                                paddingHorizontal: 12,
+                                paddingVertical: 1
                             }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginTop: 6 }}>
                                     <AntDesign name="clockcircleo" size={15} color="white" style={{ marginHorizontal: 4 }} />
                                     <Text style={styles.Dtext}>Time</Text>
                                 </View>
-                                <Text style={styles.Dtext}>16:15
+                                <Text style={styles.Dtext}>{Data?.fromDate}
                                     <Text> PM</Text>
                                 </Text>
                             </View>
@@ -172,7 +179,7 @@ export default function FinalBookTicket({ navigation, route }) {
                                     <MaterialIcons name="date-range" size={17} color="white" style={{ marginHorizontal: 4 }} />
                                     <Text style={styles.Dtext}>Date</Text>
                                 </View>
-                                <Text style={[styles.Dtext, { fontSize: 15 }]}>01 january 2023
+                                <Text style={[styles.Dtext, { fontSize: 15 }]}>{Data?.date.substring(0, 10)}
                                 </Text>
                             </View>
                         </View>
@@ -181,7 +188,7 @@ export default function FinalBookTicket({ navigation, route }) {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginVertical: 30, width: width / 1.2 }}>
                             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={styles.Dtext}>Gate</Text>
-                                <Text style={[styles.text, { color: 'gray' }]}>{"5"}</Text>
+                                <Text style={[styles.text, { color: 'gray' }]}>{Data?.gate}</Text>
                             </View>
                             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={styles.Dtext}>Seat</Text>
@@ -189,13 +196,13 @@ export default function FinalBookTicket({ navigation, route }) {
                             </View>
                             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={styles.Dtext}>Class</Text>
-                                <Text style={[styles.text, { color: 'gray' }]}>{"economy"}</Text>
+                                <Text style={[styles.text, { color: 'gray' }]}>{Data?.classes}</Text>
                             </View>
                         </View>
                         {/* //row4     */}
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={styles.Dtext}>Flight Num :
-                                <Text style={[styles.text, { color: 'gray' }]}> {"EY5847"}</Text>
+                                <Text style={[styles.text, { color: 'gray' }]}> {Data?.flightNo}</Text>
                             </Text>
                         </View>
                     </View>
@@ -217,9 +224,10 @@ export default function FinalBookTicket({ navigation, route }) {
 
                     }}>
 
-                        <Image
-                            source={QR}
-                            style={{ width: width / 3, height: height / 5.3, resizeMode: 'stretch' }}
+                        <QRCode
+                            value="exp://192.168.1.4:19000/--/HistoryOfTickets"
+                            logoSize={100}
+                            logoBackgroundColor='#00ff00'
                         />
 
                     </View>

@@ -40,7 +40,7 @@ export default function TicketCardHistory({ Tickets }) {
                 transition={transition}
                 style={styles.container}
             >
-                <View style={{ backgroundColor: 'rgba(24,24,24,0.8)', flexGrow: 1, borderRadius: 10, }}>
+                <View style={{ backgroundColor: 'rgba(24,24,24,0.5)', flexGrow: 1, borderRadius: 10, }}>
 
                     <TouchableOpacity onPress={() => {
                         ref.current.animateNextTransition();

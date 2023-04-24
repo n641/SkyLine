@@ -278,82 +278,10 @@ export default function MultiDestinationScreen({ navigation }) {
                 />
             </View>
 
-            {/* ////////////////////////////passengers////////////////////////////// */}
-
-            {/* <View style={[styles.DateContainer]} >
-
-                <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 10, marginBottom: -10 }}>
-                    <Text style={styles.label}>Passengers</Text>
-                    <Text style={styles.astrisk}>*</Text>
-                </View>
-
-                <TouchableOpacity
-                    onPress={() => { handlePresentModalPress() }}
-                    style={{ margin: 10, marginLeft: 25 }}>
-                    <Text style={styles.text}>{TextOfPassenger}</Text>
-                </TouchableOpacity>
-
-            </View> */}
-
+           
             <View style={{ margin: 20, marginBottom: 50 }}>
                 <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen") }} />
             </View>
-
-            {/* <BottomSheetModalProvider>
-                <Animated.View style={styles.container}>
-                    <BottomSheetModal
-                        ref={bottomSheetModalRef}
-                        index={1}
-                        snapPoints={snapPoints}
-                        onDismiss={() => {
-                            setIsOpen(false)
-                            handleSheetChanges()
-                        }}
-                    >
-                        <Animated.View style={styles.contentContainer}>
-                            <Text style={styles.titlePassengers}> Passengers</Text>
-                            <View>
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 25 }}>
-                                    <Text style={{ fontSize: 19 }} >Adults</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="minuscircle" size={24} color="black" onPress={() => { Adult <= 0 ? null : setAdult(Adult - 1) }} />
-                                    </View>
-                                    <Text style={{ fontSize: 19 }}>{Adult}</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="pluscircle" size={24} color="black" onPress={() => { setAdult(Adult + 1) }} />
-                                    </View>
-                                </View>
-
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 25 }}>
-                                    <Text style={{ fontSize: 19 }} >Children</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="minuscircle" size={24} color="black" onPress={() => { Children <= 0 ? null : setChildren(Children - 1) }} />
-                                    </View>
-                                    <Text style={{ fontSize: 19 }}>{Children}</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="pluscircle" size={24} color="black" onPress={() => { setChildren(Children + 1) }} />
-                                    </View>
-                                </View>
-
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 25 }}>
-                                    <Text style={{ fontSize: 19 }} >infant</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="minuscircle" size={24} color="black" onPress={() => { infant <= 0 ? null : setinfant(infant - 1) }} />
-                                    </View>
-                                    <Text style={{ fontSize: 19 }}>{infant}</Text>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <AntDesign name="pluscircle" size={24} color="black" onPress={() => { setinfant(infant + 1) }} />
-                                    </View>
-                                </View>
-
-                            </View>
-                        </Animated.View>
-                    </BottomSheetModal>
-                </Animated.View>
-            </BottomSheetModalProvider> */}
 
         </ScrollView>
     )

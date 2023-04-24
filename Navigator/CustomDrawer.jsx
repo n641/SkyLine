@@ -2,25 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useRef, useState } from 'react';
 import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 
-import { LinearGradient } from "expo-linear-gradient";
-
-import { Fontisto } from '@expo/vector-icons';
-
 import profile from '../assets/profile.png';
 import home from '../assets/home.png';
 import Hotel from '../assets/hotelicon.png';
 import Ticket from '../assets/ticketicon.png';
-import settings from '../assets/settings.png';
+import chat from '../assets/chat.png';
 import logout from '../assets/logout.png';
 import menu from '../assets/menu.png';
 import close from '../assets/close.png';
 
-
 import Colors from '../Conestant/Colors';
 import Home from '../Screens/Home/Home';
-import HistoryOfTickets from '../Screens/Home/Tickets/HistoryOfTickets';
-
-const windowWidth = Dimensions.get('window').height;
 
 export default function CustomDrawer({navigation}) {
     const [currentTab, setCurrentTab] = useState("Home");
@@ -70,7 +62,7 @@ export default function CustomDrawer({navigation}) {
                     {TabButton(currentTab, setCurrentTab, "Home", home)}
                     {TabButton(currentTab, setCurrentTab, "Tickets", Ticket)}
                     {TabButton(currentTab, setCurrentTab, "Hotels", Hotel)}
-                    {TabButton(currentTab, setCurrentTab, "Settings", settings)} 
+                    {TabButton(currentTab, setCurrentTab, "Support", chat)} 
 
                 </View>
 

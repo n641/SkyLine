@@ -38,6 +38,7 @@ export default function TicketSearch({ navigation }) {
           <Text style={styles.title}>Flight search</Text>
 
         </View>
+        
         <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
           style={styles.container}>
 

@@ -26,6 +26,11 @@ import HistoryOfTickets from '../Screens/Home/Tickets/HistoryOfTickets';
 import MainProfileScreen from '../Screens/Home/Profile/MainProfileScreen';
 import ProfileScreen from '../Screens/Home/Profile/ProfileScreen';
 
+import SearchHotelScreen from '../Screens/Home/Hotels/SearchHotelScreen';
+import ResultHotels from '../Screens/Home/Hotels/ResultHotels';
+import DetailsHotel from '../Screens/Home/Hotels/DetailsHotel';
+import BookRoom from '../Components/ComponentsofHotels/BookRoom';
+
 import * as Linking from 'expo-linking';
 const prefix = Linking.makeUrl('/');
 
@@ -46,6 +51,33 @@ const AuthNavigator = () => {
     )
 }
 
+const BookTicketNavigator = () => {
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}  >
+            <Stack.Screen name="TicketSearch" component={TicketSearch} />
+            <Stack.Screen name="ResultTicketsScreen" component={ResultTicketsScreen} />
+            <Stack.Screen name="DetailsTicket" component={DetailsTicket} />
+            <Stack.Screen name="BookSeatScreen" component={BookSeatScreen} />
+            <Stack.Screen name="FinalBookTicket" component={FinalBookTicket} />
+            <Stack.Screen name="PaymentWV" component={PaymentWV} />
+            <Stack.Screen name="HistoryOfTickets" component={HistoryOfTickets} />
+        </Stack.Navigator>
+    )
+}
+
+const BookHotelNavigator = () => {
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}  >
+            <Stack.Screen name="SearchHotelScreen" component={SearchHotelScreen} />
+            <Stack.Screen name="ResultHotels" component={ResultHotels} />
+            <Stack.Screen name="DetailsHotel" component={DetailsHotel} />
+            <Stack.Screen name="BookRoom" component={BookRoom} />
+        </Stack.Navigator>
+    )
+}
+
+
+
 const MainNaigator = () => {
     const linking = {
         prefixes: [prefix],
@@ -60,13 +92,8 @@ const MainNaigator = () => {
             <Stack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}  >
                 <Stack.Screen name="Home" component={CustomDrawer} />
                 <Stack.Screen name="AuthNavigator" component={AuthNavigator} />
-                <Stack.Screen name="TicketSearch" component={TicketSearch} />
-                <Stack.Screen name="ResultTicketsScreen" component={ResultTicketsScreen} />
-                <Stack.Screen name="DetailsTicket" component={DetailsTicket} />
-                <Stack.Screen name="BookSeatScreen" component={BookSeatScreen} />
-                <Stack.Screen name="FinalBookTicket" component={FinalBookTicket} />
-                <Stack.Screen name="PaymentWV" component={PaymentWV} />
-                <Stack.Screen name="HistoryOfTickets" component={HistoryOfTickets} />
+                <Stack.Screen name="BookTicketNavigator" component={BookTicketNavigator} />
+                <Stack.Screen name="BookHotelNavigator" component={BookHotelNavigator} />
                 <Stack.Screen name="MainProfileScreen" component={MainProfileScreen} />
                 <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             </Stack.Navigator>

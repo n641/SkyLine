@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: '#fff',
         borderColor: 'cccdb2',
-        borderBottomWidth: 1
     },
     labelContainer: {
         width: width,

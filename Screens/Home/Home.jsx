@@ -145,10 +145,10 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
                   <CustomTF placeholder="where are you going?" keyboardType="default" type="" label="" width={(width - 50)} onAddText={HandleSearch} text={Search} white={true} />
 
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <BoxOfCategories title='Ticket' HandleNavigate={HandleNavigate} routename='TicketSearch' />
-                    <BoxOfCategories title='Hotel' HandleNavigate={HandleNavigate} routename='TicketSearch' />
-                    <BoxOfCategories title='Agency' HandleNavigate={HandleNavigate} routename='TicketSearch' />
-                    <BoxOfCategories title='Taki' HandleNavigate={HandleNavigate} routename='TicketSearch' />
+                    <BoxOfCategories title='Ticket' HandleNavigate={HandleNavigate} routename='BookTicketNavigator' />
+                    <BoxOfCategories title='Hotel' HandleNavigate={HandleNavigate} routename='BookHotelNavigator' />
+                    <BoxOfCategories title='Agency' HandleNavigate={HandleNavigate} routename='BookTicketNavigator' />
+                    <BoxOfCategories title='Taki' HandleNavigate={HandleNavigate} routename='BookTicketNavigator' />
 
                   </View>
 

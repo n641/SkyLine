@@ -41,7 +41,12 @@ export default function ResultTicketsScreen({ navigation, route }) {
 
   const [Filtermin, setFiltermin] = useState(0);
   const [Filtermax, setFiltermax] = useState(1000);
-  const [dataLenght, setdataLenght] = useState()
+  const [dataLenght, setdataLenght] = useState();
+  const [Rate, setRate] = useState(0)
+
+  const HandleFilterRate = (number) => {
+    setRate(number)
+  }
 
   const HandleFiltermin = (number) => {
     setFiltermin(number)
@@ -62,12 +67,10 @@ export default function ResultTicketsScreen({ navigation, route }) {
     const data = await resp.json();
     setTickets(data.data);
     setdataLenght(data.results)
-
     if (!data) {
       setdataLenght(0)
       return
     }
-
     setLoading(false);
   };
 
@@ -77,7 +80,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
 
 
   const bottomSheetModalRef = useRef(null);
-  const snapPoints = useMemo(() => ["25%", "48%"], []);
+  const snapPoints = useMemo(() => ["30%", "48%"], []);
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -88,11 +91,12 @@ export default function ResultTicketsScreen({ navigation, route }) {
 
   const handleSheetChanges = useCallback((index) => {
     if (to == "Every Thing") {
-      url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&date=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}`
+      url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&date=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
     } else {
-      url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&to=${to}&date=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}`
+      url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&to=${to}&date=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
     }
     console.log(url)
+    console.log(Rate)
     fetchData(url);
   }, [Filtermin, Filtermax]);
 
@@ -134,6 +138,8 @@ export default function ResultTicketsScreen({ navigation, route }) {
               <BottomSheetTickets
                 HandleFiltermin={HandleFiltermin}
                 HandleFiltermax={HandleFiltermax}
+                HandleFilterRate={HandleFilterRate}
+                Rate={Rate}
               />
             </BottomSheetModal>
           </Animated.View>
@@ -205,6 +211,8 @@ export default function ResultTicketsScreen({ navigation, route }) {
               <BottomSheetTickets
                 HandleFiltermin={HandleFiltermin}
                 HandleFiltermax={HandleFiltermax}
+                HandleFilterRate={HandleFilterRate}
+                Rate={Rate}
               />
             </BottomSheetModal>
           </Animated.View>
