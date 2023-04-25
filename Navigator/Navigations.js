@@ -29,7 +29,9 @@ import ProfileScreen from '../Screens/Home/Profile/ProfileScreen';
 import SearchHotelScreen from '../Screens/Home/Hotels/SearchHotelScreen';
 import ResultHotels from '../Screens/Home/Hotels/ResultHotels';
 import DetailsHotel from '../Screens/Home/Hotels/DetailsHotel';
-import BookRoom from '../Components/ComponentsofHotels/BookRoom';
+import BookRoom from '../Screens/Home/Hotels/BookRoom';
+import InfoOfUser from '../Screens/Home/Hotels/InfoOfUser';
+import Checkout from '../Screens/Home/Hotels/Checkout';
 
 import * as Linking from 'expo-linking';
 const prefix = Linking.makeUrl('/');
@@ -72,6 +74,9 @@ const BookHotelNavigator = () => {
             <Stack.Screen name="ResultHotels" component={ResultHotels} />
             <Stack.Screen name="DetailsHotel" component={DetailsHotel} />
             <Stack.Screen name="BookRoom" component={BookRoom} />
+            <Stack.Screen name="InfoOfUser" component={InfoOfUser} />
+            <Stack.Screen name="Checkout" component={Checkout} />
+
         </Stack.Navigator>
     )
 }

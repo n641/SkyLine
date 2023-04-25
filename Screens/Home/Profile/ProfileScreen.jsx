@@ -42,7 +42,7 @@ export default function ProfileScreen({ navigation }) {
     <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
       style={styles.linearGradient}>
 
-      <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
+      <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'space-between', height:windowHeight }}>
 
         {error && <View style={{
           position: 'absolute', backgroundColor: '#D16363',
@@ -57,6 +57,7 @@ export default function ProfileScreen({ navigation }) {
 
 
         <View style={styles.Screen}>
+
           <TouchableOpacity style={{ width: windowWidth - 10, margin: 10, flexDirection: 'row' }}
             onPress={() => {
               navigation.goBack()
@@ -64,6 +65,7 @@ export default function ProfileScreen({ navigation }) {
           >
             <AntDesign name="arrowleft" size={35} color="white" />
           </TouchableOpacity>
+
           <Text style={{ fontFamily: 'item', color: 'white', fontSize: 30, marginLeft: 15 }}>Edit Information</Text>
 
 
@@ -86,11 +88,11 @@ export default function ProfileScreen({ navigation }) {
             <PhoneNumberTF placeholder='***********' keyboardType='numeric' label='phone Number' required={true} onAddText={HandleFirst} text={first} />
           </View>
 
-          <View style={{ margin: 30, alignItems: 'center', justifyContent: 'center', width: windowWidth }}>
+          <View style={{ margin: 40, alignItems: 'center', justifyContent: 'center', width: windowWidth }}>
             <VerfiyIdTF text={Id} HandleText={handlId} />
           </View>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: windowWidth - 70, marginLeft: 15 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 
             <View>
               <UploadImgTF required={true} label="Upload Front ID" selectedImage={selectedFrontId} setSelectedImage={HandleFrontId} />
@@ -103,6 +105,7 @@ export default function ProfileScreen({ navigation }) {
           </View>
 
         </View>
+
       </ScrollView>
 
     </LinearGradient>
@@ -116,15 +119,16 @@ const styles = StyleSheet.create({
   Screen: {
     flex: 1,
     alignItems: 'center',
-    marginVertical: 20
+    marginVertical: 20,
+    justifyContent: 'space-around'
   },
   containerConestInput: {
-    borderColor: '#949494',
+    borderColor: '#545151',
     borderWidth: 1,
     width: windowWidth - 70,
     marginVertical: 15,
     padding: 8,
-    backgroundColor: '#949494',
+    backgroundColor: '#545151',
     borderRadius: 8
 
   },

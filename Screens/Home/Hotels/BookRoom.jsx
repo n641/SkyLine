@@ -3,14 +3,13 @@ import React, { useState, useRef } from 'react'
 
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
 
-import HeaderOfData from '../../Components/ComponentsofHotels/HeaderOfData';
-import RoomCard from './RoomCard';
-import MainButton from '../../Components/MainButton'
+import HeaderOfData from '../../../Components/ComponentsofHotels/HeaderOfData';
+import RoomCard from '../../../Components/ComponentsofHotels/RoomCard';
+import MainButton from '../../../Components/MainButton'
 
 import { LinearGradient } from "expo-linear-gradient";
-import Colors from '../../Conestant/Colors'
+import Colors from '../../../Conestant/Colors'
 
 
 const height = Dimensions.get('window').height;
@@ -89,13 +88,13 @@ export default function BookRoom({ navigation }) {
     const FlatList_Header = () => {
         return (
             <View>
-                <View style={{ marginLeft: 15, marginTop: 25, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 15 }}>
+                <View style={{ marginLeft: 15, marginTop: 25, flexDirection: 'row', alignItems: 'center', marginHorizontal: 15 }}>
                     <AntDesign name="arrowleft" size={35} color="white" onPress={() => {
                         navigation.goBack()
                     }} />
-                    <Text style={{ textAlign: 'center', color: 'white', fontSize: 30 }}>Hotels</Text>
+                    <Text style={{ textAlign: 'center', color: 'white', fontSize: 30 , marginLeft:width/3.5 }}>Hotels</Text>
 
-                    <FontAwesome5 name="filter" size={24} color="white" />
+                    {/* <FontAwesome5 name="filter" size={24} color="white" /> */}
 
                 </View>
                 <HeaderOfData />
@@ -121,10 +120,10 @@ export default function BookRoom({ navigation }) {
                 borderTopLeftRadius: 30,
                 borderTopRightRadius: 30,
             }}>
+
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', maxWidth: width }}>
                     <View>
                         <Text style={[{ color: 'white', marginTop: 5, fontSize: 25 }]}>Selected Rooms</Text>
-                        {/* <View style={{ flexDirection: 'row' }}> */}
                             <Text numberOfLines={selecetedRoom.length} style={{ maxWidth: 92, margin:5 }}>
                                 {selecetedRoom.map((item, i) => {
                                     return (
@@ -132,12 +131,12 @@ export default function BookRoom({ navigation }) {
                                     )
                                 })}
                             </Text>
-                        {/* </View> */}
+                    </View>
 
-                    </View>
                     <View style={{ margin: 10 }}>
-                        <MainButton title='Done' onClick={() => { }} />
+                        <MainButton title='Done' onClick={() => { navigation.navigate('InfoOfUser')}} />
                     </View>
+
                 </View>
             </View>
         </LinearGradient>

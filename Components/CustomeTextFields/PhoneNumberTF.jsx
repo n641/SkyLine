@@ -10,7 +10,7 @@ import Colors from '../../Conestant/Colors';
 
 const { width, height } = Dimensions.get('window');
 
-export default function PhoneNumberTF({  placeholder, keyboardType, label, required, onAddText, text }) {
+export default function PhoneNumberTF({ placeholder, keyboardType, label, required, onAddText, text }) {
 
     const [country, setcountry] = useState()
     const HandleCountry = (text) => {
@@ -25,7 +25,7 @@ export default function PhoneNumberTF({  placeholder, keyboardType, label, requi
     return (
         <View>
 
-            <View style={{ justifyContent: 'center'}}>
+            <View style={{ justifyContent: 'center' }}>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={styles.label}>{label}</Text>
@@ -33,7 +33,8 @@ export default function PhoneNumberTF({  placeholder, keyboardType, label, requi
                 </View>
 
                 <View style={[styles.container]}>
-                    <DropDown Text={country} HandleText={HandleCountry} countriesWithFlags={[...countriesWithFlags]}  />
+
+                    <DropDown Text={country} HandleText={HandleCountry} countriesWithFlags={[...countriesWithFlags]} />
                     <TextInput
                         style={[styles.input,]}
                         onChangeText={onAddText}
@@ -57,17 +58,17 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         flexDirection: 'row',
         alignItems: 'center',
-        width: width - 70,
+        width: width - 76,
     },
     input: {
-        minHeight: 40,
+        minHeight: 35,
         fontSize: 18,
         fontFamily: "item",
         color: "white"
     },
     label: {
         fontFamily: 'item',
-        fontSize: 20,
+        fontSize: 18,
         color: "white",
     },
     astrisk: {
