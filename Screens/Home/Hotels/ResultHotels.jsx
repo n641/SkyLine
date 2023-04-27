@@ -127,7 +127,7 @@ export default function ResultHotels({navigation}) {
 
       </LinearGradient>
 
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={()=>{navigation.navigate('MapViews')}}>
         <Entypo name="map" size={30} color="white" />
         <Text style={styles.text}> Map</Text>
       </TouchableOpacity>

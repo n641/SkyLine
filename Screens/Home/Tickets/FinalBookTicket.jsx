@@ -6,7 +6,7 @@ import {
     ScrollView,
     Image, Text
 } from 'react-native'
-import React from 'react'
+import React, { useRef } from 'react'
 
 import axios from '../../../Api/axios';
 
@@ -26,6 +26,8 @@ import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import { useState, useEffect } from 'react';
 
+import * as FileSystem from 'expo-file-system';
+
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -34,6 +36,8 @@ export default function FinalBookTicket({ navigation, route }) {
 
     const { id, seat } = route.params;
     const [Data, setData] = useState()
+
+    
 
     const [Directurl, setDirecturl] = useState()
 
@@ -89,6 +93,7 @@ export default function FinalBookTicket({ navigation, route }) {
         fetchdataurl();
     }, []);
 
+    
     return (
         <ImageBackground
             source={bg}
@@ -100,11 +105,12 @@ export default function FinalBookTicket({ navigation, route }) {
         >
             <ScrollView >
 
-                <View style={{marginTop:20}} >
+                <View style={{ marginTop: 20 }} >
                     <AirplaneData navigation={navigation} title='Ticket Detail' />
                 </View>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 50 }}>
+                <View
+                    style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 50 }}>
 
                     <View style={{
                         backgroundColor: 'rgba(24,24,24,0.8)',
@@ -234,7 +240,9 @@ export default function FinalBookTicket({ navigation, route }) {
 
                     <View style={{ flexDirection: 'row', margin: 10, justifyContent: 'space-evenly', width: width }}>
 
-                        <MainButton title='Download' onClick={() => { generatePdf() }} />
+                        <MainButton title='Download' onClick={() => {
+                            generatePdf()
+                        }} />
                         <MainButton title='Done' onClick={() => {
                             navigation.navigate("PaymentWV", { Directurl: Directurl })
                         }} />

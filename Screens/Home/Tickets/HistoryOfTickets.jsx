@@ -7,6 +7,7 @@ import TicketCardHistory from '../../../Components/SubScreensOfTicket/TicketCard
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
+
 export default function HistoryOfTickets() {
 
   const [Tickets, setTickets] = useState([
@@ -25,7 +26,7 @@ export default function HistoryOfTickets() {
       price: 150,
       ratingsQuantity: 0,
       airplaneCompany: "641f60ea8578a5e0592767d5",
-      payment:'success'
+      payment: 'success'
     },
     {
       _id: "642736edea3cbc105a7765e",
@@ -42,7 +43,7 @@ export default function HistoryOfTickets() {
       price: 150,
       ratingsQuantity: 0,
       airplaneCompany: "641f60ea8578a5e0592767d5",
-      payment:'fail'
+      payment: 'fail'
 
     },
     {
@@ -60,7 +61,7 @@ export default function HistoryOfTickets() {
       price: 150,
       ratingsQuantity: 0,
       airplaneCompany: "641f60ea8578a5e0592767d5",
-      payment:'success'
+      payment: 'success'
 
     },
     {
@@ -78,7 +79,7 @@ export default function HistoryOfTickets() {
       price: 150,
       ratingsQuantity: 0,
       airplaneCompany: "641f60ea8578a5e05927675",
-      payment:'fail'
+      payment: 'fail'
 
     },
     {
@@ -96,16 +97,30 @@ export default function HistoryOfTickets() {
       price: 150,
       ratingsQuantity: 0,
       airplaneCompany: "641f60ea857a5e059276d",
-      payment:'fail'
+      payment: 'fail'
 
     },
   ])
+  const [Loading, setLoading] = useState(false);
+
+  // const fetchData = async () => {
+  //   const resp = await fetch(`https://skyline-backend.cyclic.app/api/v1/flights/${id}`);
+  //   const data = await resp.json();
+  //   if (data.data.length != 0) {
+  //     setLoading(false);
+  //   }
+    
+  // };
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   return (
-    <View style={{height:height-55}}>
-    <TicketCardHistory
-      Tickets={Tickets}
-    />
+    <View style={{ height: height - 55 }}>
+      <TicketCardHistory
+        Tickets={Tickets}
+      />
     </View>
   )
 }
