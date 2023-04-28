@@ -1,9 +1,9 @@
 import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
+import axios from '../../Api/axios';
 import Colors from '../../Conestant/Colors';
 import bg from '../../assets/bg-dark.jpg';
-
 
 import CustomTF from '../../Components/CustomeTextFields/CustomTF';
 import BoxOfCategories from '../../Components/BoxOfCategories'
@@ -20,6 +20,26 @@ const width = Dimensions.get('window').width;
 export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOffset, menu, HandleSetShowMenu, close, currentTab, navigation }) {
 
   const [Search, setSearch] = useState()
+
+  const [DataOfUser, setDataOfUser] = useState()
+  var url = `https://skyline-backend.cyclic.app/api/v1/users/me`;
+  const fetchData = async () => {
+    const response = await axios.get(url,
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    if (response) {
+      setDataOfUser(response.data.data.data)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, []);
 
   const HandleDrawer = () => {
     Animated.timing(scaleValue, {
@@ -73,6 +93,8 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
     }
     return () => subscription.remove();
   })
+  // ///////////////////////////////////////////////////////////////////////////
+
 
   return (
     <Animated.View style={{
@@ -135,7 +157,7 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
                       }} />
                     </TouchableOpacity>
 
-                    <Text style={styles.title}> hi,Noha</Text>
+                    <Text style={styles.title}> hi,{DataOfUser?.firstName}</Text>
 
                   </View>
 

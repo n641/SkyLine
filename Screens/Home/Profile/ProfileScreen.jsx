@@ -12,13 +12,18 @@ import UploadImgTF from '../../../Components/CustomeTextFields/UploadImgTF';
 import VerfiyIdTF from '../../../Components/CustomeTextFields/VerfiyIdTF';
 import PhoneNumberTF from '../../../Components/CustomeTextFields/PhoneNumberTF';
 import { useState } from 'react';
+import { useEffect } from 'react';
+import MainButton from '../../../Components/MainButton';
 
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-export default function ProfileScreen({ navigation }) {
-  const [error, seterror] = useState(true)
+export default function ProfileScreen({ navigation, route }) {
+  const { DataOfUser } = route.params
+  console.log(DataOfUser)
+  const [error, seterror] = useState(false)
   const [first, setfirst] = useState()
+
   const HandleFirst = (t) => {
     setfirst(t);
   }
@@ -38,20 +43,26 @@ export default function ProfileScreen({ navigation }) {
     setSelectedBackId(img)
   }
 
+  useEffect(() => {
+    if (!DataOfUser.phoneActive || !DataOfUser.emailActive || !DataOfUser.IDActive) {
+      seterror(true)
+    }
+  }, [])
+
   return (
     <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
       style={styles.linearGradient}>
 
-      <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'space-between', height:windowHeight }}>
+      <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'space-between', height: windowHeight }}>
 
         {error && <View style={{
           position: 'absolute', backgroundColor: '#D16363',
           flexDirection: 'row', alignItems: 'center',
           justifyContent: 'space-evenly', borderRadius: 7,
-          width: windowWidth - 150, top: windowHeight / 30
+          width: windowWidth - 150, top: windowHeight / 20
         }}>
           <MaterialIcons name="error" size={24} color="black" />
-          <Text style={[styles.text, { color: 'black', marginLeft: -20 }]}>please, complete data</Text>
+          <Text style={[styles.text, { color: 'black', marginLeft: -windowWidth / 80 }]}>please, complete data</Text>
         </View>}
 
 
@@ -72,12 +83,12 @@ export default function ProfileScreen({ navigation }) {
           <View style={{ justifyContent: 'center', margin: 5 }}>
             <Text style={[styles.text, { marginBottom: -10 }]}>username</Text>
             <View style={styles.containerConestInput}>
-              <Text style={styles.text}>Noha mohammed</Text>
+              <Text style={styles.text}>{DataOfUser.firstName} {DataOfUser.lastName}</Text>
             </View>
           </View>
 
           <View style={{ justifyContent: 'center' }}>
-            <Text style={[styles.text, { marginBottom: -10 }]}>Email</Text>
+            <Text style={[styles.text, { marginBottom: -10 }]}>email</Text>
             <View style={styles.containerConestInput}>
               <Text style={styles.text}>noha67357@gmail.com</Text>
             </View>
@@ -85,7 +96,7 @@ export default function ProfileScreen({ navigation }) {
 
 
           <View style={{ margin: 0 }}>
-            <PhoneNumberTF placeholder='***********' keyboardType='numeric' label='phone Number' required={true} onAddText={HandleFirst} text={first} />
+            <PhoneNumberTF placeholder={DataOfUser.phoneActive ? phoneActive : "*********"} keyboardType='numeric' label='phone Number' required={true} onAddText={HandleFirst} text={first} />
           </View>
 
           <View style={{ margin: 40, alignItems: 'center', justifyContent: 'center', width: windowWidth }}>
@@ -106,6 +117,8 @@ export default function ProfileScreen({ navigation }) {
 
         </View>
 
+        <MainButton title={'Save'} onClick={() => { }} />
+        
       </ScrollView>
 
     </LinearGradient>

@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
+import axios from '../Api/axios';
+
 
 import profile from '../assets/profile.png';
 import home from '../assets/home.png';
@@ -14,7 +16,7 @@ import close from '../assets/close.png';
 import Colors from '../Conestant/Colors';
 import Home from '../Screens/Home/Home';
 
-export default function CustomDrawer({navigation}) {
+export default function CustomDrawer({ navigation }) {
     const [currentTab, setCurrentTab] = useState("Home");
     // To get the curretn Status of menu ...
     const [showMenu, setShowMenu] = useState(false);
@@ -29,25 +31,51 @@ export default function CustomDrawer({navigation}) {
         setShowMenu(val)
     }
 
+    const [DataOfUser, setDataOfUser] = useState()
+    var url = `https://skyline-backend.cyclic.app/api/v1/users/me`;
+    const fetchData = async () => {
+        const response = await axios.get(url,
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        if (response) {
+            setDataOfUser(response.data.data.data)
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, []);
+
+    let encoded = encodeURI(DataOfUser?.userPhoto);
+
     return (
         <SafeAreaView style={styles.container}>
 
-            <View style={{ justifyContent: 'flex-start', padding: 15 , marginTop:15 }}>
-                <Image source={profile} style={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: 10,
-                    marginTop: 8
-                }}></Image>
+            <View style={{ justifyContent: 'flex-start', padding: 15, marginTop: 15 }}>
+                <Image
+                    source={{
+                        uri: encoded
+                    }}
+                    style={{
+                        width: 60,
+                        height: 60,
+                        borderRadius: 10,
+                        marginTop: 8
+                    }}></Image>
 
                 <Text style={{
                     fontSize: 20,
                     fontWeight: 'bold',
                     color: 'white',
                     marginTop: 20
-                }}>Jenna Ezarik</Text>
+                }}>{DataOfUser?.firstName} {DataOfUser?.lastName}</Text>
 
-                <TouchableOpacity onPress={()=>{navigation.navigate("MainProfileScreen")}}>
+                <TouchableOpacity onPress={() => { navigation.navigate("MainProfileScreen") }}>
                     <Text style={{
                         marginTop: 6,
                         color: 'white'
@@ -62,7 +90,7 @@ export default function CustomDrawer({navigation}) {
                     {TabButton(currentTab, setCurrentTab, "Home", home)}
                     {TabButton(currentTab, setCurrentTab, "Tickets", Ticket)}
                     {TabButton(currentTab, setCurrentTab, "Hotels", Hotel)}
-                    {TabButton(currentTab, setCurrentTab, "Support", chat)} 
+                    {TabButton(currentTab, setCurrentTab, "Support", chat)}
 
                 </View>
 

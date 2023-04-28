@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, ScrollView, Switch, ImageBackground } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from '../../../Api/axios';
 
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons';
@@ -18,63 +19,43 @@ import img from '../../../assets/desgineProfile.png';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const languages = [{ status: 'EN', Key: 1 }, { status: 'AR', Key: 2 },]
+const themes = [{ status: 'Light', Key: 1 }, { status: 'Dark', Key: 2 },]
 
 export default function MainProfileScreen({ navigation }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+  const [DataOfUser, setDataOfUser] = useState()
+  const [error, seterror] = useState(false)
+  const [SelectedImage, setSelectedImage] = useState()
   const [langActive, setlangActive] = useState('EN')
   const [themeActive, setthemeActive] = useState('Light')
 
-
-  const state = [
-    {
-      name: 'Profile',
-      screen: 'ProfileScreen'
-    },
-    {
-      name: 'Reservaations',
-      screen: 'ProfileScreen'
-
-    },
-    {
-      name: 'Location',
-      screen: 'ProfileScreen'
-
-    },
-    {
-      name: 'Setting',
-      screen: 'ProfileScreen'
-
+  var url = `https://skyline-backend.cyclic.app/api/v1/users/me`;
+  const fetchData = async () => {
+    const response = await axios.get(url,
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    if (response) {
+      setDataOfUser(response.data.data.data)
     }
-  ]
+  }
 
-  const languages = [
-    {
-      status: 'EN',
-      Key: 1
-    },
-    {
-      status: 'AR',
-      Key: 2
+  useEffect(() => {
+    fetchData()
+  }, []);
 
-    },
-  ]
+  useEffect(() => {
+    if (!DataOfUser?.phoneActive || !DataOfUser?.emailActive || !DataOfUser?.IDActive) {
+      seterror(true)
+    }
+  }, [])
 
-  const themes = [
-    {
-      status: 'Light',
-      Key: 1
-    },
-    {
-      status: 'Dark',
-      Key: 2
-
-    },
-  ]
-
-  const [SelectedImage, setSelectedImage] = useState(null)
-  const PlaceholderImage = profile
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -108,11 +89,11 @@ export default function MainProfileScreen({ navigation }) {
 
 
         <TouchableOpacity onPress={() => { pickImageAsync() }}>
-          <ImageViewer placeholderImageSource={profile} selectedImage={SelectedImage} HideEditicon={true} />
+          <ImageViewer placeholderImageSource={DataOfUser?.userPhoto} selectedImage={SelectedImage} HideEditicon={true} local={true} />
         </TouchableOpacity>
 
 
-        <Text style={styles.name}>Noha mohammed</Text>
+        <Text style={styles.name}>{DataOfUser?.firstName} {DataOfUser?.lastName}</Text>
 
         <Image
           style={styles.Logo}
@@ -123,16 +104,21 @@ export default function MainProfileScreen({ navigation }) {
 
           <View style={{ width: windowWidth - 60, padding: 10, backgroundColor: 'black', borderRadius: 15, margin: 10 }}>
 
-            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10 }}
+            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginHorizontal: 10 }}
               onPress={() => {
-                navigation.navigate("ProfileScreen")
+                navigation.navigate("ProfileScreen", { DataOfUser: DataOfUser })
               }}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Ionicons name="notifications" size={24} color="white" />
+                {error ?
+                  <MaterialIcons name="error" size={24} color="red" /> :
+                  <Ionicons name="notifications" size={24} color="white" />
+                }
                 <Text style={styles.text}>Edit Profile information</Text>
+
               </View>
-              <AntDesign name="arrowright" size={35} color="white" />
+
+              <AntDesign name="arrowright" size={28} color="white" />
             </TouchableOpacity>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10 }}>
