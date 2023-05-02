@@ -9,7 +9,7 @@ import Colors from '../../../Conestant/Colors'
 import Svg, { Image, Ellipse, ClipPath } from 'react-native-svg'
 
 
-import BG from '../../../assets/bg1.png'
+import BG from '../../../assets/bg1.jpg'
 import logoDark from '../../../assets/logo-dark.png'
 import logoLight from '../../../assets/logo-light.png'
 

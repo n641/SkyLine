@@ -31,12 +31,21 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icons.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.nohaexpo.SkyLine"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f0e89a76-7a13-4ab2-8185-ef64cb531e69"
+      }
     }
   }
 }

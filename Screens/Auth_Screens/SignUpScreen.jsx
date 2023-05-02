@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
   screen: {
     // flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor:Colors.first_dark_splash,
+    backgroundColor:Colors.second_dark_screen,
 
   },
   containerKeyboard: {

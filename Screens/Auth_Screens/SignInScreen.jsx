@@ -196,11 +196,11 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
 
 const styles = StyleSheet.create({
     screen: {
-        backgroundColor: Colors.first_dark_splash,
+        backgroundColor: Colors.second_dark_screen,
         justifyContent: 'flex-end',
     },
     containerKeyboard: {
-        // backgroundColor: 'black',
+        backgroundColor: Colors.second_dark_screen,
         justifyContent: 'space-evenly',
         overflow: 'hidden'
     },
