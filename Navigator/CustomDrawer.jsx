@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import axios from '../Api/axios';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { getMe } from '../store/actions/auth';
 
-import profile from '../assets/profile.png';
 import home from '../assets/home.png';
 import Hotel from '../assets/hotelicon.png';
 import Ticket from '../assets/ticketicon.png';
@@ -17,41 +18,27 @@ import Colors from '../Conestant/Colors';
 import Home from '../Screens/Home/Home';
 
 export default function CustomDrawer({ navigation }) {
+    const datauser = useSelector(state => state.Auth.userData);
+    // const auth = useSelector(state => state.Auth.token);
+    // console.log("auth in screen " + auth)
+
     const [currentTab, setCurrentTab] = useState("Home");
-    // To get the curretn Status of menu ...
     const [showMenu, setShowMenu] = useState(false);
-
-
     const offsetValue = useRef(new Animated.Value(0)).current;
-    // Scale Intially must be One...
     const scaleValue = useRef(new Animated.Value(1)).current;
     const closeButtonOffset = useRef(new Animated.Value(0)).current;
-
+    const dispatch = useDispatch();
+    const getuser = useCallback(() => {
+        dispatch(getMe())
+    }, [dispatch])
     const HandleSetShowMenu = (val) => {
         setShowMenu(val)
     }
-
-    const [DataOfUser, setDataOfUser] = useState()
-    var url = `https://skyline-backend.cyclic.app/api/v1/users/me`;
-    const fetchData = async () => {
-        const response = await axios.get(url,
-            {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        if (response) {
-            setDataOfUser(response.data.data.data)
-        }
-    }
-
     useEffect(() => {
-        fetchData()
+        getuser();
     }, []);
 
-    let encoded = encodeURI(DataOfUser?.userPhoto);
+    let encoded = encodeURI(datauser?.userPhoto);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -73,7 +60,7 @@ export default function CustomDrawer({ navigation }) {
                     fontWeight: 'bold',
                     color: 'white',
                     marginTop: 20
-                }}>{DataOfUser?.firstName} {DataOfUser?.lastName}</Text>
+                }}>{datauser?.firstName} {datauser?.lastName}</Text>
 
                 <TouchableOpacity onPress={() => { navigation.navigate("MainProfileScreen") }}>
                     <Text style={{

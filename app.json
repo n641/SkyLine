@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme":"myapp",
+    "scheme": "myapp",
     "name": "SkyLine",
     "slug": "SkyLine",
     "version": "1.0.0",
@@ -8,9 +8,9 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo-dark.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFFFFF"
     },
     "plugins": [
       [
@@ -31,7 +31,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icons.png",
         "backgroundColor": "#FFFFFF"
       }
     },

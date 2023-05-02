@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, ScrollView, Switch, ImageBackground } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import axios from '../../../Api/axios';
+import React, { useState, useEffect ,useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
 
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons';
@@ -14,7 +14,6 @@ import * as ImagePicker from 'expo-image-picker';
 
 import Colors from '../../../Conestant/Colors';
 
-import profile from '../../../assets/profile.png';
 import img from '../../../assets/desgineProfile.png';
 
 const windowWidth = Dimensions.get('window').width;
@@ -23,6 +22,8 @@ const languages = [{ status: 'EN', Key: 1 }, { status: 'AR', Key: 2 },]
 const themes = [{ status: 'Light', Key: 1 }, { status: 'Dark', Key: 2 },]
 
 export default function MainProfileScreen({ navigation }) {
+  const datauser = useSelector(state => state.Auth.userData);
+  console.log("data in screen "+ datauser?.email)
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [DataOfUser, setDataOfUser] = useState()
@@ -31,27 +32,8 @@ export default function MainProfileScreen({ navigation }) {
   const [langActive, setlangActive] = useState('EN')
   const [themeActive, setthemeActive] = useState('Light')
 
-  var url = `https://skyline-backend.cyclic.app/api/v1/users/me`;
-  const fetchData = async () => {
-    const response = await axios.get(url,
-      {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    if (response) {
-      setDataOfUser(response.data.data.data)
-    }
-  }
-
   useEffect(() => {
-    fetchData()
-  }, []);
-
-  useEffect(() => {
-    if (!DataOfUser?.phoneActive || !DataOfUser?.emailActive || !DataOfUser?.IDActive) {
+    if (!datauser?.phoneActive || !datauser?.emailActive || !datauser?.IDActive) {
       seterror(true)
     }
   }, [])
@@ -70,8 +52,7 @@ export default function MainProfileScreen({ navigation }) {
     } else {
       alert("You did not select any image.");
     }
-
-  };
+};
   return (
     <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
       style={styles.linearGradient}>
@@ -89,11 +70,11 @@ export default function MainProfileScreen({ navigation }) {
 
 
         <TouchableOpacity onPress={() => { pickImageAsync() }}>
-          <ImageViewer placeholderImageSource={DataOfUser?.userPhoto} selectedImage={SelectedImage} HideEditicon={true} local={true} />
+          <ImageViewer placeholderImageSource={datauser?.userPhoto} selectedImage={SelectedImage} HideEditicon={true} local={true} />
         </TouchableOpacity>
 
 
-        <Text style={styles.name}>{DataOfUser?.firstName} {DataOfUser?.lastName}</Text>
+        <Text style={styles.name}>{datauser?.firstName} {datauser?.lastName}</Text>
 
         <Image
           style={styles.Logo}
@@ -106,7 +87,7 @@ export default function MainProfileScreen({ navigation }) {
 
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginHorizontal: 10 }}
               onPress={() => {
-                navigation.navigate("ProfileScreen", { DataOfUser: DataOfUser })
+                navigation.navigate("ProfileScreen")
               }}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>

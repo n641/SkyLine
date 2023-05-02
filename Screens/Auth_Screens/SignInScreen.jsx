@@ -7,7 +7,6 @@ import axios from '../../Api/axios';
 // import validateEmail from '../../Validatation/ValidateEmail'
 import validatepass from '../../Validatation/validatepass';
 
-import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -80,7 +79,7 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
 
     const saveAuth = useCallback((token) => {
         // console.log("token in function")
-        console.log(token)
+        // console.log(token)
         dispatch(saveToken(token))
     }, [dispatch])
 
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     containerKeyboard: {
-        backgroundColor: 'black',
+        // backgroundColor: 'black',
         justifyContent: 'space-evenly',
         overflow: 'hidden'
     },

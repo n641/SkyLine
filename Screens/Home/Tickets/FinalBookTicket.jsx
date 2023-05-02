@@ -9,17 +9,14 @@ import {
 import React, { useRef } from 'react'
 
 import axios from '../../../Api/axios';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-
 import bg from '../../../assets/bg-dark.jpg';
 import airplane from '../../../assets/airplane2.png'
-
 import AirplaneData from "../../../Components/ComponentsOfTicket/AirplaneData";
 import MainButton from '../../../Components/MainButton'
-
-import QR from '../../../assets/QRcode.png'
 import QRCode from 'react-native-qrcode-svg';
 
 import { printToFileAsync } from 'expo-print';
@@ -33,12 +30,10 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export default function FinalBookTicket({ navigation, route }) {
-
+    const auth = useSelector(state => state.Auth.token);
+    const userData = useSelector(state => state.Auth.userData);
     const { id, seat } = route.params;
     const [Data, setData] = useState()
-
-    
-
     const [Directurl, setDirecturl] = useState()
 
     const data = {
@@ -65,12 +60,12 @@ export default function FinalBookTicket({ navigation, route }) {
         await shareAsync(file.uri);
     }
 
-    var url = `https://skyline-backend.cyclic.app/api/v1/bookings/checkout-session/flights/${id}/A2`;
+    var url = `https://skyline-backend.cyclic.app/api/v1/bookings/checkout-session/flights/${id}/${seat[0]}/${userData._id}`;
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2FmNDMwYTY4NmUxNjM3Y2Y4MmU0MCIsImlhdCI6MTY4MTg1NDU5MiwiZXhwIjoxNjg5NjMwNTkyfQ.qxv6mzBc34gpnx0fC92sFue7VLJ-gFOHp7vUos8VK5o"
     const fetchdataurl = async () => {
         const response = await axios.get(url,
             {
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth}` },
                 withCredentials: true
             })
             .catch(error => {
@@ -78,6 +73,7 @@ export default function FinalBookTicket({ navigation, route }) {
             })
         if (response) {
             setDirecturl(response.data.session.url)
+            console.log(response.data.session.url)
         }
     }
 
@@ -93,7 +89,7 @@ export default function FinalBookTicket({ navigation, route }) {
         fetchdataurl();
     }, []);
 
-    
+
     return (
         <ImageBackground
             source={bg}
@@ -231,7 +227,7 @@ export default function FinalBookTicket({ navigation, route }) {
                     }}>
 
                         <QRCode
-                            value="exp://192.168.1.4:19000/--/HistoryOfTickets"
+                            value="exp://192.168.1.4:19000/--/Home"
                             logoSize={100}
                             logoBackgroundColor='#00ff00'
                         />

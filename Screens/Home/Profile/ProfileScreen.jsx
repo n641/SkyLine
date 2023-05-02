@@ -1,5 +1,9 @@
 import { StyleSheet, Text, View, Dimensions, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons';
@@ -11,16 +15,13 @@ import CustomTF from '../../../Components/CustomeTextFields/CustomTF';
 import UploadImgTF from '../../../Components/CustomeTextFields/UploadImgTF';
 import VerfiyIdTF from '../../../Components/CustomeTextFields/VerfiyIdTF';
 import PhoneNumberTF from '../../../Components/CustomeTextFields/PhoneNumberTF';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import MainButton from '../../../Components/MainButton';
-
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-export default function ProfileScreen({ navigation, route }) {
-  const { DataOfUser } = route.params
-  console.log(DataOfUser)
+export default function ProfileScreen({ navigation }) {
+  const datauser = useSelector(state => state.Auth.userData);
+  // console.log("data in screen "+ datauser?.email)
   const [error, seterror] = useState(false)
   const [first, setfirst] = useState()
 
@@ -34,6 +35,7 @@ export default function ProfileScreen({ navigation, route }) {
   }
   const [selectedFrontId, setSelectedFrontId] = useState(null);
   const [selectedBackId, setSelectedBackId] = useState(null);
+  
 
   const HandleFrontId = (img) => {
     setSelectedFrontId(img)
@@ -44,7 +46,7 @@ export default function ProfileScreen({ navigation, route }) {
   }
 
   useEffect(() => {
-    if (!DataOfUser.phoneActive || !DataOfUser.emailActive || !DataOfUser.IDActive) {
+    if (!datauser?.phoneActive || !datauser?.emailActive || !datauser?.IDActive) {
       seterror(true)
     }
   }, [])
@@ -83,20 +85,20 @@ export default function ProfileScreen({ navigation, route }) {
           <View style={{ justifyContent: 'center', margin: 5 }}>
             <Text style={[styles.text, { marginBottom: -10 }]}>username</Text>
             <View style={styles.containerConestInput}>
-              <Text style={styles.text}>{DataOfUser.firstName} {DataOfUser.lastName}</Text>
+              <Text style={styles.text}>{datauser?.firstName} {datauser?.lastName}</Text>
             </View>
           </View>
 
           <View style={{ justifyContent: 'center' }}>
             <Text style={[styles.text, { marginBottom: -10 }]}>email</Text>
             <View style={styles.containerConestInput}>
-              <Text style={styles.text}>noha67357@gmail.com</Text>
+              <Text style={styles.text}>{datauser?.email}</Text>
             </View>
           </View>
 
 
           <View style={{ margin: 0 }}>
-            <PhoneNumberTF placeholder={DataOfUser.phoneActive ? phoneActive : "*********"} keyboardType='numeric' label='phone Number' required={true} onAddText={HandleFirst} text={first} />
+            <PhoneNumberTF placeholder={datauser?.phoneActive ? phoneActive : "*********"} keyboardType='numeric' label='phone Number' required={true} onAddText={HandleFirst} text={first} />
           </View>
 
           <View style={{ margin: 40, alignItems: 'center', justifyContent: 'center', width: windowWidth }}>

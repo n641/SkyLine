@@ -31,6 +31,7 @@ export default function App() {
     return <ActivityIndicator size={'small'} color={'blue'} />;
   }
 
+
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
