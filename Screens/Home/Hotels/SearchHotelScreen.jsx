@@ -52,8 +52,7 @@ export default function SearchHotelScreen({ navigation }) {
                 }} />
             </View>
 
-            <SearchCard HandleOpenSheet={handlePresentModalPress(!IsOpen)} IsOpen={IsOpen} navigation={navigation} />
-{IsOpen&&
+            <SearchCard HandleOpenSheet={handlePresentModalPress} IsOpen={IsOpen} navigation={navigation} />
             <BottomSheetModalProvider>
                 <Animated.View style={styles.container}>
                     <BottomSheetModal
@@ -72,7 +71,6 @@ export default function SearchHotelScreen({ navigation }) {
                     </BottomSheetModal>
                 </Animated.View>
             </BottomSheetModalProvider>
-        }
 
         </LinearGradient>
 

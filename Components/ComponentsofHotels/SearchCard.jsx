@@ -78,7 +78,7 @@ export default function SearchCard({HandleOpenSheet , IsOpen , navigation}) {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={{ marginVertical: 30 }}
-                onPress={()=>{HandleOpenSheet(!IsOpen)}}
+                onPress={()=>{HandleOpenSheet()}}
                 >
                     <View>
                         <View style={styles.cardinput}>
