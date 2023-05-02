@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, StatusBar } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { SafeAreaView } from "react-native";
 
@@ -30,6 +30,8 @@ export default function PaymentWV({ navigation, route }) {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
+            <StatusBar hidden={true} />
+
             <WebView
                 ref={webviewRef}
                 onNavigationStateChange={navState => {
@@ -75,8 +77,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#355b8d',
         padding: 10,
         borderRadius: 15,
-        justifyContent:'space-around',
-        width:130
+        justifyContent: 'space-around',
+        width: 130
 
     }
 })

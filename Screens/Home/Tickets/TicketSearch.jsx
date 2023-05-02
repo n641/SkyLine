@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, Dimensions, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, Dimensions, StatusBar } from 'react-native'
 import React from 'react'
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -14,6 +14,7 @@ const width = Dimensions.get('window').width;
 export default function TicketSearch({ navigation }) {
   return (
     <View>
+      <StatusBar hidden={true} />
       <ImageBackground
         source={bg}
         resizeMode='repeat'
@@ -38,7 +39,7 @@ export default function TicketSearch({ navigation }) {
           <Text style={styles.title}>Flight search</Text>
 
         </View>
-        
+
         <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
           style={styles.container}>
 

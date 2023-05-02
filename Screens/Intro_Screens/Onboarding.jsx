@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { StyleSheet, Text, View, Dimensions, Image, FlatList, Animated } from 'react-native'
+import { StyleSheet, StatusBar, View, Dimensions, Image, FlatList, Animated } from 'react-native'
 
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from '../../Conestant/Colors';
@@ -35,6 +35,8 @@ const Onboarding = ({ navigation }) => {
 
         <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
             style={styles.linearGradient}>
+            <StatusBar hidden={true} />
+
             <View style={{ flex: 3 }}>
 
                 <FlatList

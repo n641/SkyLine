@@ -7,7 +7,8 @@ import {
   Text,
   Animated,
   ActivityIndicator,
-  SafeAreaView
+  SafeAreaView,
+  StatusBar
 } from "react-native";
 
 import React, { useRef, useState, useMemo, useCallback, useEffect } from "react";
@@ -121,6 +122,8 @@ export default function ResultTicketsScreen({ navigation, route }) {
           backgroundColor: loading ? 'gray' : 'rgba(0,0,0,0.0)'
         }}
       >
+        <StatusBar hidden={true} />
+
         <View style={{ marginTop: 20 }}>
           <AirplaneData navigation={navigation} Filter={true} title='Flight Search' HandleOpenSheet={HandleOpenSheet} />
         </View>

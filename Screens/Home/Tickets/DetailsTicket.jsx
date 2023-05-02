@@ -6,7 +6,7 @@ import {
     FlatList,
     Text,
     Image,
-    TouchableOpacity,
+    StatusBar,
     ScrollView
 } from 'react-native'
 import React from 'react'
@@ -54,6 +54,8 @@ export default function DetailsTicket({ navigation, route }) {
                 height: height + 50,
             }}
         >
+            <StatusBar hidden={true} />
+
             <ScrollView style={{ marginBottom: 50 }}>
 
                 <View style={{ marginTop: 20 }}>
@@ -62,7 +64,7 @@ export default function DetailsTicket({ navigation, route }) {
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', margin: 15 }}
                     onPress={() => {
-                        navigation.navigate('DetailsTicket' , {id:id})
+                        navigation.navigate('DetailsTicket', { id: id })
                     }}
                 >
                     <View style={{
@@ -162,7 +164,7 @@ export default function DetailsTicket({ navigation, route }) {
 
                                 <View style={{ marginLeft: 10 }}>
                                     <MainButton title='Confirm' onClick={() => {
-                                        navigation.navigate('BookSeatScreen' , {id :id})
+                                        navigation.navigate('BookSeatScreen', { id: id })
                                     }} />
                                 </View>
 

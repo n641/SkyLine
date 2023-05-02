@@ -8,7 +8,7 @@ import {
     Image,
     TouchableOpacity,
     ActivityIndicator,
-
+    StatusBar
 } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
@@ -125,6 +125,7 @@ export default function BookSeatScreen({ navigation, route }) {
                 height: height + 50,
             }}
         >
+            <StatusBar hidden={true} />
 
             <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
                 setvisibleForm(false)
@@ -324,7 +325,7 @@ export default function BookSeatScreen({ navigation, route }) {
                     </View>
                     <MainButton title='Done' onClick={() => {
                         if (SelectedSeats.length == 1) {
-                            navigation.navigate('FinalBookTicket', { id: id , seat:SelectedSeats})
+                            navigation.navigate('FinalBookTicket', { id: id, seat: SelectedSeats })
                         } else if (SelectedSeats.length == 0) {
                             settitleForm("you must select chair")
                             setvisibleForm(true)

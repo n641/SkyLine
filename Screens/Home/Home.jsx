@@ -1,4 +1,4 @@
-import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground } from 'react-native'
+import { Animated, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
 import axios from '../../Api/axios';
@@ -109,6 +109,7 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
         { translateX: offsetValue }
       ]
     }}>
+      <StatusBar hidden={true} />
 
       <LinearGradient colors={[Colors.first_dark_splash, Colors.second_dark_splash, Colors.second_dark_splash, Colors.fourth_dark_splash]}
         style={{

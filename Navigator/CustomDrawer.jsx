@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
+import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Dimensions, StatusBar } from 'react-native';
 import axios from '../Api/axios';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -42,6 +41,7 @@ export default function CustomDrawer({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar hidden={true} />
 
             <View style={{ justifyContent: 'flex-start', padding: 15, marginTop: 15 }}>
                 <Image

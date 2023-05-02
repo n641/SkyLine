@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, StatusBar } from 'react-native'
 import React from 'react'
 import { useState } from 'react';
 
@@ -109,7 +109,7 @@ export default function HistoryOfTickets() {
   //   if (data.data.length != 0) {
   //     setLoading(false);
   //   }
-    
+
   // };
 
   // useEffect(() => {
@@ -118,6 +118,7 @@ export default function HistoryOfTickets() {
 
   return (
     <View style={{ height: height - 55 }}>
+      <StatusBar hidden={true} />
       <TicketCardHistory
         Tickets={Tickets}
       />

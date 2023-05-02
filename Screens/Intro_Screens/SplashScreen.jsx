@@ -104,7 +104,7 @@ const SplashScreen = ({ navigation }) => {
             ])
                 .start();
 
-        }, 1000);
+        }, 1500);
 
     }, [])
 
@@ -118,6 +118,7 @@ const SplashScreen = ({ navigation }) => {
             left: 0,
             right: 0,
         }} >
+            <StatusBar hidden={true}/>
             <LinearGradient colors={[Colors.first_dark_splash, Colors.second_dark_splash, Colors.second_dark_splash, Colors.fourth_dark_splash]}
                 style={styles.linearGradient}>
 
@@ -148,9 +149,10 @@ const SplashScreen = ({ navigation }) => {
                             ]
                         }}>
                         </Animated.Image>
-
                     </Animated.View>
                 </Animated.View>
+                <Text style={{textAlign:'center' , color:'white' , fontSize:19 , fontFamily:'item'}}>V1.0.1</Text>
+
             </LinearGradient>
 
 
