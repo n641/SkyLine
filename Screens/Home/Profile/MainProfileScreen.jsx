@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, ScrollView, Switch, ImageBackground } from 'react-native'
-import React, { useState, useEffect ,useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
+import { getMe } from '../../../store/actions/auth';
+
 
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons';
@@ -22,15 +24,24 @@ const languages = [{ status: 'EN', Key: 1 }, { status: 'AR', Key: 2 },]
 const themes = [{ status: 'Light', Key: 1 }, { status: 'Dark', Key: 2 },]
 
 export default function MainProfileScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const getuser = useCallback(() => {
+    dispatch(getMe())
+  }, [dispatch])
+
+  useEffect(() => {
+    getuser();
+  }, []);
   const datauser = useSelector(state => state.Auth.userData);
-  console.log("data in screen "+ datauser?.email)
+  // console.log("data in screen " + datauser?.email)
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [DataOfUser, setDataOfUser] = useState()
   const [error, seterror] = useState(false)
-  const [SelectedImage, setSelectedImage] = useState()
+  const [SelectedImage, setSelectedImage] = useState(null)
   const [langActive, setlangActive] = useState('EN')
   const [themeActive, setthemeActive] = useState('Light')
+  
 
   useEffect(() => {
     if (!datauser?.phoneActive || !datauser?.emailActive || !datauser?.IDActive) {
@@ -52,7 +63,7 @@ export default function MainProfileScreen({ navigation }) {
     } else {
       alert("You did not select any image.");
     }
-};
+  };
   return (
     <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
       style={styles.linearGradient}>

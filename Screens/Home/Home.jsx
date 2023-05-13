@@ -84,7 +84,7 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
     async function getinitalurl() {  // if app in background and start it this method will call and restore data from link init the deep link
       const initalurl = await Linking.getInitialURL();
       if (initalurl) setdata(Linking.parse(initalurl))
-      console.log("hi")
+      // console.log("hi")
     }
 
     const subscription = Linking.addEventListener('url', handleDeepLinking);

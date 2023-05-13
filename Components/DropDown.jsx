@@ -1,15 +1,11 @@
 import { StyleSheet, Text, View, Dimensions, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
-import CustomTF from './CustomeTextFields/CustomTF'
-
 import { FontAwesome } from '@expo/vector-icons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SelectDropdown from 'react-native-select-dropdown';
 
 import Colors from '../Conestant/Colors';
-
-
 
 const { width } = Dimensions.get('window');
 
@@ -20,17 +16,13 @@ export default function DropDown({ countriesWithFlags, HandleText, Text}) {
             <View >
                 <SelectDropdown
                     data={countriesWithFlags}
-                    defaultValueByIndex={0}
+                    defaultValueByIndex={1}
                     defaultValue={{
                         title: 'Egypt',
                         image: require('../assets/Egypt.png'),
                     }}
                     onSelect={(selectedItem, index) => {
                         HandleText(selectedItem)
-                        // console.log(Text) //problem
-                        // console.log(selectedItem)
-                        // console.log(index)
-
                     }}
                     buttonStyle={styles.dropdown3BtnStyle}
                     renderCustomizedButtonChild={(selectedItem, index) => {
@@ -42,7 +34,7 @@ export default function DropDown({ countriesWithFlags, HandleText, Text}) {
                                     <Ionicons name="md-earth-sharp" color={'white'} size={30} />
                                 )}
                                 {/* <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text> */}
-                                <FontAwesome name="chevron-down" color={'white'} size={25} />
+                                <FontAwesome name="chevron-down" color={'white'} size={15} />
                             </View>
                         );
                     }}

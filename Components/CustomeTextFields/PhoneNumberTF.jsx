@@ -12,7 +12,10 @@ const { width, height } = Dimensions.get('window');
 
 export default function PhoneNumberTF({ placeholder, keyboardType, label, required, onAddText, text }) {
 
-    const [country, setcountry] = useState()
+    const [country, setcountry] = useState({
+        title: 'Egypt',
+        image: require('../../assets/Egypt.png'),
+    })
     const HandleCountry = (text) => {
         setcountry(text)
     }
@@ -40,7 +43,7 @@ export default function PhoneNumberTF({ placeholder, keyboardType, label, requir
                         onChangeText={onAddText}
                         value={text}
                         placeholder={placeholder}
-                        placeholderTextColor={Colors.Hint_text_field}
+                        placeholderTextColor={'white'}
                         keyboardType={keyboardType}
                         maxLength={11}
                     />

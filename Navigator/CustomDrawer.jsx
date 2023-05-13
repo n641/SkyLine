@@ -30,12 +30,13 @@ export default function CustomDrawer({ navigation }) {
     const getuser = useCallback(() => {
         dispatch(getMe())
     }, [dispatch])
-    const HandleSetShowMenu = (val) => {
-        setShowMenu(val)
-    }
+    
     useEffect(() => {
         getuser();
     }, []);
+    const HandleSetShowMenu = (val) => {
+        setShowMenu(val)
+    }
 
     let encoded = encodeURI(datauser?.userPhoto);
 

@@ -4,15 +4,16 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const { width } = Dimensions.get('window');
 
 export default function ImageViewer({ placeholderImageSource, selectedImage, HideEditicon, local }) {
+  let encoded = encodeURI(placeholderImageSource);
   const imageSource =
-    selectedImage !== null ? { uri: selectedImage } : placeholderImageSource;
-    let encoded = encodeURI(placeholderImageSource);
+    selectedImage !== null ? { uri: selectedImage } : 
+    { uri: encoded }
   return (
     <View>
       {local ? 
-      <Image source={{
-        uri: encoded
-      }}
+      <Image source={
+        imageSource
+      }
          style={styles.image} resizeMode={'cover'} />
        : 
          <Image source={imageSource} style={styles.image} resizeMode={'cover'} /> 
