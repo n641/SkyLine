@@ -1,89 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import { useRef, useState } from 'react';
-import { Button, StyleSheet, Text, View, FlatList, Image } from 'react-native';
+import { Button, StyleSheet, Text, View, FlatList, Image, Dimensions } from 'react-native';
 import MapView, { Callout, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+
+import CustomTF from '../../../Components/CustomeTextFields/CustomTF';
 import * as FileSystem from 'expo-file-system';
 import { shareAsync } from 'expo-sharing';
 
 import { Entypo } from '@expo/vector-icons';
-
-import mapmark from '../../../assets/map-mark.png'
-import MainButton from '../../../Components/MainButton'
-import RateCard from '../../../Components/ComponentsofHotels/RateCard';
+import { AntDesign } from '@expo/vector-icons';
 
 import HotelCard from '../../../Components/ComponentsofHotels/HotelCard';
-export default function MapViews({ navigation }) {
-    const [Hotels, setHotels] = useState([
-        {
-            mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            title: 'IceLand',
-            description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-            location: "Ne'ma bay",
-            price: 250,
-            rate: 4.5,
-            id: 2,
-            locations: {
-                latitude: 30.2,
-                longitude: 31.28
-            },
 
-        },
-        {
-            mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            title: 'IceLand',
-            description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-            location: "Ne'ma bay",
-            price: 250,
-            rate: 2.5,
-            id: 3,
-            locations: {
-                latitude: 30.2,
-                longitude: 32
-            },
+const height = Dimensions.get('window').height;
+const width = Dimensions.get('window').width;
 
-        },
-        {
-            mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            title: 'IceLand',
-            description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-            location: "Ne'ma bay",
-            price: 250,
-            rate: 4.5,
-            id: 4,
-            locations: {
-                latitude: -27.2,
-                longitude: 145
-            },
+export default function MapViews({ navigation, route }) {
+    const { Hotels , headerData } = route.params;
 
-        },
-        {
-            mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            title: 'IceLand',
-            description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-            location: "Ne'ma bay",
-            price: 250,
-            rate: 4.5,
-            id: 5,
-            locations: {
-                latitude: 30.2,
-                longitude: 35
-            },
-
-        },
-        {
-            mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            title: 'IceLand',
-            description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-            location: "Ne'ma bay",
-            price: 250,
-            rate: 4.5,
-            id: 1,
-            locations: {
-                latitude: 32.2,
-                longitude: 32
-            },
-        },
-    ])
     const mapJson = [
 
         {
@@ -272,7 +206,6 @@ export default function MapViews({ navigation }) {
         }
     ]
 
-    const [count, setCount] = useState(0);
     const [draggableMarkerCoord, setDraggableMarkerCoord] = useState({
         longitude: 148.11,
         latitude: -26.85
@@ -288,13 +221,10 @@ export default function MapViews({ navigation }) {
             return (
                 <Marker
                     key={index}
-                    coordinate={item.locations}
-                    title={item.title}
+                    coordinate={item.location}
+                    title={item.hotelName}
                     description={item.description}
-                    onPress={() => { console.log("nonononon") }}
-                // image={mapmark}
-                // style={{width:10,height:10}}
-
+                // onPress={() => { console.log("nonononon") }}
                 >
                     <Callout tooltip>
                         <View style={{
@@ -307,14 +237,14 @@ export default function MapViews({ navigation }) {
                         }}>
                             <Image
                                 source={{
-                                    uri: item.mainImg
+                                    uri: item.hotelPhoto
                                 }}
                                 style={{ width: 70, height: 50 }}
                             />
-                            <Text style={{ fontSize: 17, fontFamily: 'item', color: 'white' }}>{item.title}</Text>
+                            <Text style={{ fontSize: 17, fontFamily: 'item', color: 'white' }}>{item.hotelName}</Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <Entypo name="location-pin" size={20} color="red" />
-                                <Text style={{ fontSize: 16, fontFamily: 'item', color: 'white' }}>{item.location}</Text>
+                                <Text style={{ fontSize: 16, fontFamily: 'item', color: 'white' }}>{item.city}</Text>
                             </View>
 
                         </View>
@@ -331,8 +261,14 @@ export default function MapViews({ navigation }) {
         await shareAsync(uri);
     };
 
+    const [Search, setSearch] = useState()
+    const HandleSearch = (val) => {
+        setSearch(val)
+    }
+
     return (
-        <View style={{ alignItems: 'center', justifyContent: 'flex-end', flex: 1 }}>
+        <View style={{ alignItems: 'center' }}>
+
             <MapView
                 provider={PROVIDER_GOOGLE}
                 ref={mapRef}
@@ -347,12 +283,12 @@ export default function MapViews({ navigation }) {
                 }}
             >
                 {showLocationsOfInterest()}
-                {/* <Marker
+                <Marker
                     draggable
                     pinColor='orang'
                     coordinate={draggableMarkerCoord}
                     onDragEnd={(e) => setDraggableMarkerCoord(e.nativeEvent.coordinate)}
-                /> */}
+                />
 
                 {/* <Marker
                     pinColor='orang'
@@ -367,29 +303,44 @@ export default function MapViews({ navigation }) {
                 {/* <Text style={styles.mapOverlay}>Longitude: {draggableMarkerCoord.longitude}, latitude: {draggableMarkerCoord.latitude}</Text> */}
             </MapView>
 
-            <View style={{ position: 'absolute', }}>
-                <FlatList
-                    data={Hotels}
-                    horizontal
-                    renderItem={({ item }) => (
-                        <HotelCard
-                            mainImg={item.mainImg}
-                            title={item.title}
-                            description={item.description}
-                            location={item.location}
-                            price={item.price}
-                            rate={item.rate}
-                            navigation={navigation}
-                        />
-                    )}
-                    bounces={false}
-                    stickyHeaderHiddenOnScroll={false}
-                    keyExtractor={item => item.id}
-                />
-                <Button title='Take Snapshot and Share' onPress={takeSnapshotAndShare} />
+
+
+            <View style={{ position: 'absolute' }}>
+
+                <View style={{ position: 'absolute', top: height - 310 }}>
+                    <FlatList
+                        data={Hotels}
+                        horizontal
+                        renderItem={({ item }) => (
+                            <HotelCard
+                                id={item._id}
+                                mainImg={item.hotelPhoto}
+                                title={item.hotelName}
+                                description={item.description}
+                                location={item.city}
+                                price={item.price}
+                                rate={item.ratingsAverage}
+                                navigation={navigation}
+                                headerData={headerData}
+                            />
+                        )}
+                        bounces={false}
+                        stickyHeaderHiddenOnScroll={false}
+                        keyExtractor={item => item.id}
+                    />
+                    <Button title='Take Snapshot and Share' onPress={takeSnapshotAndShare} />
+                </View>
+
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginTop: 20 }}>
+                    <AntDesign name="arrowleft" size={35} color="white" style={{ marginTop: 30 }} onPress={() => {
+                        navigation.goBack()
+                    }} />
+                    <CustomTF placeholder="Enter name of Hotel" keyboardType="email-address" width={(width - 80)} required={false} onAddText={HandleSearch} text={Search} white={true} />
+                </View>
+                <Text style={{ color: 'black', fontSize: 25 }}>ddd</Text>
             </View>
 
-            <StatusBar style="dark" />
+
         </View>
     )
 }

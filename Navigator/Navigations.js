@@ -95,10 +95,10 @@ const MainNaigator = () => {
     return (
         <NavigationContainer linking={linking}>
             <Stack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}  >
-            <Stack.Screen name="AuthNavigator" component={AuthNavigator} />
+                <Stack.Screen name="AuthNavigator" component={AuthNavigator} />
+                <Stack.Screen name="BookHotelNavigator" component={BookHotelNavigator} />
                 <Stack.Screen name="Home" component={CustomDrawer} />
                 <Stack.Screen name="BookTicketNavigator" component={BookTicketNavigator} />
-                <Stack.Screen name="BookHotelNavigator" component={BookHotelNavigator} />
                 <Stack.Screen name="MainProfileScreen" component={MainProfileScreen} />
                 <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             </Stack.Navigator>

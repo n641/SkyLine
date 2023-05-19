@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Dimensions, FlatList, Animated, TouchableOpacity } from 'react-native'
-import React, { useState, useRef } from 'react'
+import { StyleSheet, Text, View, Dimensions, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
 
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -15,65 +15,24 @@ import Colors from '../../../Conestant/Colors'
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function BookRoom({ navigation }) {
-    const [Rooms, setRooms] = useState([
-        {
-            mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            name: 'suprior Room',
-            space: '240',
-            persons: { adults: 2, child: 2 },
-            Beds: { bed: 2, bigBed: 1 },
-            facilities: ['free wifi', 'Breack fast', 'sea view', 'master path room', 'kitchen'],
-            notfacilities: ['partially refundable'],
-            price: 150,
-            seleted: false
-        },
-        {
-            mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            name: 'triple Room',
-            space: '240',
-            persons: { adults: 2, child: 2 },
-            Beds: { bed: 2, bigBed: 1 },
-            facilities: ['free wifi', 'Breack fast', 'gardien view', 'kitchen'],
-            notfacilities: ['partially refundable'],
-            price: 150,
-            seleted: true
-        },
-        {
-            mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            name: 'double Room',
-            space: '140',
-            persons: { adults: 1, child: 1 },
-            Beds: { bed: 2, bigBed: 0 },
-            facilities: ['free wifi', 'Breack fast', 'sea view', 'kitchen'],
-            notfacilities: ['partially refundable'],
-            price: 150,
-            seleted: false
-        },
-        {
-            mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            name: 'double Room',
-            space: '140',
-            persons: { adults: 1, child: 1 },
-            Beds: { bed: 2, bigBed: 0 },
-            facilities: ['free wifi', 'Breack fast', 'sea view'],
-            notfacilities: ['partially refundable'],
-            price: 150,
-            seleted: false
-        },
-        {
-            mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            name: 'single Room',
-            space: '100',
-            persons: { adults: 1, child: 0 },
-            Beds: { bed: 1, bigBed: 0 },
-            facilities: ['free wifi', 'Breack fast'],
-            notfacilities: ['partially refundable'],
-            price: 150,
-            seleted: false
-        },
-    ])
+export default function BookRoom({ navigation, route }) {
+    const { data, headerData } = route.params;
+    const [Loading, setLoading] = useState(true)
+    const [Rooms, setRooms] = useState([])
     const [selecetedRoom, setselecetedRoom] = useState([])
+
+    const url = `https://skyline-backend.cyclic.app/api/v1/hotels/rooms/${data}`
+    const fetchData = async () => {
+        const resp = await fetch(url).catch(error => console.log(error.message));
+        const data = await resp.json();
+        setRooms(data.Rooms)
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     const HandleselecetedRoom = (room) => {
         setselecetedRoom([...selecetedRoom, { room }])
     }
@@ -83,7 +42,6 @@ export default function BookRoom({ navigation }) {
         })
         setselecetedRoom(filterSelectedRoom)
     }
-    // console.log(selecetedRoom)
 
     const FlatList_Header = () => {
         return (
@@ -92,12 +50,9 @@ export default function BookRoom({ navigation }) {
                     <AntDesign name="arrowleft" size={35} color="white" onPress={() => {
                         navigation.goBack()
                     }} />
-                    <Text style={{ textAlign: 'center', color: 'white', fontSize: 30 , marginLeft:width/3.5 }}>Hotels</Text>
-
-                    {/* <FontAwesome5 name="filter" size={24} color="white" /> */}
-
+                    <Text style={{ textAlign: 'center', color: 'white', fontSize: 30, marginLeft: width / 3.92 }}>Hotels</Text>
                 </View>
-                <HeaderOfData />
+                <HeaderOfData headerData={headerData} />
             </View>
         );
     }
@@ -105,13 +60,24 @@ export default function BookRoom({ navigation }) {
         <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
             style={{ flex: 1 }}>
 
+            {Loading &&
+                <View style={{
+                    width: width,
+                    height: height - 50,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <ActivityIndicator size={70} color={'#00ff00'} />
+                </View>
+            }
+
             <FlatList
                 data={Rooms}
                 ListHeaderComponent={FlatList_Header}
                 renderItem={({ item }) => (
                     <RoomCard item={item} HandleselecetedRoom={HandleselecetedRoom} HandleDeleteRoom={HandleDeleteRoom} selecetedRoom={selecetedRoom} />
                 )}
-            //   keyExtractor={item => item.id}
+                keyExtractor={item => item._id}
             />
 
             <View style={{
@@ -124,17 +90,17 @@ export default function BookRoom({ navigation }) {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', maxWidth: width }}>
                     <View>
                         <Text style={[{ color: 'white', marginTop: 5, fontSize: 25 }]}>Selected Rooms</Text>
-                            <Text numberOfLines={selecetedRoom.length} style={{ maxWidth: 92, margin:5 }}>
-                                {selecetedRoom.map((item, i) => {
-                                    return (
-                                        <Text key={i} style={[styles.text]}>- {item.room} </Text>
-                                    )
-                                })}
-                            </Text>
+                        <Text numberOfLines={selecetedRoom.length} style={{ maxWidth: 92, margin: 5 }}>
+                            {selecetedRoom.map((item, i) => {
+                                return (
+                                    <Text key={i} style={[styles.text]}>- {item.room} </Text>
+                                )
+                            })}
+                        </Text>
                     </View>
 
                     <View style={{ margin: 10 }}>
-                        <MainButton title='Done' onClick={() => { navigation.navigate('InfoOfUser')}} />
+                        <MainButton title='Done' onClick={() => { navigation.navigate('InfoOfUser') }} />
                     </View>
 
                 </View>

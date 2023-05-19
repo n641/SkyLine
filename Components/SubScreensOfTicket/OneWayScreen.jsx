@@ -23,6 +23,7 @@ const width = Dimensions.get('window').width;
 
 
 export default function OneWayScreen({ navigation }) {
+
     const [From, setFrom] = React.useState();
     const [to, setTo] = React.useState();
     const [Class, setClass] = useState();
@@ -78,20 +79,6 @@ export default function OneWayScreen({ navigation }) {
         showMode('date');
     }
 
-    const bottomSheetModalRef = useRef(null);
-    const snapPoints = useMemo(() => ["25%", "48%"], []);
-
-    const handlePresentModalPress = useCallback(() => {
-        bottomSheetModalRef.current?.present();
-        setTimeout(() => {
-            setIsOpen(true);
-        }, 100);
-    }, []);
-
-    const handleSheetChanges = useCallback((index) => {
-        setTextOfPassenger(`Adults: ${Adult} , Children: ${Children} ,  infant: ${infant}`)
-    }, [Adult, Children, infant]);
-
     const setDataforSearch = useCallback(() => {
         const from = new Set();
         const too = new Set();
@@ -121,6 +108,7 @@ export default function OneWayScreen({ navigation }) {
 
 
     const filteredFroms = (text) => {
+        setShowFromList(true)
         if (text) {
             if (!From?.length) return;
             let temp = [];
@@ -222,9 +210,7 @@ export default function OneWayScreen({ navigation }) {
                                     setShowFromList(true)
                                     setShowToList(false)
                                 }}
-                                onKeyPress={() => {
-                                    setShowFromList(false)
-                                }}
+                                
                             />
 
                         </View>
@@ -275,10 +261,6 @@ export default function OneWayScreen({ navigation }) {
                             onFocus={() => {
                                 setShowToList(true)
                                 setShowFromList(false)
-
-                            }}
-                            onKeyPress={() => {
-                                setShowToList(false)
                             }}
                         />
 

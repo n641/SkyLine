@@ -27,13 +27,15 @@ export default function CustomDrawer({ navigation }) {
     const scaleValue = useRef(new Animated.Value(1)).current;
     const closeButtonOffset = useRef(new Animated.Value(0)).current;
     const dispatch = useDispatch();
+    
     const getuser = useCallback(() => {
         dispatch(getMe())
     }, [dispatch])
-    
+
     useEffect(() => {
         getuser();
-    }, []);
+    }, [dispatch]);
+
     const HandleSetShowMenu = (val) => {
         setShowMenu(val)
     }
@@ -71,6 +73,9 @@ export default function CustomDrawer({ navigation }) {
                 </TouchableOpacity>
 
                 <View style={{ flexGrow: 1, marginTop: 50 }}>
+                    {/* <View>
+                        <Text>nnnnn</Text>
+                    </View> */}
                     {
                         // Tab Bar Buttons....
                     }

@@ -22,7 +22,7 @@ import success from '../../assets/success.png'
 import wrong from '../../assets/warning.png'
 
 
-export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
+export default function SignUpScreen({ navigation, DontHaveAcouunt }) {
   const { width } = useWindowDimensions()
   const [FirstName, setFirstName] = useState("")
   const [SecondName, setSecondName] = useState("")
@@ -44,6 +44,8 @@ export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
   const [visibleForm, setvisibleForm] = useState(false)
   const [titleForm, settitleForm] = useState("")
   const [AlertLogoForm, setAlertLogoForm] = useState(wrong)
+
+  const [Loading, setLoading] = useState(false)
 
 
   const HandleNavigate = (name) => {
@@ -87,7 +89,7 @@ export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
     if (FirstName && SecondName && UserName && Date && Email && Pass && ConformPass) {
 
       const isValidUsername = validateUserName(Pass)
-      const isValidEmail =true
+      const isValidEmail = true
       //  validateEmail(Email)
       const isValidpass = validatepass(Pass)
 
@@ -131,6 +133,7 @@ export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
 
   const signupUrl = '/api/v1/users/signup';
   const HandleSignup = async () => {
+    setLoading(true)
     if (HandleError()) {
       const response = await axios.post(signupUrl, JSON.stringify({
         firstName: FirstName,
@@ -147,11 +150,27 @@ export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
           withCredentials: true
         }
       )
-        .catch(e => console.log(e))
+        .catch(error => {
+          console.log(error)
+          if (error.response.status == 404) {  // don't find email
+            setvisibleForm(true)
+            setLoading(true)
+            settitleForm("enter valid email")
+          } else if (error.response.status == 401) {
+            setvisibleForm(true)
+            setLoading(true)
+            settitleForm("wrong email ")
+
+          }
+        }
+
+        )
+
 
       if (response) {
         settitle("register successfully")
         setAlertLogo(success)
+        setLoading(false)
         setVisible(true)
       }
     }
@@ -164,14 +183,16 @@ export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
       style={styles.containerKeyboard}>
       <ScrollView contentContainerStyle={styles.screen}>
 
-
         {/* //////////////////////////////////Custome Alert//////////////////////////////////// */}
         <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
           setvisibleForm(false)
+          setLoading(false)
+
         }} />
 
         <CAlert visible={visible} icon={AlertLogo} title={title} onClick={() => {
           setVisible(false)
+          setLoading(false)
           HandleNavigate('Home')
         }} />
 
@@ -189,7 +210,7 @@ export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
             <DatePickerTF label="Birth Date" width={(width / 2 - 43)} required={true} date={date} mode={mode} show={show} showDatepicker={showDatepicker} onChange={HandleDate} />
           </View>
 
-          <View style={{ alignItems: 'center'}}>
+          <View style={{ alignItems: 'center' }}>
             <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 80)} required={true} onAddText={HandleEmail} text={Email} />
           </View>
 
@@ -213,7 +234,7 @@ export default function SignUpScreen({ navigation , DontHaveAcouunt }) {
 
 
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <MainButton title="Signup" color={Colors.Button} onClick={() => { HandleSignup() }} />
+          <MainButton title="Signup" color={Colors.Button} onClick={() => { HandleSignup() }} loading={Loading} />
         </View>
 
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -234,7 +255,7 @@ const styles = StyleSheet.create({
   screen: {
     // flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor:Colors.second_dark_screen,
+    backgroundColor: Colors.second_dark_screen,
 
   },
   containerKeyboard: {

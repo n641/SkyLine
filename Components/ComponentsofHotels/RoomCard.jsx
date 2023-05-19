@@ -11,9 +11,9 @@ import { useState } from 'react';
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function RoomCard({ item , HandleselecetedRoom , HandleDeleteRoom , selecetedRoom}) {
+export default function RoomCard({ item, HandleselecetedRoom, HandleDeleteRoom, selecetedRoom }) {
     const [icon, seticon] = useState('circle')
-    
+
     return (
         <View style={styles.card}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 5 }}>
@@ -22,22 +22,28 @@ export default function RoomCard({ item , HandleselecetedRoom , HandleDeleteRoom
                     <Image
                         style={styles.logo}
                         source={{
-                            uri: item.mainImg
+                            uri: item.roomPhoto
                         }}
                         resizeMode='cover'
                     />
                     <View style={{ alignItems: 'flex-start', marginHorizontal: 8 }}>
-                        <Text style={styles.title}> {item.name}</Text>
-                        <Text style={[styles.title, { color: 'gray', fontSize: 18 }]}> {item.space}m</Text>
+
+                        <Text style={[styles.title, { color: 'white', fontSize: 20 }]}> {item.name}</Text>
+
+                        <View style={{ flexDirection: 'row' , alignItems:'center' ,justifyContent:'center' }}>
+                            <Text style={[styles.title, { color: 'yellow', fontSize: 20 }]}> {item.type}</Text>
+                            <Text style={[styles.title, { color: 'gray', fontSize: 18 }]}> ,{item.space}m</Text>
+                        </View>
                     </View>
+
                 </View>
-                {icon=='circle' ?
-                    <Entypo name="circle" size={30} color="white" onPress={()=>{
+                {icon == 'circle' ?
+                    <Entypo name="circle" size={30} color="white" onPress={() => {
                         seticon('checkcircleo')
                         HandleselecetedRoom(item.name)
                     }} />
                     :
-                    <AntDesign name="checkcircleo" size={30} color="green" onPress={()=>{
+                    <AntDesign name="checkcircleo" size={30} color="green" onPress={() => {
                         seticon('circle')
                         HandleDeleteRoom(item.name)
                     }} />
@@ -86,7 +92,7 @@ export default function RoomCard({ item , HandleselecetedRoom , HandleDeleteRoom
             <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1, marginHorizontal: 20, marginVertical: 10 }} />
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-                <Text style={[styles.title, { fontSize: 20 , textAlign:'left' , width:width-70 }]}>
+                <Text style={[styles.title, { fontSize: 20, textAlign: 'left', width: width - 70 }]}>
                     <Text style={[styles.title, { color: 'blue', fontSize: 28 }]}>{item.price}</Text>$  /room/night
                 </Text>
             </View>

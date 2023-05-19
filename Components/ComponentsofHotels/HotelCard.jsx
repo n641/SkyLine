@@ -8,11 +8,11 @@ import RateCard from './RateCard';
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function HotelCard({ mainImg, title, description, location, price, rate , navigation }) {
+export default function HotelCard({ headerData, id, mainImg, title, description, location, price, rate, navigation }) {
   return (
     <TouchableOpacity
-    onPress={()=>{navigation.navigate('DetailsHotel')}}
-    style={styles.card} activeOpacity={0.8}>
+      onPress={() => { navigation.navigate('DetailsHotel' , {hotelId: id , headerData:headerData}) }}
+      style={styles.card} activeOpacity={0.8}>
       <Image
         style={styles.logo}
         source={{
@@ -21,7 +21,7 @@ export default function HotelCard({ mainImg, title, description, location, price
         resizeMode='stretch'
       />
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around' , marginTop:10, marginHorizontal:20 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginHorizontal: 20 }}>
 
         <View>
           <Text style={styles.title}>{title}</Text>

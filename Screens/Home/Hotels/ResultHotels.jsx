@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Dimensions, FlatList, Animated, TouchableOpacity } from 'react-native'
-import React, { useState, useRef } from 'react'
+import { StyleSheet, Text, View, Dimensions, FlatList, Animated, TouchableOpacity , ActivityIndicator } from 'react-native'
+import React, { useState, useRef, useEffect } from 'react'
 
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from '../../../Conestant/Colors'
@@ -24,60 +24,31 @@ const transition = (
   </Transition.Together>
 );
 
-export default function ResultHotels({navigation}) {
-  const [Hotels, setHotels] = useState([
-    {
-      mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-      title: 'IceLand',
-      description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-      location: "Ne'ma bay",
-      price: 250,
-      rate: 4.5,
-      id: 2
-
-    },
-    {
-      mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-      title: 'IceLand',
-      description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-      location: "Ne'ma bay",
-      price: 250,
-      rate: 2.5,
-      id: 3
-
-    },
-    {
-      mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-      title: 'IceLand',
-      description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-      location: "Ne'ma bay",
-      price: 250,
-      rate: 4.5,
-      id: 4
-
-    },
-    {
-      mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-      title: 'IceLand',
-      description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-      location: "Ne'ma bay",
-      price: 250,
-      rate: 4.5,
-      id: 5
-
-    },
-    {
-      mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-      title: 'IceLand',
-      description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-      location: "Ne'ma bay",
-      price: 250,
-      rate: 4.5,
-      id: 1
-    },
-  ])
-
+export default function ResultHotels({ navigation, route }) {
+  const { location, headerData } = route.params;
+  const [Loading, setLoading] = useState(true)
+  const [Hotels, setHotels] = useState([])
+  const [dataLenght, setdataLenght] = useState();
   const ref = React.useRef();
+
+  const url = `https://skyline-backend.cyclic.app/api/v1/hotels?hotelName=${location}`
+  const fetchData = async () => {
+    const resp = await fetch(url).catch(error => console.log(error.message));
+    const data = await resp.json();
+    setHotels(data.data)
+    setdataLenght(data.results)
+    if (!data) {
+      setdataLenght(0)
+      return
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
   const FlatList_Header = () => {
     return (
       <Animated.View>
@@ -86,11 +57,9 @@ export default function ResultHotels({navigation}) {
             navigation.goBack()
           }} />
           <Text style={{ textAlign: 'center', color: 'white', fontSize: 30 }}>Hotels</Text>
-
           <FontAwesome5 name="filter" size={24} color="white" />
-
         </View>
-        <HeaderOfData />
+        <HeaderOfData headerData={headerData} />
       </Animated.View>
     );
   }
@@ -104,30 +73,39 @@ export default function ResultHotels({navigation}) {
       <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
         style={styles.linearGradient}>
 
-
+        {Loading &&
+          <View style={{
+            width: width,
+            height: height,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <ActivityIndicator size={70} color={'#00ff00'} />
+          </View>
+        }
 
         <FlatList
           data={Hotels}
           ListHeaderComponent={FlatList_Header}
           renderItem={({ item }) => (
             <HotelCard
-              mainImg={item.mainImg}
-              title={item.title}
+              id={item._id}
+              mainImg={item.hotelPhoto}
+              title={item.hotelName}
               description={item.description}
-              location={item.location}
+              location={item.city}
               price={item.price}
-              rate={item.rate}
+              rate={item.ratingsAverage}
               navigation={navigation}
+              headerData={headerData}
             />
-
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id}
         />
-
 
       </LinearGradient>
 
-      <TouchableOpacity style={styles.container} onPress={()=>{navigation.navigate('MapViews')}}>
+      <TouchableOpacity style={styles.container} onPress={() => { navigation.navigate('MapViews', { Hotels: Hotels, headerData: headerData }) }}>
         <Entypo name="map" size={30} color="white" />
         <Text style={styles.text}> Map</Text>
       </TouchableOpacity>

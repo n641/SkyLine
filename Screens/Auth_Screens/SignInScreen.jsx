@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, useWindowDimensions } from 'react-native'
+import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { saveToken } from '../../store/actions/auth'
@@ -19,8 +19,10 @@ import Link from '../../Components/Link'
 import success from '../../assets/success.png'
 import wrong from '../../assets/warning.png'
 
+const height = Dimensions.get('window').height;
+const width = Dimensions.get('window').width;
+
 export default function SigninScreen({ navigation, DontHaveAcouunt }) {
-    const { width } = useWindowDimensions()
     const [Email, setEmail] = useState("")
     const [Pass, setPass] = useState("")
 
@@ -31,6 +33,8 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
     const [visibleForm, setvisibleForm] = useState(false)
     const [titleForm, settitleForm] = useState("")
     const [AlertLogoForm, setAlertLogoForm] = useState(wrong)
+
+    const [Loading, setLoading] = useState(false)
 
     const dispatch = useDispatch();
 
@@ -85,6 +89,7 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
 
     const loginUrl = "/api/v1/users/login"
     const HandleLogin = async () => {
+        setLoading(true)
         if (HandleError()) {
             const response = await axios.post(loginUrl, JSON.stringify({
                 email: Email,
@@ -98,17 +103,23 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
                 .catch(error => {
                     console.log(error)
                     if (error.response.status == 404) {  // don't find email
-                        console.log("enter valid email")
+                        setvisibleForm(true)
+                        setLoading(true)
+                        settitleForm("enter valid email")
+                    } else if (error.response.status == 401) {
+                        setvisibleForm(true)
+                        setLoading(true)
+                        settitleForm("wrong password or email")
+
                     }
                 }
 
                 )
-            // console.log(response.data) //save token
 
             if (response) {
-                // console.log(response.data.token)
                 saveAuth(response.data.token)
                 settitle("login successfully")
+                setLoading(false)
                 setAlertLogo(success)
                 setVisible(true)
             }
@@ -123,11 +134,7 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
     const GoogleLogin = '/api/v1/users/auth/google';
     var source;
     const HandleLoginGoogle = async () => {
-
         const response = await axios.get(GoogleLogin)
-
-        // console.log(response.data) //save token
-
         if (response) {
 
         }
@@ -145,10 +152,13 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
 
                 <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
                     setvisibleForm(false)
+                    setLoading(false)
+
                 }} />
 
                 <CAlert visible={visible} icon={AlertLogo} title={title} onClick={() => {
                     setVisible(false)
+                    setLoading(false)
                     HandleNavigate('Home')
                 }} />
 
@@ -176,7 +186,7 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
 
                 <View >
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        <MainButton title="SignIn" color={Colors.Button} onClick={() => { HandleLogin() }} />
+                        <MainButton title="SignIn" color={Colors.Button} onClick={() => { HandleLogin() }} loading={Loading} />
                     </View>
 
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>

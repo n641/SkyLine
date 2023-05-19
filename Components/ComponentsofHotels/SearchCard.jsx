@@ -2,45 +2,86 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-nati
 import React, { useState } from 'react'
 
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DateRangePicker from "rn-select-date-range";
+import moment from "moment";
 import BottomTF from '../CustomeTextFields/bottomTF';
 import MainButton from '../../Components/MainButton';
+import CAlert from '../../Components/CustomeAlerts/CAlert'
 
 import { AntDesign } from '@expo/vector-icons';
+
+import wrong from '../../assets/warning.png'
 
 import Colors from '../../Conestant/Colors';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function SearchCard({HandleOpenSheet , IsOpen , navigation}) {
-    const [location, setlocation] = useState()
+export default function SearchCard({ HandleOpenSheet, persons, navigation, Adults, infants, Child, HandleShowData, show }) {
+    const [location, setlocation] = useState(null)
+    // IceWare
+    const [visibleForm, setvisibleForm] = useState(false)
+    const [titleForm, settitleForm] = useState("")
+
+    const [Nights, setNights] = useState(null)
+    const [headerData, setheaderData] = useState()
+    const [date, setdate] = useState()
+    const [selectedRange, setRange] = useState(null);
+
     const HandleLocation = (text) => {
         setlocation(text)
+        setheaderData({ Night: Nights ? Nights : 1, date: selectedRange ? selectedRange?.firstDate : new Date().toString().substring(0, 15), numberOfRooms: 1, persons: Adults + infants + Child })
     }
 
-    const [date, setDate] = useState(new Date())
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
+    const validateSubmit = async () => {
+        setheaderData({ Night: Nights ? Nights : 1, date: selectedRange ? selectedRange?.firstDate : new Date().toString().substring(0, 15), numberOfRooms: 1, persons: Adults + infants + Child })
+        if (location != null && Adults != 0) {
+            navigation.navigate('ResultHotels', { location: location, headerData: headerData })
+        } else {
+            settitleForm("must enter location or name of hotel")
+            setvisibleForm(true)
+        }
+    }
 
-    const HandleDate = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setShow(!show);
-        setDate(currentDate);
-    };
-    const showMode = (currentMode) => {
-        setShow(!show);
-        setMode(currentMode);
-    };
-    const showDatepicker = () => {
-        showMode('date');
+    const HandleRangeofDate = (val) => {
+        setRange(val)
+        setNights(selectedRange ? Number(selectedRange?.secondDate.substring(8)) - Number(selectedRange?.firstDate.substring(8)) : 1)
+        setheaderData({ Night: Nights ? Nights : 1, date: selectedRange ? selectedRange?.firstDate : new Date().toString().substring(0, 15), numberOfRooms: 1, persons: Adults + infants + Child })
+    }
+
+    const DataRange = () => {
+        return (
+            <View style={{ position: "absolute", backgroundColor: 'white', padding: 20, width: width - 20 }}>
+                <DateRangePicker
+                    onSelectDateRange={(range) => {
+                        HandleRangeofDate(range);
+                        setdate(range.firstDate + "\n -> \n" + " " + range.secondDate)
+                        HandleShowData(false)
+                    }}
+                    blockSingleDateSelection={true}
+                    responseFormat="YYYY-MM-DD"
+                    maxDate={moment().add(100, "days")}
+                    minDate={moment()}
+                    selectedDateContainerStyle={styles.selectedDateContainerStyle}
+                    selectedDateStyle={styles.selectedDateStyle}
+                />
+            </View>
+        )
     }
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => { HandleShowData(false) }} activeOpacity={1}>
+
             <View style={styles.card}>
+
+
+                <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+                    setvisibleForm(false)
+                }} />
+
                 <Text style={styles.title}>Search </Text>
 
-                <BottomTF text={location} settext={HandleLocation} icon="location" label="Location" />
+                <BottomTF location={location} HandleLocation={HandleLocation} icon="location" label="Location" />
 
                 <TouchableOpacity style={{
                     justifyContent: 'center',
@@ -50,7 +91,7 @@ export default function SearchCard({HandleOpenSheet , IsOpen , navigation}) {
                     width: width - 90,
                     marginTop: 20
                 }}
-                    onPress={showDatepicker}
+                    onPress={() => HandleShowData(!show)}
                 >
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 5 }}>
                         <Text style={styles.label}>{"label"}</Text>
@@ -58,27 +99,14 @@ export default function SearchCard({HandleOpenSheet , IsOpen , navigation}) {
                     </View>
                     <View >
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={[styles.label, { fontSize: 23, color: 'gray' }]}>  {date.toJSON().substring(0, 10)}</Text>
+                            <Text numberOfLines={3} style={[styles.label, { fontSize: 23, color: 'gray', maxWidth: 150 }]}>{date ? date : moment().toString().substring(0, 15)} </Text>
                             <AntDesign name="calendar" size={24} color="white" />
                         </View>
                     </View>
-                    {show &&
-                        (
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                value={date}
-                                mode={mode}
-                                is24Hour={true}
-                                onChange={HandleDate}
-                                disabled="spinner"
-                                dateFormat='yyyy-mm-dd'
-                            />
-                        )
-                    }
                 </TouchableOpacity>
 
                 <TouchableOpacity style={{ marginVertical: 30 }}
-                onPress={()=>{HandleOpenSheet()}}
+                    onPress={() => { HandleOpenSheet() }}
                 >
                     <View>
                         <View style={styles.cardinput}>
@@ -86,14 +114,19 @@ export default function SearchCard({HandleOpenSheet , IsOpen , navigation}) {
                             <Text style={styles.astrisk}>*</Text>
                         </View>
                         <View style={styles.inputcontaner}>
-                            <Text style={styles.text}>Adults:2 , childreen:0 , infant:2</Text>
+                            <Text style={styles.text}>{persons}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
 
-                <MainButton title={'search'} onClick={() => {navigation.navigate('ResultHotels') }} />
+                <MainButton title={'search'} onClick={() => {
+                    validateSubmit()
+                }} />
+                {show &&
+                    <DataRange />
+                }
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -103,7 +136,7 @@ const styles = StyleSheet.create({
         top: height / 5,
         justifyContent: 'center',
         alignItems: 'center',
-        width: width
+        width: width,
     },
     card: {
         backgroundColor: 'rgba(24,24,24,0.5)',
@@ -159,5 +192,16 @@ const styles = StyleSheet.create({
         margin: 5,
         color: 'white',
         marginVertical: 13
-    }
+    },
+    selectedDateContainerStyle: {
+        height: 35,
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "blue",
+    },
+    selectedDateStyle: {
+        fontWeight: "bold",
+        color: "white",
+    },
 })

@@ -6,10 +6,12 @@ import {
     ScrollView,
     Image, Text
 } from 'react-native'
-import React, { useRef } from 'react'
+import React, { useRef , useCallback } from 'react'
 
 import axios from '../../../Api/axios';
 import { useSelector, useDispatch } from 'react-redux';
+import { getMe } from '../../../store/actions/auth';
+
 
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -32,6 +34,14 @@ const width = Dimensions.get('window').width;
 export default function FinalBookTicket({ navigation, route }) {
     const auth = useSelector(state => state.Auth.token);
     const userData = useSelector(state => state.Auth.userData);
+    const dispatch = useDispatch();
+    const getuser = useCallback(() => {
+        dispatch(getMe())
+    }, [dispatch])
+    
+    useEffect(() => {
+        getuser();
+    }, []);
     const { id, seat } = route.params;
     const [Data, setData] = useState()
     const [Directurl, setDirecturl] = useState()

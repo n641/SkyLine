@@ -18,17 +18,8 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 const MaxHeight = height
 
-export default function DetailsBottomSheet({navigation}) {
-    const [data, setdata] = useState({
-        mainImg: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-        title: 'IceLand Sharm El-Shaikh Hotels',
-        description: 'Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals',
-        location: "Ne'ma bay",
-        price: 250,
-        rate: 4.5,
-        id: 2,
-        summary: "Hotel overlooks the sea and all rooms overlook the sea 24-hour service with meals, Hotel overlooks the sea andall rooms overlook the sea 24-hour service with meals,Hotel overlooks the sea and all rooms overlook thesea 24-hour service with meals"
-    },)
+export default function DetailsBottomSheet({ navigation, data }) {
+    // console.log(data)
     const cancellationPolicy = [
         {
             text: "Non-refundable",
@@ -73,53 +64,53 @@ export default function DetailsBottomSheet({navigation}) {
             style={styles.linearGradient}>
 
             {/* <ScrollView > */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginHorizontal: 15 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginHorizontal: 5 }}>
                 <View >
-                    <Text style={[styles.title, { maxWidth: 200 }]}>{data.title}</Text>
+                    <Text style={[styles.title, { maxWidth: 200 }]}>{data.hotelName}</Text>
 
                 </View>
                 <View style={{ marginTop: 10 }}>
-                    <RateCard rate={data.rate} />
+                    <RateCard rate={2} />
                     <Text style={[styles.text, { color: 'red' }]}>{data.price}</Text>
                     <Text style={[styles.description]}> /night</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 0 }}>
                         <Entypo name="location-pin" size={20} color="red" />
-                        <Text style={styles.text}>{data.location}</Text>
+                        <Text style={styles.text}>{data.city}</Text>
                     </View>
                 </View>
             </View>
 
             <Text style={[styles.title, { fontSize: 23, marginHorizontal: 15, marginTop: 5, marginBottom: 10 }]}>Summary</Text>
-            <Text style={[styles.text, { fontSize: 15, marginHorizontal: 15, color: 'gray' }]}>{data.summary}</Text>
+            <Text style={[styles.text, { fontSize: 15, marginHorizontal: 15, color: 'gray' }]}>{data.description}</Text>
 
             <Text style={[styles.title, { fontSize: 23, margin: 15, marginTop: 10 }]}>Amenities & facilities</Text>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginHorizontal: 10, margin: 10 }}>
 
                 <View style={{ alignItems: 'center' }}>
-                    <AntDesign name="wifi" size={30} color="white" />
-                    <Text style={[styles.title, { fontSize: 19, marginHorizontal: 15, marginTop: 5, marginBottom: 0 }]}>Wifi</Text>
+                    <AntDesign name="wifi" size={28} color="white" />
+                    <Text style={[styles.title, { fontSize: 17, marginHorizontal: 15, marginTop: 5, marginBottom: 0 }]}>Wifi</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                    <MaterialCommunityIcons name="silverware-fork-knife" size={30} color="white" />
-                    <Text style={[styles.title, { fontSize: 19, marginHorizontal: 15, marginTop: 5, marginBottom: 0 }]}>Kitchen</Text>
+                    <MaterialCommunityIcons name="silverware-fork-knife" size={28} color="white" />
+                    <Text style={[styles.title, { fontSize: 15, marginHorizontal: 15, marginTop: 5, marginBottom: 0 }]}>Kitchen</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                    <Ionicons name="boat" size={30} color="white" />
-                    <Text style={[styles.title, { fontSize: 19, marginHorizontal: 15, marginTop: 5, marginBottom: 0 }]}>sea view</Text>
+                    <Ionicons name="boat" size={28} color="white" />
+                    <Text style={[styles.title, { fontSize: 15, marginHorizontal: 15, marginTop: 5, marginBottom: 0 }]}>sea view</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                    <Entypo name="air" size={30} color="white" />
-                    <Text style={[styles.title, { fontSize: 19, marginHorizontal: 15, marginTop: 5, marginBottom: 0 }]}>AC</Text>
+                    <Entypo name="air" size={28} color="white" />
+                    <Text style={[styles.title, { fontSize: 15, marginHorizontal: 15, marginTop: 5, marginBottom: 0 }]}>AC</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                    <MaterialCommunityIcons name="cup" size={30} color="white" />
-                    <Text style={[styles.title, { fontSize: 19, marginHorizontal: 15, marginTop: 5, marginBottom: 0 }]}>Bar</Text>
+                    <MaterialCommunityIcons name="cup" size={28} color="white" />
+                    <Text style={[styles.title, { fontSize: 15, marginHorizontal: 15, marginTop: 5, marginBottom: 0 }]}>Bar</Text>
                 </View>
 
             </View>
 
-            {/* <View style={{ borderBottomWidth: 1, borderBottomColor: 'gray', margin: 10, marginHorizontal: 30 }} /> */}
+            <View style={{ borderBottomWidth: 1, borderBottomColor: 'gray', margin: 10, marginHorizontal: 30 }} />
 
             <View >
                 <Text style={[styles.title, { fontSize: 25, marginHorizontal: 15, marginTop: 10 }]}>Cancellation policy</Text>
@@ -147,7 +138,7 @@ export default function DetailsBottomSheet({navigation}) {
                 }
             </View>
 
-            {/* <View style={{ borderBottomWidth: 1, borderBottomColor: 'gray', margin: 10, marginHorizontal: 30 }} /> */}
+            <View style={{ borderBottomWidth: 1, borderBottomColor: 'gray', margin: 10, marginHorizontal: 30 }} />
 
             <View>
                 <Text style={[styles.title, { fontSize: 25, marginHorizontal: 10, marginTop: 5 }]}>Additional services</Text>
@@ -211,8 +202,8 @@ export default function DetailsBottomSheet({navigation}) {
 
             <View style={{ alignSelf: 'center', margin: 15 }}>
                 <MainButton title={'Book'} onClick={() => {
-                    navigation.navigate('BookRoom')
-                 }} />
+                    navigation.navigate('BookRoom',{data:data._id})
+                }} />
             </View>
 
         </LinearGradient>
@@ -237,7 +228,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     text: {
-        fontSize: 20,
+        fontSize: 15,
         fontFamily: 'item',
         color: 'white',
     }, description: {

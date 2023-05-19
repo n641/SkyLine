@@ -8,6 +8,7 @@ import { getMe } from '../../../store/actions/auth';
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import UploadImg from '../../../assets/UploadImg.png'
 
 import Colors from '../../../Conestant/Colors';
 
@@ -19,6 +20,7 @@ import MainButton from '../../../Components/MainButton';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
 export default function ProfileScreen({ navigation }) {
   const datauser = useSelector(state => state.Auth.userData);
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ export default function ProfileScreen({ navigation }) {
     
     useEffect(() => {
         getuser();
-    }, []);
+    }, [dispatch]);
   // console.log("data in screen "+ datauser?.email)
   const [error, seterror] = useState(false)
   const [first, setfirst] = useState()

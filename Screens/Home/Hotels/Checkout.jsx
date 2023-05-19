@@ -17,7 +17,9 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export default function Checkout({ navigation }) {
+
     const [Rooms, setRooms] = useState(['suprior room', 'single room'])
+
     return (
         <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
             style={{
@@ -37,8 +39,8 @@ export default function Checkout({ navigation }) {
                         <AntDesign name="home" size={28} color="white" />
                         <Text style={{ fontFamily: 'item', fontSize: 23, marginHorizontal: 10, color: 'white' }}>Hotel</Text>
                     </View>
-                    {Rooms.map((e) => (
-                        <Text style={{ fontFamily: 'item', fontSize: 23, marginHorizontal: 10, color: 'white' }}>- {e}</Text>
+                    {Rooms.map((e , i) => (
+                        <Text key={i} style={{ fontFamily: 'item', fontSize: 23, marginHorizontal: 10, color: 'white' }}>- {e}</Text>
                     ))}
 
                     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1, marginHorizontal: 15, margin: 15 }} />
@@ -106,7 +108,7 @@ export default function Checkout({ navigation }) {
                     <View style={styles.container}>
                         <Text style={{ fontFamily: 'item', fontSize: 23, marginHorizontal: 10, color: 'white' }}>Policy</Text>
                     </View>
-                    <Text style={{ fontFamily: 'item', fontSize: 17, marginHorizontal: 10, color: 'white' }}>maximum 02 children/room -
+                    <Text style={{ fontFamily: 'item', fontSize: 17, marginHorizontal: 10, color: 'white' , padding:5 }}>maximum 02 children/room -
                         children from 6-11 years old :
                         surcharge VND150.000/child when
                         sharing bed with parents .Maximum

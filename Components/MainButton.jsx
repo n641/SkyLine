@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Pressable } from 'react-native'
+import { StyleSheet, Text, View, ActivityIndicator, Dimensions, Pressable } from 'react-native'
 import React from 'react'
 
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withSpring } from 'react-native-reanimated'
@@ -7,8 +7,9 @@ import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, wi
 import Colors from '../Conestant/Colors'
 const { height, width } = Dimensions.get('window')
 
-export default function MainButton({ title, onClick }) {
+export default function MainButton({ title, onClick, loading }) {
     const formButtonSize = useSharedValue(1);
+    // console.log(loading)
 
     const formBottunAnimatedStyle = useAnimatedStyle(() => {
         return {
@@ -18,12 +19,17 @@ export default function MainButton({ title, onClick }) {
 
     return (
 
-        <Animated.View style={[styles.container,formBottunAnimatedStyle]}>
+        <Animated.View style={[styles.container, formBottunAnimatedStyle]}>
             <Pressable onPress={() => {
                 formButtonSize.value = withSequence(withSpring(1.5), withSpring(1))
                 onClick()
             }} >
-                <Text style={styles.title}>{title}</Text>
+                {loading == undefined || loading == false  ?
+                    <Text style={styles.title}>{title}</Text> :
+                    <ActivityIndicator size={40} color={'#ffffff'} />
+
+                }
+
             </Pressable>
         </Animated.View>
     )
@@ -39,7 +45,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        maxWidth: width/1.6,
+        maxWidth: width / 1.6,
         minWidth: width / 2.6,
         maxHeight: 55,
         alignItems: 'center',

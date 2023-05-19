@@ -3,9 +3,7 @@ import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 
 import ImageViewer from '../ImageViewer';
-import MainButton from '../MainButton';
 import Colors from '../../Conestant/Colors';
-import { Entypo } from '@expo/vector-icons';
 
 import defaultImg from '../../assets/UploadImg.png'
 
