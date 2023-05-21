@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SplashScreen from "../Screens/Intro_Screens/SplashScreen";
 import AnimatedLogin from '../Screens/Auth_Screens/MainAuthScreens/AnimatedLogin';
+import VerifyNewEmail from '../Screens/Auth_Screens/VerifyNewEmail';
 import VerifyScreen from '../Screens/Auth_Screens/VerifyScreen';
 import BindingAccount from '../Screens/Auth_Screens/BindingAccount';
 import mainFPScreen from '../Screens/Auth_Screens/ForgetPasswordScreens/MainFPScreen';
@@ -43,6 +44,7 @@ const AuthNavigator = () => {
         <Stack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}  >
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="AnimatedLogin" component={AnimatedLogin} />
+            <Stack.Screen name="VerifyNewEmail" component={VerifyNewEmail} />
             <Stack.Screen name="VerifyScreen" component={VerifyScreen} />
             <Stack.Screen name="BindingAccount" component={BindingAccount} />
             <Stack.Screen name="ResetPassword" component={mainFPScreen} />

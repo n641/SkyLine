@@ -16,9 +16,13 @@ const fetchUserData = async () => {
             console.log(error)
         })
 
-    // console.log(response.data)
+    // console.log(response)
 
-    data = await response.data.data.data
+    if (response) {
+        data = await response.data.data.data
+    } else {
+        console.log("error")
+    }
 }
 
 export const saveToken = (Authtoken) => {
@@ -33,6 +37,6 @@ export const deleteToken = () => {
 
 export const getMe = () => {
     fetchUserData();
-    // console.log(response)
+    // console.log(data)
     return { type: GET_ME, dataUser: data }
 }

@@ -1,11 +1,6 @@
 import { StyleSheet, Text, View, TextInput, Dimensions, ActivityIndicator, TouchableOpacity, ScrollView, Animated } from 'react-native'
 import React from 'react'
-import { useRef, useState, useMemo, useCallback, useEffect } from 'react';
-import {
-    BottomSheetModal,
-    BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
-
+import { useState, useCallback, useEffect } from 'react';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { AntDesign } from '@expo/vector-icons';
@@ -17,10 +12,8 @@ import MainButton from '../MainButton';
 
 import Colors from '../../Conestant/Colors';
 
-
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
-
 
 export default function OneWayScreen({ navigation }) {
 

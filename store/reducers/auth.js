@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
             // console.log(action.dataUser)
             return { ...state, userData: action.dataUser }
         default:
-            console.log(" not enter in case")
+            // console.log(" not enter in case")
             // console.log(action)
             return state
     }

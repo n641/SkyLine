@@ -11,6 +11,7 @@ import TabBarOFSearchTickets from '../../../Components/SubScreensOfTicket/TabBar
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
+
 export default function TicketSearch({ navigation }) {
   return (
     <View>
@@ -46,7 +47,7 @@ export default function TicketSearch({ navigation }) {
           <TabBarOFSearchTickets navigation={navigation} />
 
         </LinearGradient>
-
+        
       </ImageBackground>
     </View>
   )
