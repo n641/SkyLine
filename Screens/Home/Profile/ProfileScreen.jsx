@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Dimensions, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { useState , useCallback} from 'react';
+import { useState, useCallback } from 'react';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMe } from '../../../store/actions/auth';
@@ -23,17 +23,19 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function ProfileScreen({ navigation }) {
   const datauser = useSelector(state => state.Auth.userData);
-  const dispatch = useDispatch();
-    const getuser = useCallback(() => {
-        dispatch(getMe())
-    }, [dispatch])
-    
-    useEffect(() => {
-        getuser();
-    }, [dispatch]);
-  // console.log("data in screen "+ datauser?.email)
   const [error, seterror] = useState(false)
   const [first, setfirst] = useState()
+  const [selectedFrontId, setSelectedFrontId] = useState(null);
+  const [selectedBackId, setSelectedBackId] = useState(null);
+
+  const dispatch = useDispatch();
+  const getuser = useCallback(() => {
+    dispatch(getMe())
+  }, [dispatch])
+
+  useEffect(() => {
+    getuser();
+  }, [dispatch]);
 
   const HandleFirst = (t) => {
     setfirst(t);
@@ -43,9 +45,6 @@ export default function ProfileScreen({ navigation }) {
   const handlId = (text) => {
     setId(text)
   }
-  const [selectedFrontId, setSelectedFrontId] = useState(null);
-  const [selectedBackId, setSelectedBackId] = useState(null);
-  
 
   const HandleFrontId = (img) => {
     setSelectedFrontId(img)
@@ -54,13 +53,33 @@ export default function ProfileScreen({ navigation }) {
   const HandleBackId = (img) => {
     setSelectedBackId(img)
   }
-  console.log("datauser.emailVerificationToken")
-  console.log(datauser.phoneActive)
+
   useEffect(() => {
     if (!datauser?.phoneActive || !datauser?.emailActive || !datauser?.IDActive) {
       seterror(true)
     }
   }, [])
+
+  const uploadPhoto = async (result) => {
+
+    let localUri = result.assets[0].uri;
+    let formData = new FormData();
+    formData.append('image', {
+      uri: localUri,
+      name: 'userProfile.jpg',
+      type: 'image/jpg'
+    });
+
+    const respoce = await axios.patch('https://skyline-backend.cyclic.app/api/v1/users/uploadMyPhoto', formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${auth}` },
+        withCredentials: true
+
+      }
+    ).catch(err => {
+      console.log(err);
+    });
+  }
 
   return (
     <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
@@ -131,7 +150,7 @@ export default function ProfileScreen({ navigation }) {
         </View>
 
         <MainButton title={'Save'} onClick={() => { }} />
-        
+
       </ScrollView>
 
     </LinearGradient>

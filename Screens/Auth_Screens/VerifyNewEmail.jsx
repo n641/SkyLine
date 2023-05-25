@@ -26,12 +26,9 @@ export default function VerifyNewEmail({ navigation, route }) {
 
     const [visibleDone, setvisibleDone] = useState(false)
     const [TitleDone, setTitleDone] = useState()
-
-
     const [Loading, setLoading] = useState(false)
 
     const auth = useSelector(state => state.Auth.token);
-    // console.log(auth)
 
     const HandleCodeAgain = async () => {
         const SendCode = "https://skyline-backend.cyclic.app/api/v1/users/resendVerifyOTP"
@@ -90,7 +87,6 @@ export default function VerifyNewEmail({ navigation, route }) {
         setLoading(true)
         HandleCodeAgain()
     }
-
 
     const item = {
         image: img,

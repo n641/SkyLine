@@ -145,7 +145,7 @@ export default function DetailsHotel({ navigation, route }) {
             snapPoints={snapPoints}
             onDismiss={() => {
               setIsOpen(false)
-              handleSheetChanges()
+              // handleSheetChanges()
             }}
           >
             <DetailsBottomSheet navigation={navigation} data={data} />

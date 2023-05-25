@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, ScrollView
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { getMe } from '../../../store/actions/auth';
-
+import axios from '../../../Api/axios';
 
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons';
@@ -25,6 +25,7 @@ const themes = [{ status: 'Light', Key: 1 }, { status: 'Dark', Key: 2 },]
 
 export default function MainProfileScreen({ navigation }) {
   const dispatch = useDispatch();
+  const auth = useSelector(state => state.Auth.token);
   const getuser = useCallback(() => {
     dispatch(getMe())
   }, [dispatch])
@@ -32,8 +33,8 @@ export default function MainProfileScreen({ navigation }) {
   useEffect(() => {
     getuser();
   }, []);
+
   const datauser = useSelector(state => state.Auth.userData);
-  // console.log("data in screen " + datauser?.email)
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [DataOfUser, setDataOfUser] = useState()
@@ -41,7 +42,6 @@ export default function MainProfileScreen({ navigation }) {
   const [SelectedImage, setSelectedImage] = useState(null)
   const [langActive, setlangActive] = useState('EN')
   const [themeActive, setthemeActive] = useState('Light')
-  
 
   useEffect(() => {
     if (!datauser?.phoneActive || !datauser?.emailActive || !datauser?.IDActive) {
@@ -49,6 +49,26 @@ export default function MainProfileScreen({ navigation }) {
     }
   }, [])
 
+  const uploadPhoto = async (result) => {
+
+    let localUri = result.assets[0].uri;
+    let formData = new FormData();
+    formData.append('image', {
+      uri: localUri,
+      name: 'userProfile.jpg',
+      type: 'image/jpg'
+    });
+
+    const res = await axios.patch('https://skyline-backend.cyclic.app/api/v1/users/uploadMyPhoto', formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${auth}` },
+        withCredentials: true
+
+      }
+    ).catch(err => {
+      console.log(err);
+    });
+  }
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -60,6 +80,8 @@ export default function MainProfileScreen({ navigation }) {
 
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
+      uploadPhoto(result)
+      //upload photo
     } else {
       alert("You did not select any image.");
     }
@@ -132,6 +154,7 @@ export default function MainProfileScreen({ navigation }) {
                 <Entypo name="language" size={24} color="white" />
                 <Text style={styles.text}>Languages</Text>
               </View>
+
               {/* //////////TAB FOR LANGUAGES////////// */}
               <View style={styles.listTab}>
                 {
@@ -149,6 +172,7 @@ export default function MainProfileScreen({ navigation }) {
                 }
               </View>
               {/* /////////////////// */}
+
             </View>
 
           </View>
@@ -169,7 +193,8 @@ export default function MainProfileScreen({ navigation }) {
                 <MaterialCommunityIcons name="theme-light-dark" size={24} color="white" />
                 <Text style={styles.text}>Themes</Text>
               </View>
-              {/* //////////TAB FOR LANGUAGES////////// */}
+
+              {/* //////////TAB FOR tabTheme////////// */}
               <View style={styles.listTab}>
                 {
                   themes.map((e, i) => {
@@ -186,13 +211,13 @@ export default function MainProfileScreen({ navigation }) {
                 }
               </View>
               {/* /////////////////// */}
+
             </View>
 
           </View>
           {/* ////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
 
-          {/* ////////////////////////////////////////////////////////////////////////////////////////// */}
           <View style={{ width: windowWidth - 60, padding: 10, backgroundColor: 'black', borderRadius: 15, margin: 10 }}>
 
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10 }}>

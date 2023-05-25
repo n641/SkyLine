@@ -143,44 +143,44 @@ export default function SignUpScreen({ navigation, DontHaveAcouunt }) {
   const signupUrl = '/api/v1/users/signup';
   const HandleSignup = async () => {
     setLoading(true)
-    // if (HandleError()) {
-    //   const response = await axios.post(signupUrl, JSON.stringify({
-    //     firstName: FirstName,
-    //     lastName: SecondName,
-    //     username: UserName,
-    //     birthDate: date.toJSON().substring(0, 10),
-    //     email: Email,
-    //     password: Pass,
-    //     passwordConfirm: ConformPass,
-    //     address: Address
-    //   }),
-    //     {
-    //       headers: { 'Content-Type': 'application/json' },
-    //       withCredentials: true
-    //     }
-    //   )
-    //     .catch(error => {
-    //       console.log(error)
-    //       if (error.response.status == 404) {  // don't find email
-    //         setvisibleForm(true)
-    //         setLoading(true)
-    //         settitleForm("enter valid email")
-    //       } else if (error.response.status == 401) {
-    //         setvisibleForm(true)
-    //         setLoading(true)
-    //         settitleForm("wrong email ")
+    if (HandleError()) {
+      const response = await axios.post(signupUrl, JSON.stringify({
+        firstName: FirstName,
+        lastName: SecondName,
+        username: UserName,
+        birthDate: date.toJSON().substring(0, 10),
+        email: Email,
+        password: Pass,
+        passwordConfirm: ConformPass,
+        address: Address
+      }),
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        }
+      )
+        .catch(error => {
+          console.log(error)
+          if (error.response.status == 404) {  // don't find email
+            setvisibleForm(true)
+            setLoading(true)
+            settitleForm("enter valid email")
+          } else if (error.response.status == 401) {
+            setvisibleForm(true)
+            setLoading(true)
+            settitleForm("wrong email ")
 
-    //       }
-    //     })
+          }
+        })
 
-    //   if (response) {
-    // saveAuth(response.data.token)
-    settitle("register successfully..\n you must Verfy your Email")
-    setAlertLogo(success)
-    setLoading(false)
-    setVisible(true)
-    // }
-    // }
+      if (response) {
+        saveAuth(response.data.token)
+        settitle("register successfully..\n you must Verfy your Email")
+        setAlertLogo(success)
+        setLoading(false)
+        setVisible(true)
+      }
+    }
   }
 
 
