@@ -32,7 +32,7 @@ const width = Dimensions.get('window').width;
 
 export default function BookSeatScreen({ navigation, route }) {
 
-    const { id } = route.params;
+    const { id ,Data ,type} = route.params;
     let SelectedSeats = [];
 
     const [visibleForm, setvisibleForm] = useState(false)
@@ -325,7 +325,7 @@ export default function BookSeatScreen({ navigation, route }) {
                     </View>
                     <MainButton title='Done' onClick={() => {
                         if (SelectedSeats.length == 1) {
-                            navigation.navigate('FinalBookTicket', { id: id, seat: SelectedSeats })
+                            navigation.navigate('FinalBookTicket', { id: id, seat: SelectedSeats , Data:Data , type:type})
                         } else if (SelectedSeats.length == 0) {
                             settitleForm("you must select chair")
                             setvisibleForm(true)

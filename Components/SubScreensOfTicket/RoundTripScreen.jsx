@@ -1,11 +1,6 @@
-import { StyleSheet, Text, View, TextInput, Dimensions, TouchableOpacity, ScrollView, Animated } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native'
 import React from 'react'
-import { useRef, useState, useMemo, useCallback } from 'react';
-import {
-    BottomSheetModal,
-    BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
-
+import { useRef, useState, useEffect, useCallback } from 'react';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { AntDesign } from '@expo/vector-icons';
@@ -17,6 +12,7 @@ import MainButton from '../MainButton';
 
 import Colors from '../../Conestant/Colors';
 
+const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 
@@ -25,11 +21,6 @@ export default function RoundTripScreen({ navigation }) {
     const [to, setTo] = React.useState();
     const [Class, setClass] = useState();
 
-    const [Adult, setAdult] = useState(0);
-    const [Children, setChildren] = useState(0);
-    const [infant, setinfant] = useState(0)
-    const [TextOfPassenger, setTextOfPassenger] = useState("Click to choose passengers")
-
     const [dateDeparturn, setDateDeparturn] = useState(new Date())
     const [showdateDeparturn, setShowdateDeparturn] = useState(false);
 
@@ -37,24 +28,32 @@ export default function RoundTripScreen({ navigation }) {
     const [showReturndate, setReturndateShow] = useState(false);
     const [mode, setMode] = useState('date');
 
-    const [IsOpen, setIsOpen] = useState(false)
-
-
-    const [CountriesFrom, setCountriesFrom] = useState([
-        'Egypt/Cairo',
-        'Egypt/Hurgada',
-    ])
-
-    const [CountriesTo, setCountriesTo] = useState([
-        'Egypt/Cairo',
-        'Egypt/Hurgada',
-    ])
-
+    const [CountriesFrom, setCountriesFrom] = useState([])
+    const [CountriesTo, setCountriesTo] = useState([])
     const [Classes, setClasses] = useState([
-        'First class',
+        'First A',
         'Business',
-        'economy'
+        'Economy'
     ])
+    const [loading, setLoading] = useState(true);
+    const [Data, setData] = useState([])
+
+    const [ShowFromList, setShowFromList] = useState(false)
+    const [TicketsFrom, setTicketsFrom] = useState([])
+    const [ShowToList, setShowToList] = useState(false)
+    const [TicketsTo, setTicketsTo] = useState([])
+
+    const handleFrom = (text) => {
+        setFrom(text)
+        setShowFromList(true)
+        setShowToList(false)
+    }
+
+    const handleTo = (text) => {
+        setTo(text)
+        setShowFromList(false)
+        setShowToList(true)
+    }
 
 
     const HandledateDeparturn = (event, selectedDate) => {
@@ -85,22 +84,108 @@ export default function RoundTripScreen({ navigation }) {
         showModeReturndate('date')
     }
 
-    const bottomSheetModalRef = useRef(null);
-    const snapPoints = useMemo(() => ["25%", "48%"], []);
+    // /////////////////////////////////////////////////////////////////////////////////////
 
-    const handlePresentModalPress = useCallback(() => {
-        bottomSheetModalRef.current?.present();
-        setTimeout(() => {
-            setIsOpen(true);
-        }, 100);
+    const setDataforSearch = useCallback(() => {
+        const from = new Set();
+        const too = new Set();
+        Data?.map((item) => {
+            from.add(item.from)
+            too.add(item.to)
+        })
+        setCountriesFrom(Array.from(from));
+        setCountriesTo(Array.from(too))
+    }, [Data])
+
+    const fetchData = async () => {
+        const resp = await fetch("https://skyline-backend.cyclic.app//api/v1/flights?fields=from,to");
+        const data = await resp.json();
+        setData(data.data);
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        fetchData();
+        setDataforSearch();
     }, []);
 
-    const handleSheetChanges = useCallback((index) => {
-        setTextOfPassenger(`Adults: ${Adult} , Children: ${Children} ,  infant: ${infant}`)
-    }, [Adult, Children, infant]);
+    useEffect(() => {
+        setDataforSearch();
+    }, [Data]);
+
+
+    const filteredFroms = (text) => {
+        setShowFromList(true)
+        if (text) {
+            if (!From?.length) return;
+            let temp = [];
+            CountriesFrom.map((m) => {
+                m.toUpperCase()
+                    .includes(text.toUpperCase()) ? temp.push(m) : null
+            })
+            setTicketsFrom(temp);
+        } else {
+            setTicketsFrom(CountriesFrom)
+        }
+    }
+
+    const filteredTo = (text) => {
+        if (text) {
+            if (!to?.length) return;
+            let temp = [];
+            temp.push("Every Thing")
+            CountriesTo.map((m) => {
+                m.toUpperCase()
+                    .includes(text.toUpperCase()) ? temp.push(m) : null
+            })
+            setTicketsTo(temp);
+        } else {
+            setTicketsTo(CountriesTo)
+        }
+    }
+
+
+    const renderList = (array, string) => {
+        return (
+            <ScrollView style={{ backgroundColor: 'black', position: 'absolute', top: string == "from" ? height / 8 : height / 8, left: string == "from" ? 50 : 150, padding: 10, maxHeight: height / 6, width: width / 2.5 , borderRadius:15}}>
+                <View style={{ justifyContent: 'flex-end' }}>
+                    {array.map((e, i) => {
+                        return (
+                            <View key={i}>
+                                <TouchableOpacity
+                                    style={{ alignItems: 'center', justifyContent: 'center' }}
+                                    onPress={() => {
+                                        string == 'from' ? setFrom(e) : setTo(e)
+                                        string == 'from' ? setShowFromList(false) : setShowToList(false)
+                                    }}
+                                >
+                                    <Text style={{ color: 'white', fontFamily: 'item', fontSize: 25, textAlign: 'center' }}>{e}</Text>
+                                </TouchableOpacity>
+
+                                <View style={{ borderBottomColor: 'white', borderBottomWidth: 1, alignItems: 'center', justifyContent: 'center', width: width / 2.5, textAlign: 'center' }} />
+                            </View>
+                        )
+                    })}
+                </View>
+            </ScrollView>
+        )
+    }
+
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+
+            {loading &&
+                <View style={{
+                    width: width,
+                    height: height,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <ActivityIndicator size="large" color={'#00ff00'} />
+                </View>
+            }
+
             <View style={styles.inputContainer}>
                 <View
                     style={{ margin: 10 }}>
@@ -114,29 +199,30 @@ export default function RoundTripScreen({ navigation }) {
                             <Text style={styles.astrisk}>*</Text>
                         </View>
 
-                        <SelectDropdown
-                            data={CountriesFrom}
+                        <View>
+                            <TextInput
+                                style={[{
+                                    width: width - 90,
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                    fontSize: 25,
+                                    margin: 10
+                                }]}
+                                onChangeText={handleFrom}
+                                value={From}
+                                placeholder='Enter your location'
+                                placeholderTextColor={'gray'}
+                                onChange={() => {
+                                    filteredFroms(From)
+                                }}
+                                onFocus={() => {
+                                    setShowFromList(true)
+                                    setShowToList(false)
+                                }}
 
-                            onSelect={(selectedItem, index) => {
-                                setFrom(selectedItem)
-                            }}
-                            defaultButtonText={CountriesFrom[0]}
-                            buttonTextAfterSelection={(selectedItem, index) => {
-                                return selectedItem;
-                            }}
-                            rowTextForSelection={(item, index) => {
-                                return item;
-                            }}
-                            buttonStyle={styles.dropdown1BtnStyle}
-                            buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                            renderDropdownIcon={isOpened => {
-                                return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'white'} size={18} />;
-                            }}
-                            dropdownIconPosition={'right'}
-                            dropdownStyle={styles.dropdown1DropdownStyle}
-                            rowStyle={styles.dropdown1RowStyle}
-                            rowTextStyle={styles.dropdown1RowTxtStyle}
-                        />
+                            />
+
+                        </View>
                     </View>
 
                     {/* //////////////////////////////////////////////////////// */}
@@ -155,6 +241,7 @@ export default function RoundTripScreen({ navigation }) {
                         width: (width - 120)
                     }} />
                     <MaterialCommunityIcons name="swap-vertical-bold" size={45} color="white" />
+
                 </View>
 
                 <View style={{ margin: 10 }} >
@@ -164,31 +251,40 @@ export default function RoundTripScreen({ navigation }) {
                         <Text style={styles.astrisk}>*</Text>
                     </View>
 
-                    <SelectDropdown
-                        data={CountriesTo}
+                    <View>
+                        <TextInput
+                            style={[{
+                                width: width - 90,
+                                justifyContent: 'center',
+                                color: 'white',
+                                fontSize: 25,
+                                margin: 10
+                            }]}
+                            onChangeText={handleTo}
+                            value={to}
+                            placeholder='Enter your destination'
+                            placeholderTextColor={'gray'}
+                            onChange={() => {
+                                filteredTo(to)
+                            }}
+                            onFocus={() => {
+                                setShowToList(true)
+                                setShowFromList(false)
+                            }}
+                        />
 
-                        onSelect={(selectedItem, index) => {
-                            setTo(selectedItem)
-                        }}
-                        defaultButtonText={CountriesTo[0]}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem;
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            return item;
-                        }}
-                        buttonStyle={styles.dropdown1BtnStyle}
-                        buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                        renderDropdownIcon={isOpened => {
-                            return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'white'} size={18} />;
-                        }}
-                        dropdownIconPosition={'right'}
-                        dropdownStyle={styles.dropdown1DropdownStyle}
-                        rowStyle={styles.dropdown1RowStyle}
-                        rowTextStyle={styles.dropdown1RowTxtStyle}
-                    />
+                    </View>
                 </View>
             </View>
+
+            {ShowFromList && TicketsFrom?.length != 0 &&
+                renderList(TicketsFrom, "from")
+
+            }
+
+            {ShowToList && TicketsTo?.length != 0 &&
+                renderList(TicketsTo, "to")
+            }
 
             {/* //////////////////////////////////Date2/////////////////////////////////////////// */}
 
@@ -222,6 +318,10 @@ export default function RoundTripScreen({ navigation }) {
                         )
                     }
                 </TouchableOpacity>
+
+
+
+
 
                 {/* //////////////////////////////////Date/////////////////////////////////////////// */}
 
@@ -289,7 +389,10 @@ export default function RoundTripScreen({ navigation }) {
             </View>
 
             <View style={{ margin: 20, marginBottom: 50 }}>
-                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen") }} />
+                <MainButton title='Search' onClick={() => {
+                    navigation.navigate("ResultTicketsScreen"
+                        , { from: From, to: to, classes: Class, date: dateDeparturn.toJSON().substring(0, 10),date2:Returndate.toJSON().substring(0, 10), type: "RoundTrip" })
+                }} />
             </View>
 
         </ScrollView>

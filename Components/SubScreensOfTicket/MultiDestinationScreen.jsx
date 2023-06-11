@@ -1,10 +1,6 @@
-import { StyleSheet, Text, View, TextInput, Dimensions, TouchableOpacity, ScrollView, Animated } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native'
 import React from 'react'
-import { useRef, useState, useMemo, useCallback } from 'react';
-import {
-    BottomSheetModal,
-    BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
+import { useRef, useState, useEffect, useCallback } from 'react';
 
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -18,45 +14,47 @@ import MainButton from '../MainButton';
 import Colors from '../../Conestant/Colors';
 
 const width = Dimensions.get('window').width;
-
+const height = Dimensions.get('window').height;
 
 export default function MultiDestinationScreen({ navigation }) {
 
     const [From, setFrom] = React.useState();
     const [to, setTo] = React.useState();
     const [Class, setClass] = useState();
-    const [countryMultiDestination, setcountryMultiDestination] = useState()
-
-    const [Adult, setAdult] = useState(0);
-    const [Children, setChildren] = useState(0);
-    const [infant, setinfant] = useState(0)
-    const [TextOfPassenger, setTextOfPassenger] = useState("Click to choose passengers")
 
     const [date, setDate] = useState(new Date())
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
-    const [CountriesFrom, setCountriesFrom] = useState([
-        'Egypt/Cairo',
-        'Egypt/Hurgada',
-    ])
 
-    const [CountriesTo, setCountriesTo] = useState([
-        'Egypt/Cairo',
-        'Egypt/Hurgada',
-    ])
-
-    const [InCountries, setInCountries] = useState([
-        'Egypt/Cairo',
-        'Egypt/Hurgada',
-    ])
-
-
+    const [CountriesFrom, setCountriesFrom] = useState([])
+    const [CountriesTo, setCountriesTo] = useState([])
     const [Classes, setClasses] = useState([
-        'First class',
+        'First A',
         'Business',
-        'economy'
+        'Economy'
     ])
+    const [loading, setLoading] = useState(true);
+    const [Data, setData] = useState([])
+
+    const [ShowFromList, setShowFromList] = useState(false)
+    const [TicketsFrom, setTicketsFrom] = useState([])
+    const [ShowToList, setShowToList] = useState(false)
+    const [TicketsTo, setTicketsTo] = useState([])
+    const [InCountries, setInCountries] = useState([])
+
+
+    const handleFrom = (text) => {
+        setFrom(text)
+        setShowFromList(true)
+        setShowToList(false)
+    }
+
+    const handleTo = (text) => {
+        setTo(text)
+        setShowFromList(false)
+        setShowToList(true)
+    }
 
     const HandleDate = (event, selectedDate) => {
         const currentDate = selectedDate;
@@ -71,25 +69,107 @@ export default function MultiDestinationScreen({ navigation }) {
         showMode('date');
     }
 
-    const [IsOpen, setIsOpen] = useState(false)
-    const bottomSheetModalRef = useRef(null);
+    const setDataforSearch = useCallback(() => {
+        const from = new Set();
+        const too = new Set();
+        Data?.map((item) => {
+            from.add(item.from)
+            too.add(item.to)
+        })
+        setCountriesFrom(Array.from(from));
+        setCountriesTo(Array.from(too))
+    }, [Data])
 
-    // variables
-    const snapPoints = useMemo(() => ["25%", "48%"], []);
+    const fetchData = async () => {
+        const resp = await fetch("https://skyline-backend.cyclic.app//api/v1/flights?fields=from,to");
+        const data = await resp.json();
+        setData(data.data);
+        setLoading(false);
+    };
 
-    // callbacks
-    const handlePresentModalPress = useCallback(() => {
-        bottomSheetModalRef.current?.present();
-        setTimeout(() => {
-            setIsOpen(true);
-        }, 100);
+    useEffect(() => {
+        fetchData();
+        setDataforSearch();
     }, []);
-    const handleSheetChanges = useCallback((index) => {
-        setTextOfPassenger(`Adults: ${Adult} , Children: ${Children} ,  infant: ${infant}`)
-    }, []);
+
+    useEffect(() => {
+        setDataforSearch();
+    }, [Data]);
+
+
+    const filteredFroms = (text) => {
+        setShowFromList(true)
+        if (text) {
+            if (!From?.length) return;
+            let temp = [];
+            CountriesFrom.map((m) => {
+                m.toUpperCase()
+                    .includes(text.toUpperCase()) ? temp.push(m) : null
+            })
+            setTicketsFrom(temp);
+        } else {
+            setTicketsFrom(CountriesFrom)
+        }
+    }
+
+    const filteredTo = (text) => {
+        if (text) {
+            if (!to?.length) return;
+            let temp = [];
+            temp.push("Every Thing")
+            CountriesTo.map((m) => {
+                m.toUpperCase()
+                    .includes(text.toUpperCase()) ? temp.push(m) : null
+            })
+            setTicketsTo(temp);
+        } else {
+            setTicketsTo(CountriesTo)
+        }
+    }
+
+    const renderList = (array, string) => {
+        return (
+            <ScrollView style={{ backgroundColor: 'black', position: 'absolute', top: string == "from" ? height / 8 : height / 8, left: string == "from" ? 50 : 150, padding: 10, maxHeight: height / 6, width: width / 2.5 , borderRadius:15 }}>
+                <View style={{ justifyContent: 'flex-end' }}>
+                    {array.map((e, i) => {
+                        return (
+                            <View key={i}>
+                                <TouchableOpacity
+                                    style={{ alignItems: 'center', justifyContent: 'center' }}
+                                    onPress={() => {
+                                        string == 'from' ? setFrom(e) : setTo(e)
+                                        string == 'from' ? setShowFromList(false) : setShowToList(false)
+                                    }}
+                                >
+                                    <Text style={{ color: 'white', fontFamily: 'item', fontSize: 25, textAlign: 'center' }}>{e}</Text>
+                                </TouchableOpacity>
+
+                                <View style={{ borderBottomColor: 'white', borderBottomWidth: 1, alignItems: 'center', justifyContent: 'center', width: width / 2.5, textAlign: 'center' }} />
+                            </View>
+                        )
+                    })}
+                </View>
+            </ScrollView>
+        )
+    }
+
+
+
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+
+            {loading &&
+                <View style={{
+                    width: width,
+                    height: height,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <ActivityIndicator size="large" color={'#00ff00'} />
+                </View>
+            }
+
             <View style={styles.inputContainer}>
                 <View
                     style={{ margin: 10 }}>
@@ -103,45 +183,47 @@ export default function MultiDestinationScreen({ navigation }) {
                             <Text style={styles.astrisk}>*</Text>
                         </View>
 
-                        <SelectDropdown
-                            data={CountriesFrom}
+                        <View>
+                            <TextInput
+                                style={[{
+                                    width: width - 90,
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                    fontSize: 25,
+                                    margin: 10
+                                }]}
+                                onChangeText={handleFrom}
+                                value={From}
+                                placeholder='Enter your location'
+                                placeholderTextColor={'gray'}
+                                onChange={() => {
+                                    filteredFroms(From)
+                                }}
+                                onFocus={() => {
+                                    setShowFromList(true)
+                                    setShowToList(false)
+                                }}
 
-                            onSelect={(selectedItem, index) => {
-                                setFrom(selectedItem)
-                            }}
-                            defaultButtonText={CountriesFrom[0]}
-                            buttonTextAfterSelection={(selectedItem, index) => {
-                                return selectedItem;
-                            }}
-                            rowTextForSelection={(item, index) => {
-                                return item;
-                            }}
-                            buttonStyle={styles.dropdown1BtnStyle}
-                            buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                            renderDropdownIcon={isOpened => {
-                                return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'white'} size={18} />;
-                            }}
-                            dropdownIconPosition={'right'}
-                            dropdownStyle={styles.dropdown1DropdownStyle}
-                            rowStyle={styles.dropdown1RowStyle}
-                            rowTextStyle={styles.dropdown1RowTxtStyle}
-                        />
+                            />
+
+                        </View>
                     </View>
 
                     {/* //////////////////////////////////////////////////////// */}
 
                 </View>
+
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}>
+
                     <View style={{
                         borderBottomWidth: 1,
                         borderBottomColor: '#fff',
                         width: (width - 120)
                     }} />
-
                     <MaterialCommunityIcons name="swap-vertical-bold" size={45} color="white" />
 
                 </View>
@@ -151,32 +233,31 @@ export default function MultiDestinationScreen({ navigation }) {
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 3, marginBottom: -10, margin: -20 }}>
                         <Text style={styles.label}>To</Text>
                         <Text style={styles.astrisk}>*</Text>
-
                     </View>
 
-                    <SelectDropdown
-                        data={CountriesTo}
+                    <View>
+                        <TextInput
+                            style={[{
+                                width: width - 90,
+                                justifyContent: 'center',
+                                color: 'white',
+                                fontSize: 25,
+                                margin: 10
+                            }]}
+                            onChangeText={handleTo}
+                            value={to}
+                            placeholder='Enter your destination'
+                            placeholderTextColor={'gray'}
+                            onChange={() => {
+                                filteredTo(to)
+                            }}
+                            onFocus={() => {
+                                setShowToList(true)
+                                setShowFromList(false)
+                            }}
+                        />
 
-                        onSelect={(selectedItem, index) => {
-                            setTo(selectedItem)
-                        }}
-                        defaultButtonText={CountriesTo[0]}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem;
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            return item;
-                        }}
-                        buttonStyle={styles.dropdown1BtnStyle}
-                        buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                        renderDropdownIcon={isOpened => {
-                            return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'white'} size={18} />;
-                        }}
-                        dropdownIconPosition={'right'}
-                        dropdownStyle={styles.dropdown1DropdownStyle}
-                        rowStyle={styles.dropdown1RowStyle}
-                        rowTextStyle={styles.dropdown1RowTxtStyle}
-                    />
+                    </View>
                 </View>
             </View>
 
@@ -209,6 +290,16 @@ export default function MultiDestinationScreen({ navigation }) {
                     )
                 }
             </TouchableOpacity>
+
+
+            {ShowFromList && TicketsFrom?.length != 0 &&
+                renderList(TicketsFrom, "from")
+
+            }
+
+            {ShowToList && TicketsTo?.length != 0 &&
+                renderList(TicketsTo, "to")
+            }
 
             {/* //////////////////////////////////class////////////////////////////////// */}
 
@@ -257,7 +348,7 @@ export default function MultiDestinationScreen({ navigation }) {
                     data={InCountries}
 
                     onSelect={(selectedItem, index) => {
-                        setcountryMultiDestination(selectedItem)
+                        setInCountries(selectedItem)
                     }}
                     defaultButtonText={InCountries[0]}
                     buttonTextAfterSelection={(selectedItem, index) => {
@@ -278,7 +369,7 @@ export default function MultiDestinationScreen({ navigation }) {
                 />
             </View>
 
-           
+
             <View style={{ margin: 20, marginBottom: 50 }}>
                 <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen") }} />
             </View>

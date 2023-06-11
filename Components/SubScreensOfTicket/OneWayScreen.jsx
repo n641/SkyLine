@@ -21,11 +21,6 @@ export default function OneWayScreen({ navigation }) {
     const [to, setTo] = React.useState();
     const [Class, setClass] = useState();
 
-    const [Adult, setAdult] = useState(0);
-    const [Children, setChildren] = useState(0);
-    const [infant, setinfant] = useState(0)
-    const [TextOfPassenger, setTextOfPassenger] = useState("Click to choose passengers")
-
     const [date, setDate] = useState(new Date())
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -45,7 +40,6 @@ export default function OneWayScreen({ navigation }) {
     const [ShowToList, setShowToList] = useState(false)
     const [TicketsTo, setTicketsTo] = useState([])
 
-    const [IsOpen, setIsOpen] = useState(false)
 
     const handleFrom = (text) => {
         setFrom(text)
@@ -132,7 +126,7 @@ export default function OneWayScreen({ navigation }) {
 
     const renderList = (array, string) => {
         return (
-            <ScrollView style={{ backgroundColor: 'black', position: 'absolute', top: string == "from" ? height / 8 : height / 8, left: string == "from" ? 50 : 150, padding: 10, maxHeight: height / 6, width: width / 2.5 }}>
+            <ScrollView style={{ backgroundColor: 'black', position: 'absolute', top: string == "from" ? height / 8 : height / 8, left: string == "from" ? 50 : 150, padding: 10, maxHeight: height / 6, width: width / 2.5 , borderRadius:15 }}>
                 <View style={{ justifyContent: 'flex-end' }}>
                     {array.map((e, i) => {
                         return (
@@ -345,7 +339,7 @@ export default function OneWayScreen({ navigation }) {
             <View style={{ margin: 20, marginBottom: 50 }}>
                 <MainButton title='Search' onClick={() => {
                     navigation.navigate("ResultTicketsScreen",
-                        { from: From, to: to, classes: Class, date: date.toJSON().substring(0, 10) })
+                        { from: From, to: to, classes: Class, date: date.toJSON().substring(0, 10) , type : "oneway" })
                 }} />
             </View>
 

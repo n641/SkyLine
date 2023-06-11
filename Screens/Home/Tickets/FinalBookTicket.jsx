@@ -42,8 +42,7 @@ export default function FinalBookTicket({ navigation, route }) {
     useEffect(() => {
         getuser();
     }, []);
-    const { id, seat } = route.params;
-    const [Data, setData] = useState()
+    const { id, seat ,Data , type } = route.params;
     const [Directurl, setDirecturl] = useState()
 
     const data = {
@@ -87,15 +86,15 @@ export default function FinalBookTicket({ navigation, route }) {
         }
     }
 
-    var url2 = `https://skyline-backend.cyclic.app//api/v1/flights/${id}`;
-    const fetchData = async () => {
-        const resp = await fetch(url2)
-        const data = await resp.json();
-        setData(data.data.data);
-    };
+    // var url2 = `https://skyline-backend.cyclic.app//api/v1/flights/${id}`;
+    // const fetchData = async () => {
+    //     const resp = await fetch(url2)
+    //     const data = await resp.json();
+    //     setData(data.data.data);
+    // };
 
     useEffect(() => {
-        fetchData()
+        // fetchData()
         fetchdataurl();
     }, []);
 

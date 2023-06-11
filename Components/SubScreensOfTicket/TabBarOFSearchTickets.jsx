@@ -41,7 +41,7 @@ export default function TabBarOFSearchTickets({ navigation }) {
         }
       </View>
       {
-        Active === 'one Way' ?
+        Active === 'one Way' ? 
           <OneWayScreen navigation={navigation} />
           : Active === 'Round Trip' ?
             <RoundTripScreen navigation={navigation} />

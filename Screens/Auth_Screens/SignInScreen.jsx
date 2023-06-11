@@ -102,7 +102,12 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
             )
                 .catch(error => {
                     console.log(error)
-                    if (error.response.status == 404) {  // don't find email
+                    if(error == "Network Error"){
+                        setvisibleForm(true)
+                        setLoading(true)
+                        settitleForm("Network Error")
+                    }
+                    else if (error.response.status == 404) {  // don't find email
                         setvisibleForm(true)
                         setLoading(true)
                         settitleForm("enter valid email")
