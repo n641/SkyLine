@@ -39,6 +39,7 @@ export default function CardOfTicket({ item, navigation, type }) {
             bag: item.outboundFlight.maxBagPerPerson,
             price: item.outboundFlight.price,
             id: item.outboundFlight._id,
+            id2:item.returnFlight._id
         }
         : type == "oneway" ? {
             image: "https://logodownload.org/wp-content/uploads/2020/03/egyptair-logo-1.png",
@@ -76,7 +77,6 @@ export default function CardOfTicket({ item, navigation, type }) {
                 backgroundColor: 'rgba(24,24,24,0.8)',
                 borderRadius: 20,
                 width: width - 80,
-                // height: height / 3.3,
             }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginHorizontal: 5, alignItems: 'flex-start' }}>
 

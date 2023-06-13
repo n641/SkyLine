@@ -44,6 +44,7 @@ export default function DetailsTicket({ navigation, route }) {
             classs: item.outboundFlight.classes,
             price: item.outboundFlight.price,
             id: item.outboundFlight._id,
+            id2:item.returnFlight._id,
             //////////////////go//////////////////////
             TimeFromStart: "08:00 AM", //item.outboundFlight.fromDate
             TimeFromEnd: "19:30 AM", //item.outboundFlight.toDate

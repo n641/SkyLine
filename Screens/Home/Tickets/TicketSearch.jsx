@@ -3,6 +3,8 @@ import React from 'react'
 
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import Colors from '../../../Conestant/Colors';
 
@@ -25,21 +27,36 @@ export default function TicketSearch({ navigation }) {
           justifyContent: 'flex-end',
         }}
       >
-        <View style={{ marginLeft: 20 }}>
+        <View style={{ marginLeft: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
           <AntDesign name="arrowleft" size={30} color="white" onPress={() => {
             navigation.goBack()
           }} />
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 1 }}>
+            <View style={{ backgroundColor: 'rgba(24,24,24,0.7)', borderRadius: 8, marginHorizontal: 15, padding: 5 }}>
+              <Entypo name="home" size={30} color="blue" onPress={()=>{
+                navigation.navigate("Home")
+              }} />
+            </View>
+            <View style={{ backgroundColor: 'rgba(24,24,24,0.7)', borderRadius: 8, padding: 5 , marginRight: 5 }}>
+              <MaterialIcons name="flight" size={30} color="red" 
+              onPress={()=>{
+                navigation.navigate("ListCompanies")
+              }} />
+            </View>
+          </View>
         </View>
 
         <View style={{
           alignItems: 'center',
-          marginBottom: 75,
-          marginLeft: 20
+          marginBottom: 75, 
         }}>
 
           <Text style={styles.title}>Flight search</Text>
 
         </View>
+
+
 
         <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
           style={styles.container}>
@@ -47,7 +64,7 @@ export default function TicketSearch({ navigation }) {
           <TabBarOFSearchTickets navigation={navigation} />
 
         </LinearGradient>
-        
+
       </ImageBackground>
     </View>
   )

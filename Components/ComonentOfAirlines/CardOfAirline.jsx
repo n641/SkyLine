@@ -15,20 +15,25 @@ export default function CardOfAirline({ navigation, item }) {
         airplaneCompanyPhoto: item.airplaneCompanyPhoto,
         rate: 3,
         flights: item.flights,
-        comments: [{
-            name: "noha mohammed",
+        comments: [{  
+            id: "63e3bb71d0a261ffd47544bf",
             rate: 3,
-            comment: "this very good airbort"
+            comment: "this very good airbort",
+            date:"03-5-2023"
         }, {
-            name: "yousef mohammed",
+            id: "6468e0e8d59e276db835499d",
             rate: 4.5,
-            comment: "this very good airbort"
+            comment: "this very good airbort",
+            date:"03-5-2023"
         },
         {
-            name: "Raneen Gaber",
+            id: "63e3bb71d0a261ffd47544bf",
             rate: 5,
-            comment: "this very good airbort"
-        }]
+            comment: "this very good airbort",
+            date:"03-5-2023"
+        }
+    ]
+        ,description:item.description
 
     }
 

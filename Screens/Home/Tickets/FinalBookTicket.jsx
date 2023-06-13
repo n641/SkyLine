@@ -4,22 +4,18 @@ import {
     ImageBackground,
     Dimensions,
     ScrollView,
-    Image, Text
+    Text
 } from 'react-native'
-import React, { useRef, useCallback } from 'react'
+import React, { useCallback } from 'react'
 
 import axios from '../../../Api/axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMe } from '../../../store/actions/auth';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
 import bg from '../../../assets/bg-dark.jpg';
-import airplane from '../../../assets/airplane2.png'
 import AirplaneData from "../../../Components/ComponentsOfTicket/AirplaneData";
 import MainButton from '../../../Components/MainButton'
-import QRCode from 'react-native-qrcode-svg';
 
 import FinalTicketStyle from '../../../Components/SubScreensOfTicket/FinalTicket';
 
@@ -27,9 +23,6 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import { useState, useEffect } from 'react';
-
-import * as FileSystem from 'expo-file-system';
-
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -48,6 +41,8 @@ export default function FinalBookTicket({ navigation, route }) {
         getuser();
     }, []);
     const { id, seat, Data, type } = route.params;
+
+
     const [Directurl, setDirecturl] = useState()
 
     const data = {
@@ -75,7 +70,7 @@ export default function FinalBookTicket({ navigation, route }) {
     }
 
     var url = `https://skyline-backend.cyclic.app/api/v1/bookings/checkout-session/flights/${id}/${seat[0]}/${userData?._id}`;
-    const fetchdataurl = async () => {
+    const fetchdataurlOneWay = async () => {
         const response = await axios.get(url,
             {
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth}` },
@@ -85,13 +80,71 @@ export default function FinalBookTicket({ navigation, route }) {
                 console.log(error)
             })
         if (response) {
-            // setDirecturl(response.data.session.url)
-            // console.log(response.data.session.url)
+            setDirecturl(response.data.url)
+            // console.log(response.data.url)
+        }
+    }
+
+    const fetchdataurlRoundTrip = async () => {
+        var url = `https://skyline-backend.cyclic.app/api/v1/bookings/round-trip/flights`;
+        const response = await axios.post(url, {
+            departureFlightId: Data.id,
+            arrivalFlightId: Data.id2,
+            seatId: seat[0],
+            userId: userData?._id,
+        },
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        if (response) {
+            setDirecturl(response.data.url)
+            // console.log(response.data.url)
+        }
+    }
+
+    const fetchdataurlMulti = async (ids) => {
+        var url = `https://skyline-backend.cyclic.app/api/v1/bookings/multi-destination/flights`;
+        const response = await axios.post(url, JSON.stringify({
+            flightsIds: ids,
+            seatId: "A5",
+            userId: userData?._id,
+        }),
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+        )
+            .catch(error => {
+                console.log(error)
+            })
+        if (response) {
+            setDirecturl(response.data.url)
+            // console.log(response.data.url)
         }
     }
 
     useEffect(() => {
-        // fetchdataurl();
+        if (type == "oneway") {
+            fetchdataurlOneWay()
+        }
+        else if (type == "RoundTrip") {
+            fetchdataurlRoundTrip();
+        } else if (type == "multiFlight") {
+            const ids = [];
+            Data.flights.map((e, i) => {
+                ids.push(e._id)
+            })
+            console.log(JSON.stringify({
+                flightsIds: ids,
+                seatId: "A5",
+                userId: userData?._id,
+            }))
+            fetchdataurlMulti(ids);
+        }
     }, []);
 
 
@@ -103,7 +156,6 @@ export default function FinalBookTicket({ navigation, route }) {
             dataOfRound.push(num[i])
         })
     }
-    const [TicketNum, setTicketNum] = useState(dataOfRound)
     const [selectTicket, setselectTicket] = useState(dataOfRound[0])
 
     return (

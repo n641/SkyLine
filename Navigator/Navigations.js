@@ -61,7 +61,6 @@ const AuthNavigator = () => {
 const BookTicketNavigator = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}  >
-            <Stack.Screen name="ListCompanies" component={ListCompanies} />
             <Stack.Screen name="TicketSearch" component={TicketSearch} />
             <Stack.Screen name="ResultTicketsScreen" component={ResultTicketsScreen} />
             <Stack.Screen name="DetailsTicket" component={DetailsTicket} />
@@ -69,6 +68,7 @@ const BookTicketNavigator = () => {
             <Stack.Screen name="FinalBookTicket" component={FinalBookTicket} />
             <Stack.Screen name="PaymentWV" component={PaymentWV} />
             <Stack.Screen name="HistoryOfTickets" component={HistoryOfTickets} />
+            <Stack.Screen name="ListCompanies" component={ListCompanies} />
             <Stack.Screen name="DetialsCompany" component={DetialsCompany} />
         </Stack.Navigator>
     )
@@ -102,9 +102,9 @@ const MainNaigator = () => {
     return (
         <NavigationContainer linking={linking}>
             <Stack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}  >
-                <Stack.Screen name="BookTicketNavigator" component={BookTicketNavigator} />
                 <Stack.Screen name="AuthNavigator" component={AuthNavigator} />
                 <Stack.Screen name="BookHotelNavigator" component={BookHotelNavigator} />
+                <Stack.Screen name="BookTicketNavigator" component={BookTicketNavigator} />
                 <Stack.Screen name="Home" component={CustomDrawer} />
                 <Stack.Screen name="MainProfileScreen" component={MainProfileScreen} />
                 <Stack.Screen name="ProfileScreen" component={ProfileScreen} />

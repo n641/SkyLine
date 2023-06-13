@@ -14,8 +14,7 @@ const width = Dimensions.get('window').width;
 export default function ListCompanies({ navigation }) {
     const [Airlines, setAirlines] = useState([])
 
-
-    const fetchMultiFlight = async () => {
+    const getAirLines = async () => {
         const url = `https://skyline-backend.cyclic.app/api/v1/airplaneCompany`
         const resp = await fetch(url).catch(error => console.log(error));
         const data = await resp.json();
@@ -24,7 +23,7 @@ export default function ListCompanies({ navigation }) {
     
     
       useEffect(() => {
-        fetchMultiFlight()
+        getAirLines()
       }, []);
     const FlatList_Header = () => {
         return (
