@@ -371,7 +371,7 @@ export default function MultiDestinationScreen({ navigation }) {
 
 
             <View style={{ margin: 20, marginBottom: 50 }}>
-                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen") }} />
+                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen" , {type:"multiFlight"}) }} />
             </View>
 
         </ScrollView>

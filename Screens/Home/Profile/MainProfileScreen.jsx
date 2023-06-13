@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, ScrollView, Switch, ImageBackground } from 'react-native'
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { getMe } from '../../../store/actions/auth';
+import { getMe, changeTheme } from '../../../store/actions/auth';
 import axios from '../../../Api/axios';
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -26,6 +26,9 @@ const themes = [{ status: 'Light', Key: 1 }, { status: 'Dark', Key: 2 },]
 export default function MainProfileScreen({ navigation }) {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.Auth.token);
+  const theme = useSelector(state => state.Auth.theme);
+  // console.log(theme)
+
   const getuser = useCallback(() => {
     dispatch(getMe())
   }, [dispatch])
@@ -34,10 +37,15 @@ export default function MainProfileScreen({ navigation }) {
     getuser();
   }, []);
 
+  const changetheme2 = useCallback((theme) => {
+    // console.log("token in function")
+    // console.log(token)
+    dispatch(changeTheme(theme))
+  }, [dispatch])
+
   const datauser = useSelector(state => state.Auth.userData);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const [DataOfUser, setDataOfUser] = useState()
   const [error, seterror] = useState(false)
   const [SelectedImage, setSelectedImage] = useState(null)
   const [langActive, setlangActive] = useState('EN')
@@ -202,7 +210,11 @@ export default function MainProfileScreen({ navigation }) {
                       <TouchableOpacity
                         key={e.Key}
                         style={[styles.btn, themeActive === e.status && styles.btnTabActive]}
-                        onPress={() => { setthemeActive(e.status) }}
+                        onPress={() => {
+                          setthemeActive(e.status)
+                          // setmodeTheme(e.status=="Light"?true:false)
+                          changetheme2(e.status == "Light" ? true : false)
+                        }}
                       >
                         <Text style={styles.textbtn}>{e.status}</Text>
                       </TouchableOpacity>

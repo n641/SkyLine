@@ -33,6 +33,8 @@ const width = Dimensions.get('window').width;
 export default function BookSeatScreen({ navigation, route }) {
 
     const { id ,Data ,type} = route.params;
+    console.log(Data)
+
     let SelectedSeats = [];
 
     const [visibleForm, setvisibleForm] = useState(false)

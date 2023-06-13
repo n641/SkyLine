@@ -1,6 +1,8 @@
 export const SAVE_TOKEN = 'SAVE_TOKEN';
 export const DELELTE_TOKEN = 'SAVE_TOKEN';
 export const GET_ME = 'GET_ME';
+export const CHANGE_THEME = 'CHANGE_THEME';     
+
 
 import axios from "../../Api/axios";
 
@@ -39,4 +41,9 @@ export const getMe = () => {
     fetchUserData();
     // console.log(data)
     return { type: GET_ME, dataUser: data }
+}
+
+export const changeTheme = (themew) => {
+    // console.log("theme in axios" + themew )
+    return { type: CHANGE_THEME, theme: themew }
 }

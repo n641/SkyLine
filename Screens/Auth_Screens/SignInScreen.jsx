@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { saveToken } from '../../store/actions/auth'
+import { saveToken , changeTheme } from '../../store/actions/auth'
 
 import axios from '../../Api/axios';
 // import validateEmail from '../../Validatation/ValidateEmail'
@@ -37,6 +37,8 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
     const [Loading, setLoading] = useState(false)
 
     const dispatch = useDispatch();
+    const theme = useSelector(state => state.Auth.theme);
+
 
 
     const HandleNavigate = (name) => {
@@ -107,16 +109,16 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
                         setLoading(true)
                         settitleForm("Network Error")
                     }
-                    else if (error.response.status == 404) {  // don't find email
-                        setvisibleForm(true)
-                        setLoading(true)
-                        settitleForm("enter valid email")
-                    } else if (error.response.status == 401) {
-                        setvisibleForm(true)
-                        setLoading(true)
-                        settitleForm("wrong password or email")
+                    // else if (error.response.status == 404) {  // don't find email
+                    //     setvisibleForm(true)
+                    //     setLoading(true)
+                    //     settitleForm("enter valid email")
+                    // } else if (error.response.status == 401) {
+                    //     setvisibleForm(true)
+                    //     setLoading(true)
+                    //     settitleForm("wrong password or email")
 
-                    }
+                    // }
                 }
 
                 )
