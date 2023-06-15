@@ -78,7 +78,7 @@ export default function OneWayScreen({ navigation }) {
     }, [Data])
 
     const fetchData = async () => {
-        const resp = await fetch("https://skyline-backend.cyclic.app//api/v1/flights?fields=from,to");
+        const resp = await fetch("https://skyline-backend.cyclic.app/api/v1/flights?fields=from,to");
         const data = await resp.json();
         setData(data.data);
         setLoading(false);

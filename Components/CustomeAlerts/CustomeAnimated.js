@@ -11,7 +11,7 @@ import {
   
   import React, { useState } from 'react';
 
-const CustomeAnimated = ({ visible, children }) => {
+const CustomeAnimated = ({ visible, children , color }) => {
     const [showModal, setShowModal] = useState(visible)
     const scaleValue = React.useRef(new Animated.Value(0)).current;
     
@@ -40,7 +40,7 @@ const CustomeAnimated = ({ visible, children }) => {
       <Modal transparent visible={showModal}>
         <View style={styles.modalBackGround}>
           <Animated.View
-            style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
+            style={[styles.modalContainer, { transform: [{ scale: scaleValue }] , backgroundColor:color?color:"white"  }]}>
             {children}
           </Animated.View>
         </View>

@@ -23,7 +23,7 @@ const width = Dimensions.get('window').width;
 
 export default function DetailsTicket({ navigation, route }) {
 
-    const { item, type } = route.params;
+    const { item, type ,image } = route.params;
     const num = ["first", "second", "third", "fourth", "fifth"]
 
     var allprice = 0;
@@ -35,7 +35,7 @@ export default function DetailsTicket({ navigation, route }) {
 
     const Data = type == "RoundTrip" ?
         {
-            image: "https://logodownload.org/wp-content/uploads/2020/03/egyptair-logo-1.png",
+            image:image,
             flightNum: item.outboundFlight.flightNo,
             From: item.outboundFlight.from,
             TO: item.outboundFlight.to,
@@ -62,7 +62,7 @@ export default function DetailsTicket({ navigation, route }) {
 
         }
         : type == "oneway" ? {
-            image: "https://logodownload.org/wp-content/uploads/2020/03/egyptair-logo-1.png",
+            image: image,
             flightNum: item.flightNo,
             From: item.from,
             TO: item.to,
@@ -77,7 +77,7 @@ export default function DetailsTicket({ navigation, route }) {
             price: item.price,
             id: item._id,
         } : {
-            image: "https://logodownload.org/wp-content/uploads/2020/03/egyptair-logo-1.png",
+            image: image,
             // flightNum: item.flightNo,
             From: item[0].from,
             TO: item[0].to,
@@ -120,7 +120,7 @@ export default function DetailsTicket({ navigation, route }) {
                                         source={{
                                             uri: Data.image,
                                         }}
-                                        style={{ width: 150, height: 100, resizeMode: 'stretch', margin: 10 }}
+                                        style={{ width: 150, height: 100, resizeMode: 'stretch', margin: 10 , borderRadius:10 }}
                                     />
                                     <Text style={{ color: 'white', fontFamily: 'item' }}>Flight Number : {Data.flightNum}</Text>
                                 </View>
@@ -226,10 +226,10 @@ export default function DetailsTicket({ navigation, route }) {
                                 <View style={{ marginLeft: 0 }}>
                                     <MainButton title='Confirm' onClick={() => {
                                         if (type == "multiFlight") {
-                                            navigation.navigate('FinalBookTicket', { id: Data.id, seat: "A1", Data: Data, type: type })
+                                            navigation.navigate('FinalBookTicket', { id: Data.id, seat: "A1", Data: Data, type: type ,image:image })
 
                                         } else {
-                                            navigation.navigate('BookSeatScreen', { id: Data.id, Data: Data, type: type })
+                                            navigation.navigate('BookSeatScreen', { id: Data.id, Data: Data, type: type ,image:image })
                                         }
                                     }} />
                                 </View>

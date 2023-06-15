@@ -17,7 +17,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import bg from '../../../assets/bg-dark.jpg';
 
-import AirplaneData from "../../../Components/ComponentsOfTicket/AirplaneData";
 import MainButton from '../../../Components/MainButton'
 
 import CAlert from '../../../Components/CustomeAlerts/CAlert';
@@ -32,8 +31,7 @@ const width = Dimensions.get('window').width;
 
 export default function BookSeatScreen({ navigation, route }) {
 
-    const { id ,Data ,type} = route.params;
-    console.log(Data)
+    const { id, Data, type, image } = route.params;
 
     let SelectedSeats = [];
 
@@ -173,9 +171,9 @@ export default function BookSeatScreen({ navigation, route }) {
                     <View style={styles.planeplaner} >
                         <Image
                             source={{
-                                uri: 'https://logodownload.org/wp-content/uploads/2020/03/egyptair-logo-1.png',
+                                uri: image,
                             }}
-                            style={{ width: width, height: height / 8.5, resizeMode: 'contain' }}
+                            style={{ width: 100, height: 70, resizeMode: 'contain' , borderRadius:15 }}
                         />
                         <Text style={styles.text}> 11 avalible seats</Text>
                     </View>
@@ -327,7 +325,7 @@ export default function BookSeatScreen({ navigation, route }) {
                     </View>
                     <MainButton title='Done' onClick={() => {
                         if (SelectedSeats.length == 1) {
-                            navigation.navigate('FinalBookTicket', { id: id, seat: SelectedSeats , Data:Data , type:type})
+                            navigation.navigate('FinalBookTicket', { id: id, seat: SelectedSeats, Data: Data, type: type, image: image })
                         } else if (SelectedSeats.length == 0) {
                             settitleForm("you must select chair")
                             setvisibleForm(true)

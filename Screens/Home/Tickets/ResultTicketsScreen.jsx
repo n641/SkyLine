@@ -67,9 +67,9 @@ export default function ResultTicketsScreen({ navigation, route }) {
     }
   } else if (type == "RoundTrip") {
     if (to == "Every Thing") {
-      url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&classes=${classes}`
+      url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&classes=${classes}&firstDate=${date}&lastDate=${date2}`
     } else {
-      url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}`
+      url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}&firstDate=2023-06-01&lastDate=2023-07-03`
 
     }
 
@@ -85,10 +85,13 @@ export default function ResultTicketsScreen({ navigation, route }) {
     }
     setLoading(false);
   };
+  console.log(date)
+  console.log(date2)
+
 
   const fetchRoundFlight = async (url) => {
-    const urlRoundTrip = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}`
-    const resp = await fetch(url).catch(error => console.log(error));
+    const urlRoundTrip = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}`
+    const resp = await fetch(urlRoundTrip).catch(error => console.log(error));
     const data = await resp.json();
     setTickets(data.data);
     setdataLenght(data.results)
@@ -96,14 +99,11 @@ export default function ResultTicketsScreen({ navigation, route }) {
       setdataLenght(0)
       return
     }
-    // console.log(data)
     setLoading(false);
   };
 
-  console.log(from) //////////////////////////problem
-
   const fetchMultiFlight = async (url) => {
-    const urlRoundTrip = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=Cairo&to=Russian`
+    const urlRoundTrip = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=${from}&to=${to}&firstDate=${date}`
     const resp = await fetch(urlRoundTrip).catch(error => console.log(error));
     const data = await resp.json();
     setTickets(data.allFlights);
@@ -112,7 +112,6 @@ export default function ResultTicketsScreen({ navigation, route }) {
       setdataLenght(0)
       return
     }
-    console.log(data.allFlights)
     setLoading(false);
   };
 
@@ -123,7 +122,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
     }
     else if (type == "RoundTrip") {
       fetchRoundFlight(url);
-    }else if (type == "multiFlight") {
+    } else if (type == "multiFlight") {
       fetchMultiFlight(url);
     }
   }, []);
@@ -150,10 +149,10 @@ export default function ResultTicketsScreen({ navigation, route }) {
       fetchData(url);
 
     } else if (type == "RoundTrip") {
-      if (to == "Every Thing") { 
-        url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&classes=${classes}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
+      if (to == "Every Thing") {
+        url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&classes=${classes}&firstDate=${data}&lastDate=${date2}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
       } else {
-        url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
+        url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}&firstDate=${data}&lastDate=${date2}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
       }
       fetchRoundFlight(url);
 

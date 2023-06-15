@@ -129,7 +129,7 @@ export default function MultiDestinationScreen({ navigation }) {
 
     const renderList = (array, string) => {
         return (
-            <ScrollView style={{ backgroundColor: 'black', position: 'absolute', top: string == "from" ? height / 8 : height / 8, left: string == "from" ? 50 : 150, padding: 10, maxHeight: height / 6, width: width / 2.5 , borderRadius:15 }}>
+            <ScrollView style={{ backgroundColor: 'black', position: 'absolute', top: string == "from" ? height / 8 : height / 8, left: string == "from" ? 50 : 150, padding: 10, maxHeight: height / 6, width: width / 2.5, borderRadius: 15 }}>
                 <View style={{ justifyContent: 'flex-end' }}>
                     {array.map((e, i) => {
                         return (
@@ -371,7 +371,7 @@ export default function MultiDestinationScreen({ navigation }) {
 
 
             <View style={{ margin: 20, marginBottom: 50 }}>
-                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen" , {type:"multiFlight"}) }} />
+                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen", { type: "multiFlight", from: From, to: to, classes: Classes, date: date.toJSON().substring(0, 10) }) }} />
             </View>
 
         </ScrollView>

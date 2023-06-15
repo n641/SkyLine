@@ -29,7 +29,7 @@ import * as FileSystem from 'expo-file-system';
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function FinalTicketStyle({Data}) {
+export default function FinalTicketStyle({Data ,image}) {
   return (
     <View
     style={{ alignSelf:'center'}}>
@@ -45,9 +45,9 @@ export default function FinalTicketStyle({Data}) {
 
         <Image
             source={{
-                uri: 'https://logodownload.org/wp-content/uploads/2020/03/egyptair-logo-1.png',
+                uri: Data.image,
             }}
-            style={{ width: width, height: height / 8.5, resizeMode: 'contain' }}
+            style={{ width: 120, height: 100, resizeMode: 'contain', borderRadius:10 , alignSelf:'center' }}
         />
 
         {/* //row1     */}

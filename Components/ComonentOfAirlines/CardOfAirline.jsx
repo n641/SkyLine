@@ -13,27 +13,10 @@ export default function CardOfAirline({ navigation, item }) {
         backGroundImage: "https://cdn.vox-cdn.com/thumbor/qQsnFfJ1-P1LDZChtOdWCjFzJxY=/0x0:2700x1800/1200x800/filters:focal(635x773:1067x1205)/cdn.vox-cdn.com/uploads/chorus_image/image/71932492/SFD_rendering.0.jpg",
         airplaneName: item.airplaneName,
         airplaneCompanyPhoto: item.airplaneCompanyPhoto,
-        rate: 3,
+        rate: item.ratingsAverage,
+        ratingsQuantity: item.ratingsQuantity,
         flights: item.flights,
-        comments: [{  
-            id: "63e3bb71d0a261ffd47544bf",
-            rate: 3,
-            comment: "this very good airbort",
-            date:"03-5-2023"
-        }, {
-            id: "6468e0e8d59e276db835499d",
-            rate: 4.5,
-            comment: "this very good airbort",
-            date:"03-5-2023"
-        },
-        {
-            id: "63e3bb71d0a261ffd47544bf",
-            rate: 5,
-            comment: "this very good airbort",
-            date:"03-5-2023"
-        }
-    ]
-        ,description:item.description
+        description: item.description
 
     }
 

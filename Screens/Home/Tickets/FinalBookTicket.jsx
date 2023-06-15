@@ -40,7 +40,7 @@ export default function FinalBookTicket({ navigation, route }) {
     useEffect(() => {
         getuser();
     }, []);
-    const { id, seat, Data, type } = route.params;
+    const { id, seat, Data, type, image } = route.params;
 
 
     const [Directurl, setDirecturl] = useState()
@@ -81,18 +81,18 @@ export default function FinalBookTicket({ navigation, route }) {
             })
         if (response) {
             setDirecturl(response.data.url)
-            // console.log(response.data.url)
+            console.log(response.data.url)
         }
     }
 
     const fetchdataurlRoundTrip = async () => {
         var url = `https://skyline-backend.cyclic.app/api/v1/bookings/round-trip/flights`;
-        const response = await axios.post(url, {
+        const response = await axios.post(url, JSON.stringify({
             departureFlightId: Data.id,
             arrivalFlightId: Data.id2,
             seatId: seat[0],
             userId: userData?._id,
-        },
+        }),
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
@@ -102,7 +102,7 @@ export default function FinalBookTicket({ navigation, route }) {
             })
         if (response) {
             setDirecturl(response.data.url)
-            // console.log(response.data.url)
+            console.log(response.data.url)
         }
     }
 
@@ -123,7 +123,7 @@ export default function FinalBookTicket({ navigation, route }) {
             })
         if (response) {
             setDirecturl(response.data.url)
-            // console.log(response.data.url)
+            console.log(response.data.url)
         }
     }
 
@@ -132,17 +132,23 @@ export default function FinalBookTicket({ navigation, route }) {
             fetchdataurlOneWay()
         }
         else if (type == "RoundTrip") {
+            // console.log(JSON.stringify({
+            //     departureFlightId: Data.id,
+            //     arrivalFlightId: Data.id2,
+            //     seatId: seat[0],
+            //     userId: userData?._id,
+            // }))
             fetchdataurlRoundTrip();
         } else if (type == "multiFlight") {
             const ids = [];
             Data.flights.map((e, i) => {
                 ids.push(e._id)
             })
-            console.log(JSON.stringify({
-                flightsIds: ids,
-                seatId: "A5",
-                userId: userData?._id,
-            }))
+            // console.log(JSON.stringify({
+            //     flightsIds: ids,
+            //     seatId: "A5",
+            //     userId: userData?._id,
+            // }))
             fetchdataurlMulti(ids);
         }
     }, []);
@@ -215,6 +221,7 @@ export default function FinalBookTicket({ navigation, route }) {
                 {type == "oneway" &&
                     <FinalTicketStyle Data={
                         {
+                            image: image,
                             flightNo: Data.flightNum,
                             from: Data.From,
                             to: Data.TO,
@@ -235,6 +242,7 @@ export default function FinalBookTicket({ navigation, route }) {
                         selectTicket == "Forword ticket" ?
                             <FinalTicketStyle Data={
                                 {
+                                    image: image,
                                     flightNo: Data.flightNum,
                                     from: Data.From,
                                     to: Data.TO,
@@ -248,6 +256,7 @@ export default function FinalBookTicket({ navigation, route }) {
                             :
                             <FinalTicketStyle Data={
                                 {
+                                    image: image,
                                     flightNo: Data.flightNum,
                                     from: Data.TO,
                                     to: Data.From,
@@ -269,6 +278,7 @@ export default function FinalBookTicket({ navigation, route }) {
                         selectTicket == num[i] ?
                             <FinalTicketStyle key={i} Data={
                                 {
+                                    image: image,
                                     flightNo: Data.flights[i].flightNo,
                                     from: Data.flights[i].from,
                                     to: Data.flights[i].to,

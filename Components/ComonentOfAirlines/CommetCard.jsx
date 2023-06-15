@@ -11,34 +11,20 @@ export default function CommetCard({ navigation, item }) {
     const [User, setUser] = useState([])
 
 
-    const getUser = async () => {
-        const url = `https://skyline-backend.cyclic.app/api/v1/users/${item.id}`
-        const resp = await fetch(url).catch(error => console.log(error));
-        const data = await resp.json();
-        // console.log(data.data.data)
-        setUser(data.data.data);
-    };
-
-
-    useEffect(() => {
-        getUser()
-    }, []);
     return (
         <View style={styles.card}>
             <RateCard rate={item.rate} />
-            <Text style={styles.date}>{item.date}</Text>
+            <Text style={styles.date}>{item.createdAt.toString().substring(0, 10)}</Text>
             <Text style={[styles.date, { color: 'white' }]}>{item.comment}</Text>
-            <View style={{flexDirection:'row' , alignItems:'center'}}>
-            <Image
-                style={styles.tinyLogo}
-                source={{
-                    uri: User?.userPhoto,
-                }}
-            />
-            <Text style={[styles.date, { color: 'white' }]}>{User.username}</Text>
-                
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image
+                    style={styles.tinyLogo}
+                    source={{
+                        uri: item.user?.userPhoto,
+                    }}
+                />
+                <Text style={[styles.date, { color: 'white' }]}>{item.user.username}</Text>
             </View>
-            
         </View>
     )
 }
@@ -46,7 +32,7 @@ export default function CommetCard({ navigation, item }) {
 const styles = StyleSheet.create({
     card: {
         width: width - 100,
-        // height: height / 5,
+        height: height / 3.5,
         backgroundColor: 'rgba(24,24,24,0.7)',
         margin: 10,
         borderRadius: 8,
@@ -63,7 +49,7 @@ const styles = StyleSheet.create({
         height: 40,
         resizeMode: 'contain',
         marginRight: 10,
-        borderRadius:15 ,
-        marginVertical:5   
+        borderRadius: 15,
+        marginVertical: 5
     }
 })
