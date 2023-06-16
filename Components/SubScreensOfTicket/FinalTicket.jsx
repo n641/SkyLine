@@ -30,8 +30,7 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export default function FinalTicketStyle({ Data, image }) {
-    const datauser = useSelector(state => state.Auth.userData);
-    console.log(datauser.username)
+    const userData = useSelector(state => state.Auth.userData);
     return (
         <View
             style={{ alignSelf: 'center' }}>
@@ -40,7 +39,6 @@ export default function FinalTicketStyle({ Data, image }) {
                 backgroundColor: 'rgba(24,24,24,0.8)',
                 borderRadius: 20,
                 width: width - 80,
-                // height: height / 1.5,
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
@@ -169,18 +167,18 @@ export default function FinalTicketStyle({ Data, image }) {
                 justifyContent: 'center',
                 padding: 10,
                 flexDirection: 'row',
-                 justifyContent: 'space-around'
+                justifyContent: 'space-around'
 
             }}>
-                <View style={{flexDirection:'column' , justifyContent:'space-between', flex:1}}>
-                    <View style={{  }}>
+                <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
+                    <View style={{}}>
                         <Text style={styles.Dtext}>passenger</Text>
-                        <Text style={[styles.text, { color: 'gray', fontSize: 18 }]}>{datauser.username}</Text>
+                        <Text style={[styles.text, { color: 'gray', fontSize: 18 }]}>{userData?.username}</Text>
                     </View>
 
-                    <View style={{ justifyContent: 'flex-start', alignItems: 'center' , flexDirection:'row'}}>
+                    <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' }}>
                         <Text style={styles.Dtext}>seat : </Text>
-                        <Text style={[styles.text, { color: 'gray', fontSize: 25 , color:'blue' }]}>{Data.seat}</Text>
+                        <Text style={[styles.text, { color: 'gray', fontSize: 25, color: 'blue' }]}>{Data.seat}</Text>
                     </View>
                 </View>
 

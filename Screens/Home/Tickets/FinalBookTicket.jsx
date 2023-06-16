@@ -31,6 +31,8 @@ export default function FinalBookTicket({ navigation, route }) {
     const auth = useSelector(state => state.Auth.token);
     const userData = useSelector(state => state.Auth.userData);
     const theme = useSelector(state => state.Auth.theme)
+    const { id, seat, Data, type, image } = route.params;
+    const [Directurl, setDirecturl] = useState()
 
     const dispatch = useDispatch();
     const getuser = useCallback(() => {
@@ -39,12 +41,9 @@ export default function FinalBookTicket({ navigation, route }) {
 
     useEffect(() => {
         getuser();
-    }, []);
-    const { id, seat, Data, type, image } = route.params;
-    console.log(Data)
+    }, [userData]);
 
-
-    const [Directurl, setDirecturl] = useState()
+    // console.log(userData?._id)
 
     const data = {
         name: 'Divyesh Barad',
@@ -232,7 +231,8 @@ export default function FinalBookTicket({ navigation, route }) {
                             date: Data.DateFrom,
                             gate: Data.gateFrom,
                             seat: seat[0],
-                            class: Data.classs
+                            class: Data.classs,
+                            userData:userData
                         }
                     } />
                 }
@@ -253,7 +253,8 @@ export default function FinalBookTicket({ navigation, route }) {
                                     date: Data.dateGo,
                                     gate: Data.gateFrom,
                                     seat: seat[0],
-                                    class: Data.classs
+                                    class: Data.classs,
+                                    userData:userData
                                 }
                             } />
                             :
@@ -267,7 +268,9 @@ export default function FinalBookTicket({ navigation, route }) {
                                     date: Data.dateReturn,
                                     gate: Data.gateTo,
                                     seat: seat[0],
-                                    class: Data.classs
+                                    class: Data.classs,
+                                    userData:userData
+
                                 }
                             } />
                     }
@@ -290,6 +293,8 @@ export default function FinalBookTicket({ navigation, route }) {
                                     gate: Data.flights[i].gate,
                                     seat: seat,
                                     class: Data.flights[i].classes,
+                                    userData:userData
+
                                     
                                 }
                             } /> : null
