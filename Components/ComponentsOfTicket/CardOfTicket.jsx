@@ -15,7 +15,7 @@ import { useState, useEffect } from 'react';
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function CardOfTicket({ item, navigation, type }) {
+export default function CardOfTicket({ item, navigation, type , Ticketslength }) {
 
     var allprice = 0;
     if (type == "multiFlight") {
@@ -90,6 +90,8 @@ export default function CardOfTicket({ item, navigation, type }) {
             flights: item,
             price: allprice
         }
+
+        
 
 
 

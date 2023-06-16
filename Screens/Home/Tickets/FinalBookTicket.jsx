@@ -41,6 +41,7 @@ export default function FinalBookTicket({ navigation, route }) {
         getuser();
     }, []);
     const { id, seat, Data, type, image } = route.params;
+    console.log(Data)
 
 
     const [Directurl, setDirecturl] = useState()
@@ -176,7 +177,9 @@ export default function FinalBookTicket({ navigation, route }) {
             <ScrollView >
 
                 <View style={{ marginTop: 20 }} >
-                    <AirplaneData navigation={navigation} title='Ticket Detail' />
+                    <AirplaneData navigation={navigation} title='Ticket Detail'
+                    from ={Data.From} to={Data.TO}  dateDepurture={type == "RoundTrip" ?Data.dateGo : Data.date }  dateReturn={type == "RoundTrip"?Data.dateReturn :"---"}
+                    />
                 </View>
 
 
@@ -286,7 +289,8 @@ export default function FinalBookTicket({ navigation, route }) {
                                     date: Data.flights[i].date == null ? "15-5-2023" : e.date.substring(0, 10),
                                     gate: Data.flights[i].gate,
                                     seat: seat,
-                                    class: Data.classes
+                                    class: Data.flights[i].classes,
+                                    
                                 }
                             } /> : null
                     ))

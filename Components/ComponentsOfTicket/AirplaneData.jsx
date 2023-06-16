@@ -19,7 +19,7 @@ import Airplane from '../../assets/Airplane.png';
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function AirplaneData({ navigation, Filter, HandleOpenSheet, title }) {
+export default function AirplaneData({ navigation, Filter, HandleOpenSheet, title , from , to , dateDepurture , dateReturn }) {
     return (
         <View>
 
@@ -30,11 +30,6 @@ export default function AirplaneData({ navigation, Filter, HandleOpenSheet, titl
                         navigation.goBack()
                     }} />
                 </View>
-
-
-
-
-
 
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     {Filter &&
@@ -91,18 +86,16 @@ export default function AirplaneData({ navigation, Filter, HandleOpenSheet, titl
 
             </View>
 
-            <View style={{ flexDirection: "row", justifyContent: "space-between", marginHorizontal: 10, marginTop: 0 }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", marginHorizontal: 30, marginTop: -20 }}>
 
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
-                    <Text style={styles.text}>Tokyo</Text>
-                    <Text style={styles.text}>01 January 2023</Text>
-                    <Text style={styles.text}>1 Adults</Text>
-                    <Text style={styles.text}>1 Adults</Text>
+                    <Text style={styles.text}>{from}</Text>
+                    <Text style={styles.text}>{dateDepurture}</Text>
                 </View>
 
                 <View>
-                    <Text style={styles.text}>Tokyo</Text>
-                    <Text style={styles.text}>01 January 2023</Text>
+                    <Text style={styles.text}>{to}</Text>
+                    <Text style={styles.text}>{dateReturn}</Text>
                 </View>
 
             </View>
@@ -114,7 +107,8 @@ export default function AirplaneData({ navigation, Filter, HandleOpenSheet, titl
 const styles = StyleSheet.create({
     text: {
         color: 'white',
-        fontFamily: 'item'
+        fontFamily: 'item',
+        fontSize:17
     },
     title: {
         fontFamily: 'item',

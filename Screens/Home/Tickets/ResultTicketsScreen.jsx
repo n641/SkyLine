@@ -24,7 +24,8 @@ import BottomSheetTickets from "../../../Components/FilterTicketsComponent/Botto
 
 import bg from '../../../assets/bg-dark.jpg';
 import wrong from '../../../assets/warning.png';
-
+import Empty from "../../../Components/AnimatedImg/Empty";
+import Loading from "../../../Components/AnimatedImg/Loading";
 
 
 const height = Dimensions.get('window').height;
@@ -42,7 +43,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
 
   const [Filtermin, setFiltermin] = useState(0);
   const [Filtermax, setFiltermax] = useState(1000);
-  const [dataLenght, setdataLenght] = useState();
+  const [dataLenght, setdataLenght] = useState(null);
   const [Rate, setRate] = useState(0)
 
   const HandleFilterRate = (number) => {
@@ -57,6 +58,9 @@ export default function ResultTicketsScreen({ navigation, route }) {
     setFiltermax(number)
   }
 
+
+  ///////////////////////////////////////general url///////////////////////////////
+
   var url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&date=${date}`;
 
   if (type == "oneway") {
@@ -69,10 +73,14 @@ export default function ResultTicketsScreen({ navigation, route }) {
     if (to == "Every Thing") {
       url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&classes=${classes}&firstDate=${date}&lastDate=${date2}`
     } else {
-      url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}&firstDate=2023-06-01&lastDate=2023-07-03`
-
+      url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}&&firstDate=${date}&lastDate=${date2}`
     }
-
+  } else {
+    if (to == "Every Thing") {
+      url = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=${from}&firstDate=${date}`  ////problem there is no to field
+    } else {
+      url = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=${from}&to=${to}&firstDate=${date}`
+    }
   }
   const fetchData = async (url) => {
     const resp = await fetch(url).catch(error => console.log(error.message));
@@ -87,11 +95,9 @@ export default function ResultTicketsScreen({ navigation, route }) {
   };
 
   const fetchRoundFlight = async (url) => {
-    const urlRoundTrip = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}`
-    const resp = await fetch(urlRoundTrip).catch(error => console.log(error));
+    const resp = await fetch(url).catch(error => console.log(error));
     const data = await resp.json();
     setTickets(data.data);
-    console.log(data)
     setdataLenght(data.results)
     if (!data) {
       setdataLenght(0)
@@ -101,8 +107,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
   };
 
   const fetchMultiFlight = async (url) => {
-    const urlRoundTrip = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=${from}&to=${to}&firstDate=${date}`
-    const resp = await fetch(urlRoundTrip).catch(error => console.log(error));
+    const resp = await fetch(url).catch(error => console.log(error));
     const data = await resp.json();
     setTickets(data.allFlights);
     setdataLenght(data.results)
@@ -148,11 +153,20 @@ export default function ResultTicketsScreen({ navigation, route }) {
 
     } else if (type == "RoundTrip") {
       if (to == "Every Thing") {
-        url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&classes=${classes}&firstDate=${data}&lastDate=${date2}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
+        url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&classes=${classes}&firstDate=${date}&lastDate=${date2}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
       } else {
-        url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}&firstDate=${data}&lastDate=${date2}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
+        url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}&firstDate=${date}&lastDate=${date2}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
       }
       fetchRoundFlight(url);
+
+    } else {
+
+      if (to == "Every Thing") {
+        url = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=${from}&firstDate=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`  ////problem there is no to field
+      } else {
+        url = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=${from}&to=${to}&firstDate=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
+      }
+      fetchMultiFlight(url);
 
     }
   }, [Filtermin, Filtermax]);
@@ -163,11 +177,13 @@ export default function ResultTicketsScreen({ navigation, route }) {
 
   const FlatList_Header = () => {
     return (
-      <AirplaneData navigation={navigation} Filter={true} title='Flight Search' HandleOpenSheet={HandleOpenSheet} />
+      <AirplaneData navigation={navigation} Filter={true} title='Flight Search' HandleOpenSheet={HandleOpenSheet}
+        from={from} to={to} dateDepurture={date} dateReturn={type == "RoundTrip" ? date2 : "---"}
+      />
     );
   }
 
-  if (dataLenght == 0) {
+  if (dataLenght == 0 || Tickets.length == 0 && loading != true) {
     return (
       <ImageBackground
         source={bg}
@@ -181,8 +197,12 @@ export default function ResultTicketsScreen({ navigation, route }) {
         <StatusBar hidden={true} />
 
         <View style={{ marginTop: 20 }}>
-          <AirplaneData navigation={navigation} Filter={true} title='Flight Search' HandleOpenSheet={HandleOpenSheet} />
+          <AirplaneData navigation={navigation} Filter={true} title='Flight Search' HandleOpenSheet={HandleOpenSheet}
+            from={from} to={to} dateDepurture={date} dateReturn={type == "RoundTrip" ? date2 : "---"}
+          />
         </View>
+
+        <Empty />
 
         {IsOpen && <BottomSheetModalProvider>
           <Animated.View >
@@ -206,6 +226,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
       </ImageBackground>
     )
   }
+  console.log(dataLenght)
 
   return (
     <SafeAreaView>
@@ -224,13 +245,15 @@ export default function ResultTicketsScreen({ navigation, route }) {
             width: width,
             height: height,
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            backgroundColor: 'rgba(24,24,24,0.5)',
           }}>
-            <ActivityIndicator size={50} color={'#00ff00'} />
+            <Loading />
           </View>
         }
 
         <View style={{ marginTop: 20, marginBottom: 20 }}>
+
 
           <FlatList
             data={Tickets}
@@ -239,6 +262,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
                 navigation={navigation}
                 item={item}
                 type={type}
+                Ticketslength={Tickets.length}
               />}
             // keyExtractor={item => item._id}
             ListHeaderComponent={FlatList_Header}

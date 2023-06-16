@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function DetailsCom({from,to,timestart,timeEnd,gate,classs,date ,title,flightnum , type}) {
     
+    console.log(from,to,timestart,timeEnd,gate,classs,date ,title,flightnum , type)
     return (
         <View>
             <View style={{ marginTop: 20 }}>

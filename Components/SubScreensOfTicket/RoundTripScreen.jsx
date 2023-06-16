@@ -88,7 +88,7 @@ export default function RoundTripScreen({ navigation }) {
 
     const setDataforSearch = useCallback(() => {
         const from = new Set();
-        const too = new Set();
+        const too = new Set(); 
         Data?.map((item) => {
             from.add(item.from)
             too.add(item.to)

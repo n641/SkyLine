@@ -19,7 +19,6 @@ const transition = (
 
 export default function CardHistoryStyle({ item, index, currentIndex, HandlecurrentIndex, reff }) {
 
-    // console.log(item)
     const price = item.price
     const type = item.type
     const paymentStatus = item.paymentStatus
@@ -40,7 +39,7 @@ export default function CardHistoryStyle({ item, index, currentIndex, Handlecurr
     useEffect(() => {
         fetchData();
     }, []);
-    console.log("////////////////////////////////////////////////////////////////////////////////////////")
+    // console.log("////////////////////////////////////////////////////////////////////////////////////////")
     var Data = [];
 
     item.flight.map((e) => {
@@ -53,12 +52,12 @@ export default function CardHistoryStyle({ item, index, currentIndex, Handlecurr
             maxBagPerPerson: e.maxBagPerPerson
         })
     })
-    console.log(Data)
-    console.log(price)
-    console.log(type)
-    console.log(paymentStatus)
-    console.log(seatId)
-    console.log(NumFlights)
+    // console.log(Data)
+    // console.log(price)
+    // console.log(type)
+    // console.log(paymentStatus)
+    // console.log(seatId)
+    // console.log(NumFlights)
 
 
     return (
@@ -84,8 +83,9 @@ export default function CardHistoryStyle({ item, index, currentIndex, Handlecurr
                                 }}
                                 style={{ width: 50, height: 35, resizeMode: 'stretch', marginHorizontal: 5, borderRadius: 10 }}
                             />
-                            {/* <Text style={[styles.title, { marginLeft: 5 }]}>{item}</Text> */}
                         </View>
+                        <Text style={[styles.title, { marginBottom: 5 }]}>{type}</Text>
+
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <Text style={[styles.title]}>
@@ -94,10 +94,18 @@ export default function CardHistoryStyle({ item, index, currentIndex, Handlecurr
                         </View>
                     </View>
 
+                    <View style={{
+                        borderWidth: 0.5,
+                        borderColor: 'white',
+                        width: width - 100,
+                        alignSelf: 'center',
+                        marginVertical: 15
+                    }} />
+
 
                     {
                         Data.map((e, i) => (
-                            <View style={{margin:5}}>
+                            <View style={{ margin: 5 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
 
                                     <View>
@@ -154,17 +162,16 @@ export default function CardHistoryStyle({ item, index, currentIndex, Handlecurr
                                     </View>
                                 </View>
                                 {/* ////////////////////////////////////////// */}
-                                {type != "one-way" && NumFlights > 1 && i < NumFlights - 1 && <View style={{
-                                    borderWidth: 0.5,
-                                    borderColor: 'white',
-                                    margin: -1,
-                                    width: width - 210,
-                                    alignSelf: 'center',
-                                    marginVertical: 15
-                                }} />}
-
-
-
+                                {type != "one-way" && NumFlights > 1 && i < NumFlights - 1 &&
+                                    <View style={{
+                                        borderWidth: 0.5,
+                                        borderColor: 'white',
+                                        margin: -1,
+                                        width: width - 210,
+                                        alignSelf: 'center',
+                                        marginVertical: 15
+                                    }} />
+                                }
                             </View>
                         ))
 
@@ -176,12 +183,12 @@ export default function CardHistoryStyle({ item, index, currentIndex, Handlecurr
                         </Text>
                     </View>
 
-                    {index === currentIndex &&
+                    {/* {index === currentIndex &&
                         <View>
 
 
                         </View>
-                    }
+                    } */}
 
                 </TouchableOpacity>
 
@@ -195,9 +202,9 @@ const styles = StyleSheet.create({
     constainerofHeadercard: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        marginHorizontal: 50,
-        margin: 5
+        justifyContent: 'space-around',
+        marginTop: 15,
+        marginBottom: -5
     },
     header: {
         textAlign: 'center',

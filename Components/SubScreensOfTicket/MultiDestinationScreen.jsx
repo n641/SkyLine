@@ -337,7 +337,7 @@ export default function MultiDestinationScreen({ navigation }) {
             </View>
 
             {/* //////////////////////////////////Countries////////////////////////////////// */}
-            <View style={[styles.DateContainer]} >
+            {/* <View style={[styles.DateContainer]} >
 
                 <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 3, marginBottom: -15, marginTop: 2 }}>
                     <Text style={styles.label}>Countries</Text>
@@ -367,7 +367,7 @@ export default function MultiDestinationScreen({ navigation }) {
                     rowStyle={styles.dropdown1RowStyle}
                     rowTextStyle={styles.dropdown1RowTxtStyle}
                 />
-            </View>
+            </View> */}
 
 
             <View style={{ margin: 20, marginBottom: 50 }}>

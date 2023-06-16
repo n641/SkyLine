@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { useFonts } from 'expo-font';
 
 import Navigation from "./Navigator/Navigations";
-import SigninScreen from './Screens/Home/Hotels/MapView'
+import SigninScreen from './Components/AnimatedImg/Empty'
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 

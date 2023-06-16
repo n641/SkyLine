@@ -69,7 +69,7 @@ export default function OneWayScreen({ navigation }) {
     const setDataforSearch = useCallback(() => {
         const from = new Set();
         const too = new Set();
-        Data?.map((item) => {
+        Data?.map((item) => { 
             from.add(item.from)
             too.add(item.to)
         })

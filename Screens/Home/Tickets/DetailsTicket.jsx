@@ -45,6 +45,7 @@ export default function DetailsTicket({ navigation, route }) {
             price: item.outboundFlight.price,
             id: item.outboundFlight._id,
             id2:item.returnFlight._id,
+            type:type,
             //////////////////go//////////////////////
             TimeFromStart: "08:00 AM", //item.outboundFlight.fromDate
             TimeFromEnd: "19:30 AM", //item.outboundFlight.toDate
@@ -76,6 +77,8 @@ export default function DetailsTicket({ navigation, route }) {
             bag: item.maxBagPerPerson,
             price: item.price,
             id: item._id,
+            type:type,
+
         } : {
             image: image,
             // flightNum: item.flightNo,
@@ -85,9 +88,12 @@ export default function DetailsTicket({ navigation, route }) {
             gate: item[0].gate,
             sala: 5,
             flights: item,
-            price: allprice
+            price: allprice,
+            type:type,
+
         }
 
+        console.log(Data)
 
 
     return (
@@ -104,7 +110,9 @@ export default function DetailsTicket({ navigation, route }) {
             <ScrollView style={{ marginBottom: 50 }}>
 
                 <View style={{ marginTop: 20 }}>
-                    <AirplaneData navigation={navigation} title='Ticket Detail' />
+                    <AirplaneData navigation={navigation} title='Ticket Detail'
+                    from ={Data.From} to={Data.TO}  dateDepurture={type == "RoundTrip" ?Data.dateGo : Data.date }  dateReturn={type == "RoundTrip"?Data.dateReturn :"---"}
+                    />
                 </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', margin: 15 }}>
@@ -134,8 +142,8 @@ export default function DetailsTicket({ navigation, route }) {
                                     title={"Forward"}
                                     from={Data.From}
                                     to={Data.TO}
-                                    timefrom={type == "RoundTrip" ? Data.TimeFromStart : Data.DateFrom}
-                                    timeTo={type == "RoundTrip" ? Data.TimeFromEnd : Data.DateTo}
+                                    timestart={type == "RoundTrip" ? Data.TimeFromStart : Data.DateFrom}
+                                    timeEnd ={type == "RoundTrip" ? Data.TimeFromEnd : Data.DateTo}
                                     gate={type == "RoundTrip" ? Data.gateFrom : Data.gate}
                                     class={Data.classs}
                                     date={Data.dateReturn}
