@@ -85,15 +85,13 @@ export default function ResultTicketsScreen({ navigation, route }) {
     }
     setLoading(false);
   };
-  console.log(date)
-  console.log(date2)
-
 
   const fetchRoundFlight = async (url) => {
     const urlRoundTrip = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}`
     const resp = await fetch(urlRoundTrip).catch(error => console.log(error));
     const data = await resp.json();
     setTickets(data.data);
+    console.log(data)
     setdataLenght(data.results)
     if (!data) {
       setdataLenght(0)

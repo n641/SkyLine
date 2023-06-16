@@ -1,5 +1,9 @@
 import { Animated, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+
+import { useState, useEffect, useCallback } from 'react';
+import { getMe } from '../../store/actions/auth';
+import { useSelector, useDispatch } from 'react-redux';
 
 import axios from '../../Api/axios';
 import Colors from '../../Conestant/Colors';
@@ -18,6 +22,14 @@ const width = Dimensions.get('window').width;
 
 
 export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOffset, menu, HandleSetShowMenu, close, currentTab, navigation }) {
+  const dispatch = useDispatch();
+  const getuser = useCallback(() => {
+    dispatch(getMe())
+  }, [dispatch])
+
+  useEffect(() => {
+    getuser();
+  }, [dispatch]);
 
   const [Search, setSearch] = useState()
 
@@ -196,7 +208,6 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
                       tintColor: 'white',
                     }} />
                   </TouchableOpacity>
-
                   <HistoryOfTickets />
                 </View>
 
