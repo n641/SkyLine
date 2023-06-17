@@ -12,12 +12,16 @@ export default function BoxOfCategories({ title , HandleNavigate , routename }) 
         <TouchableOpacity onPress={()=>{
             HandleNavigate(routename)
         }}>
-            <LinearGradient colors={['#01479D', 'rgba(217,217,217,0.79)', '#0E2E6D']}
+            {/* rgba(30,30,30,0.8) */}
+            <LinearGradient
+            //  colors={['#01479D', 'rgba(217,217,217,0.79)', '#0E2E6D']}
+             colors={['rgba(30,30,30,0.8)', 'rgba(30,30,30,0.8)', 'rgba(30,30,30,0.8)']}
+
                 style={{
                     justifyContent: 'center',
                     borderRadius: 10,
-                    width: 55,
-                    height:60,
+                    width: 60,
+                    height:70,
                     marginVertical: 28,
                     marginHorizontal: 12,
 
@@ -26,12 +30,12 @@ export default function BoxOfCategories({ title , HandleNavigate , routename }) 
             >
                 <View style={{ alignItems: 'center', justifyContent: 'center', margin: 2 }}>
                     {title=='Ticket'?
-                    <MaterialCommunityIcons name="airplane-takeoff" size={35} color="black" /> :
+                    <MaterialCommunityIcons name="airplane-takeoff" size={40} color="white" /> :
                     title=='Hotel'?
-                    <FontAwesome name="hotel" size={30} color="black" />:
+                    <FontAwesome name="hotel" size={35} color="white" />:
                     title=='Agency'?
-                    <FontAwesome name="bank" size={30} color="black" /> :
-                    <FontAwesome5 name="taxi" size={30} color="black" />
+                    <FontAwesome name="bank" size={40} color="white" /> :
+                    <FontAwesome5 name="taxi" size={40} color="white" />
                     }
                     <Text style={styles.text}>{title}</Text>
                 </View>
@@ -43,7 +47,7 @@ export default function BoxOfCategories({ title , HandleNavigate , routename }) 
 const styles = StyleSheet.create({
     text: {
         fontFamily: 'item',
-        color: "black",
+        color: "white",
         fontSize: 16,
     }
 })

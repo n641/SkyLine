@@ -1,21 +1,26 @@
-import { Animated, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground } from 'react-native'
+import { Animated, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, Dimensions, ImageBackground, TextInput, FlatList } from 'react-native'
 import React from 'react'
 
 import { useState, useEffect, useCallback } from 'react';
 import { getMe } from '../../store/actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { Entypo } from '@expo/vector-icons';
+
 import axios from '../../Api/axios';
 import Colors from '../../Conestant/Colors';
 import bg from '../../assets/bg-dark.jpg';
 
-import CustomTF from '../../Components/CustomeTextFields/CustomTF';
 import BoxOfCategories from '../../Components/BoxOfCategories'
+import DiscoundOffers from '../../Components/CompnentOfHomePage/DiscoundOffers';
 
 import { LinearGradient } from "expo-linear-gradient";
 
 import * as Linking from 'expo-linking';
 import HistoryOfTickets from './Tickets/HistoryOfTickets';
+import HistoryOfHotel from './Hotels/HistoryOfHotel';
+import HotelsOffers from '../../Components/CompnentOfHomePage/HotelsOffers';
+import CategriesOfCountry from '../../Components/CompnentOfHomePage/CategriesOfCountry';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -107,6 +112,88 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
   })
   // ///////////////////////////////////////////////////////////////////////////
 
+  const Header = () => (
+    <Animated.View style={{}}>
+
+      <ImageBackground
+        source={{
+          uri:
+            'https://plus.unsplash.com/premium_photo-1661768748610-9ecf1e2dc0ee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80'
+        }}
+        resizeMode='stretch'
+        style={{
+          width: width,
+          height: height / 2.7,
+        }}>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 40,
+            marginLeft: 15,
+            alignItems: 'center',
+          }}>
+
+          <TouchableOpacity onPress={() => {
+            HandleDrawer()
+          }}>
+            <Image source={showMenu ? close : menu} style={{
+              width: 26,
+              height: 25,
+              tintColor: 'white',
+            }} />
+          </TouchableOpacity>
+
+          <Text style={styles.title}> hi,{DataOfUser?.firstName}</Text>
+
+        </View>
+
+        <Text style={styles.desc}>Let's discover a new advanture </Text>
+        {/* , position:'absolute' , top:height/4 , alignSelf:'center' */}
+
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
+          <BoxOfCategories title='Ticket' HandleNavigate={HandleNavigate} routename='BookTicketNavigator' />
+          <BoxOfCategories title='Hotel' HandleNavigate={HandleNavigate} routename='BookHotelNavigator' />
+          {/* <BoxOfCategories title='Agency' HandleNavigate={HandleNavigate} routename='BookTicketNavigator' /> */}
+          {/* <BoxOfCategories title='Taki' HandleNavigate={HandleNavigate} routename='BookTicketNavigator' /> */}
+        </View>
+
+        <View style={{ position: 'absolute', top: height / 3.0, alignSelf: 'center' }}>
+
+          {/* <CustomTF placeholder="where are you going?" keyboardType="default" type="" label="" width={(width - 50)} onAddText={HandleSearch} text={Search} white={true} /> */}
+
+          <View style={[styles.container, { backgroundColor: 'rgba(30,30,30,0.8)' }]}>
+            <Entypo name="location" size={24} color="white" style={{ marginHorizontal: 5 }} />
+            <TextInput
+              style={[styles.input, {
+                width: width - 110,
+                justifyContent: 'center',
+                marginHorizontal: 10
+              }]}
+              onChangeText={HandleSearch}
+              value={Search}
+              placeholder={"where are you going?"}
+              placeholderTextColor={"white"}
+              keyboardType={"default"}
+            />
+
+          </View>
+        </View>
+
+      </ImageBackground>
+
+      <CategriesOfCountry navigation={navigation} />
+      <DiscoundOffers navigation={navigation} />
+      <HotelsOffers navigation={navigation} />
+
+
+      {/* <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 50 }}>
+                  <Text style={{ fontFamily: 'item', fontSize: 25 }}>{data ? JSON.stringify(data) : "App don't open from deep link"}</Text>
+                </View> */}
+
+    </Animated.View>
+  )
 
   return (
     <Animated.View style={{
@@ -140,59 +227,10 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
           {
             currentTab == "Home" ?
 
-              <Animated.View style={{}}>
-
-                <ImageBackground source={bg}
-                  resizeMode='stretch'
-                  borderRadius={15}
-                  borderBottomLeftRadius={50}
-                  borderBottomRightRadius={50}
-                  style={{
-                    width: width,
-                    height: height / 2.4,
-                  }}>
-
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: 40,
-                      marginLeft: 15,
-                      alignItems: 'center',
-                    }}>
-
-                    <TouchableOpacity onPress={() => {
-                      HandleDrawer()
-                    }}>
-                      <Image source={showMenu ? close : menu} style={{
-                        width: 26,
-                        height: 25,
-                        tintColor: 'white',
-                      }} />
-                    </TouchableOpacity>
-
-                    <Text style={styles.title}> hi,{DataOfUser?.firstName}</Text>
-
-                  </View>
-
-                  <Text style={styles.desc}>Let's discover a new advanture </Text>
-
-
-                  <CustomTF placeholder="where are you going?" keyboardType="default" type="" label="" width={(width - 50)} onAddText={HandleSearch} text={Search} white={true} />
-
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <BoxOfCategories title='Ticket' HandleNavigate={HandleNavigate} routename='BookTicketNavigator' />
-                    <BoxOfCategories title='Hotel' HandleNavigate={HandleNavigate} routename='BookHotelNavigator' />
-                    <BoxOfCategories title='Agency' HandleNavigate={HandleNavigate} routename='BookTicketNavigator' />
-                    <BoxOfCategories title='Taki' HandleNavigate={HandleNavigate} routename='BookTicketNavigator' />
-
-                  </View>
-
-                </ImageBackground>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 50 }}>
-                  <Text style={{ fontFamily: 'item', fontSize: 25 }}>{data ? JSON.stringify(data) : "App don't open from deep link"}</Text>
-                </View>
-
+              <Animated.View style={{ marginBottom: 50 }}>
+                <FlatList
+                  ListHeaderComponent={Header}
+                />
               </Animated.View>
 
               : currentTab == "Tickets" ?
@@ -211,10 +249,25 @@ export default function Home({ showMenu, scaleValue, offsetValue, closeButtonOff
                   <HistoryOfTickets />
                 </View>
 
-                :
-                <View>
-                  <Text>nononononoonon</Text>
-                </View>
+                : currentTab == "Hotels" ?
+                  <View style={{ marginTop: 35, margin: 15 }}>
+
+                    <TouchableOpacity onPress={() => {
+                      HandleDrawer()
+                    }}>
+                      <Image source={showMenu ? close : menu} style={{
+                        width: 26,
+                        height: 25,
+                        tintColor: 'white',
+                      }} />
+                    </TouchableOpacity>
+                    <HistoryOfHotel />
+                  </View>
+
+                  :
+                  <View>
+                    <Text>nononononoonon</Text>
+                  </View>
           }
 
         </Animated.View>
@@ -241,5 +294,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 30,
     marginTop: 5
-  }
+  },
+  container: {
+    height: 48,
+    paddingHorizontal: 5,
+    borderColor: "white",
+    borderRadius: 20,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  input: {
+    minHeight: 40,
+    fontSize: 18,
+    fontFamily: "item",
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    color: "white",
+  },
 })
