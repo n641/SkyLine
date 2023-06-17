@@ -14,10 +14,9 @@ export default function OfferCard({ item, navigation }) {
             <Image source={{
                 uri: item?.imag
             }} resizeMode="stretch" style={styles.image} />
-            <LinearGradient colors={['rgba(98,98,98,0.3)', 'rgba(80,80,80,0.7)', '#1A1A1A']}
-                style={{ position: 'absolute', width: width - 40, top: 120, borderRadius: 15 }}
+            <LinearGradient colors={['rgba(98,98,98,0.5)', 'rgba(80,80,80,0.8)', '#1A1A1A']}
+                style={{ position: 'absolute', width: width - 40, top: 105, borderRadius: 15 }}
             >
-
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                     <View>
                         <Text style={[styles.text, { marginBottom: -20 }]}>{item.title}</Text>

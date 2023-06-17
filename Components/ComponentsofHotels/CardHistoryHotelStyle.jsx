@@ -7,35 +7,39 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 export default function CardHistoryHotelStyle({ item }) {
     console.log(item)
+    console.log("/////////////////////////////////////////////////////////////")
+
     return (
         <View style={{
-            borderWidth: 1,
-            borderColor: 'white',
+            // borderWidth: 1,
+            // borderColor: 'white',
+            backgroundColor:'rgba(30,30,30,0.4)',
             borderRadius: 8,
             margin: 10,
-            padding: 5,
+            padding: 10,
         }}>
             <View style={styles.card}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image
                         style={styles.tinyLogo}
                         source={{
-                            uri: item.img,
+                            uri: item.hotel.hotelPhoto,
                         }}
                         resizeMode='stretch'
                     />
                     <View style={{ margin: 10 }}>
-                        <Text style={[styles.text]}>{item.name}</Text>
-                        <RateCard rate={item.rate} />
+                        <Text style={[styles.text]}>{item.hotel.hotelName}</Text>
+                        <RateCard rate={1} />
                         <Text style={[styles.text, { color: 'red' }]}>Total price : {item.price}$</Text>
+                        <Text style={[styles.text]}>Created at : {item.createdAt.toString().substring(0,10)}</Text>
 
                     </View>
                 </View>
 
 
-                <View style={{ backgroundColor: item.payment == true ? 'green' : 'red', borderRadius: 5, padding: 5, alignSelf: 'flex-start' }}>
+                <View style={{position:'absolute', left:width/1.8, backgroundColor: item.paymentStatus == true ? 'green' : 'red', borderRadius: 5, padding: 5, alignSelf: 'flex-start' }}>
                     <Text style={[styles.title]}>
-                        <Text style={[styles.title, { color: 'white', fontSize: 14 }]}>{item.payment == true ? "Paied" : "NotPay"}</Text>
+                        <Text style={[styles.title, { color: 'white', fontSize: 15 }]}>{item.paymentStatus == true ? "success pay" : "failed pay"}</Text>
                     </Text>
                 </View>
             </View>
@@ -48,6 +52,46 @@ export default function CardHistoryHotelStyle({ item }) {
                 alignSelf: 'center',
                 marginVertical: 5
             }} />
+            <Text style={[styles.text, { alignSelf: 'center' }]}>{"Rooms"}</Text>
+
+            {
+                item.room.map((e, i) => (
+                    <View key={i}>
+                        <View key={i} style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 20, margin: 10 }}>
+                            <Image
+                                style={{
+                                    width: 50,
+                                    height: 50,
+                                    borderRadius: 8,
+                                    marginHorizontal: 10
+                                }}
+                                source={{
+                                    uri: item.room.roomPhoto,
+                                }}
+                                resizeMode='stretch'
+                            />
+                            <View>
+                                <Text style={[[styles.text , {fontSize:17}]]}>{e.name}</Text>
+                                <Text style={[styles.text, {fontSize:17}]}>{e.space} m</Text>
+                                <Text style={[styles.text, { color: 'red' , fontSize:16}]}>price : {e.price}$</Text>
+                            </View>
+
+                        </View>
+                        { i!=item.room.length-1 &&  
+                        <View style={{
+                            borderWidth: 0.5,
+                            borderColor: 'white',
+                            margin: -1,
+                            width: width - 180,
+                            alignSelf: 'center',
+                            marginVertical: 5
+                        }} />}
+                    </View>
+                ))
+            }
+
+
+
 
         </View>
     )

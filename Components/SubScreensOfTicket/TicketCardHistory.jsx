@@ -4,6 +4,9 @@ import { useState } from 'react';
 import CardHistoryStyle from './CardHistoryStyle'
 import tic from '../../assets/ticketbg.png'
 
+import Empty from '../AnimatedImg/Empty';
+import LoadingImg from '../AnimatedImg/Empty'
+
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -20,7 +23,7 @@ const transition = (
 );
 
 
-export default function TicketCardHistory({ Tickets, navigation }) {
+export default function TicketCardHistory({ Tickets, navigation, loading }) {
     const [currentIndex, setCurrentIndex] = React.useState(null);
     const HandlecurrentIndex = (val) => {
         setCurrentIndex(val)

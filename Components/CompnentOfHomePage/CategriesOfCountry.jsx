@@ -7,7 +7,7 @@ export default function CategriesOfCountry({navigation}) {
     const [DATA, setDATA] = useState([
         {
             title: "2023 Discound",
-            descreption: 'on business class Tickets',
+            descreption: 'on business Tickets',
             id:1,
             imag:'https://images.unsplash.com/photo-1524592714635-d77511a4834d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80'
         },

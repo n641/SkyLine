@@ -42,7 +42,7 @@ export default function BookRoom({ navigation, route }) {
     }, []);
 
     const HandleselecetedRoom = (room) => {
-        setselecetedRoom([...selecetedRoom, { name: room.name, price: room.price }])
+        setselecetedRoom([...selecetedRoom, { name: room.name, price: room.price , id : room.id }])
     }
     const HandleDeleteRoom = (room) => {
         const filterSelectedRoom = selecetedRoom.filter((item) => {

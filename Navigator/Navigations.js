@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -37,6 +37,9 @@ import InfoOfUser from '../Screens/Home/Hotels/InfoOfUser';
 import Checkout from '../Screens/Home/Hotels/Checkout';
 import MapViews from '../Screens/Home/Hotels/MapView';
 import WaysOfPay from '../Screens/Home/Hotels/WaysOfPay';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { getMe } from '../store/actions/auth';
 
 import * as Linking from 'expo-linking';
 const prefix = Linking.makeUrl('/');
@@ -94,6 +97,15 @@ const BookHotelNavigator = () => {
 
 
 const MainNaigator = () => {
+    const dispatch = useDispatch();
+
+    const getuser = useCallback(() => {
+        dispatch(getMe())
+    }, [dispatch])
+
+    useEffect(() => {
+        getuser();
+    }, [dispatch]);
     const linking = {
         prefixes: [prefix],
         config: {

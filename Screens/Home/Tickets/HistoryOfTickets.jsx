@@ -4,6 +4,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { getMe } from '../../../store/actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 
+import LoadingImg from '../../../Components/AnimatedImg/Loading'
+import Empty from '../../../Components/AnimatedImg/Empty'
+
 import TicketCardHistory from '../../../Components/SubScreensOfTicket/TicketCardHistory';
 
 
@@ -23,6 +26,7 @@ export default function HistoryOfTickets({ navigation }) {
 
   const datauser = useSelector(state => state.Auth.userData);
   const [Tickets, setTickets] = useState([])
+  const [loading, setloading] = useState(true)
 
 
 
@@ -31,12 +35,20 @@ export default function HistoryOfTickets({ navigation }) {
     const resp = await fetch(`https://skyline-backend.cyclic.app/api/v1/tickets?user=${datauser._id}&type=round-trip&type=one-way&type=multi-destination`);
     const data = await resp.json();
     setTickets(data.data)
-
+    setloading(false)
   };
 
-  // useEffect(() => {
-  //   // fetchData();
-  // }, []);
+  if (loading) {
+    return (
+      <LoadingImg />
+    )
+  }
+
+  if (!loading && Tickets.length == 0) {
+    return (
+      <Empty />
+    )
+  }
 
   return (
     <View style={{ height: height - 55 }}>
@@ -44,7 +56,12 @@ export default function HistoryOfTickets({ navigation }) {
       <TicketCardHistory
         Tickets={Tickets}
         navigation={navigation}
+        loading={loading}
       />
+      {/* {!loading && Tickets.length == 0 &&
+      <Empty />
+      } */}
+
     </View>
   )
 }

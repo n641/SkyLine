@@ -59,9 +59,9 @@ export default function DetailsBottomSheet({ navigation, data, HandleCancellatio
     const [checked4, setChecked4] = React.useState(false);
 
     const SubmitBook = () => {
-        if (!checked1) {
-            Handlemeals([])
-        }
+        // if (!checked1) {
+        //     Handlemeals([])
+        // }
         if (checked2) {
             Handlemeals(oldArray => [...oldArray, {
                 text: "Lunch",
@@ -84,7 +84,7 @@ export default function DetailsBottomSheet({ navigation, data, HandleCancellatio
         console.log(meals)
         console.log(Cancellation)
 
-        navigation.navigate('BookRoom', { dataid: data._id, data: data, headerData: headerData, meals: meals, cancellation: Cancellation })
+        // navigation.navigate('BookRoom', { dataid: data._id, data: data, headerData: headerData, meals: meals, cancellation: Cancellation })
 
     }
 
@@ -221,7 +221,7 @@ export default function DetailsBottomSheet({ navigation, data, HandleCancellatio
                         <Checkbox
                             status={checked4 ? 'checked' : 'unchecked'}
                             onPress={() => {
-                                setChecked3(!checked4);
+                                setChecked4(!checked4);
                             }}
                         />
                         <Text style={styles.text}>{AdditionalServices[3].text}</Text>
@@ -234,7 +234,7 @@ export default function DetailsBottomSheet({ navigation, data, HandleCancellatio
             <View style={{ alignSelf: 'center', margin: 15 }}>
                 <MainButton title={'Book'} onClick={() => {
                     SubmitBook()
-                    // navigation.navigate('BookRoom',{data:data._id})
+                    navigation.navigate('BookRoom', { dataid: data._id, data: data, headerData: headerData, meals: meals, cancellation: Cancellation })
                 }} />
             </View>
 

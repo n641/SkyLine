@@ -32,6 +32,8 @@ export default function ResultHotels({ navigation, route }) {
   const [dataLenght, setdataLenght] = useState();
   const ref = React.useRef();
 
+  console.log(headerData)
+
   const url = `https://skyline-backend.cyclic.app/api/v1/hotels?city=${location}`
   const fetchData = async () => {
     const resp = await fetch(url).catch(error => console.log(error.message));

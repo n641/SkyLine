@@ -18,13 +18,8 @@ export default function Checkout({ navigation, route }) {
 
     const [Rooms, setRooms] = useState(['suprior room', 'single room'])
     const { meals, cancellation, Hoteldata, selecetedRoom, headerData, userInf ,allPrice } = route.params;
-    function addDays(date, days) {
-        var result = new Date(date);
-        result.setDate(result.getDate() + days);
-        return result;
-      }
-    var checkout =addDays(headerData.date , headerData.Night)
-    console.log(checkout)
+    console.log(headerData)
+    
 
 
     return (
@@ -87,7 +82,7 @@ export default function Checkout({ navigation, route }) {
                                 <MaterialIcons name="date-range" size={26} color="gray" style={{ marginLeft: 10 }} />
                                 <Text style={[styles.text, { color: 'gray' }]}>Check-out</Text>
                             </View>
-                            <Text style={[styles.text, { marginLeft: 35 }]}>{headerData.date}</Text>
+                            <Text style={[styles.text, { marginLeft: 35 }]}>{headerData.date2}</Text>
                         </View>
                     </View>
                 </View>
@@ -137,14 +132,7 @@ export default function Checkout({ navigation, route }) {
                        <Text style={[styles.text, { color: 'gray' }]}>{e.price}</Text>
                    </View>
                     ))}
-                    {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
-                        <Text style={[styles.text]}>Suprior room</Text>
-                        <Text style={[styles.text, { color: 'gray' }]}>350$</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
-                        <Text style={[styles.text]}>double room</Text>
-                        <Text style={[styles.text, { color: 'gray' }]}>250$</Text>
-                    </View> */}
+                    
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
                         <Text style={[styles.text]}>Taxes and fees</Text>
                         <Text style={[styles.text, { color: 'gray' }]}>50$</Text>

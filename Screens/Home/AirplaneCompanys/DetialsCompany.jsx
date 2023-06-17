@@ -6,6 +6,8 @@ import axios from '../../../Api/axios';
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from '../../../Conestant/Colors';
 
+import CAlert from '../../../Components/CustomeAlerts/CAlert'
+
 import RateCard from '../../../Components/ComponentsofHotels/RateCard';
 import CommetCard from '../../../Components/ComonentOfAirlines/CommetCard';
 import CustomTF from '../../../Components/CustomeTextFields/CustomTF';
@@ -15,6 +17,9 @@ import CustomeAnimated from '../../../Components/CustomeAlerts/CustomeAnimated';
 
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+
+import wrong from '../../../assets/warning.png'
+
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -28,13 +33,16 @@ export default function DetialsCompany({ navigation, route }) {
   const auth = useSelector(state => state.Auth.token);
   const [FlageError, setFlageError] = useState(false)
 
+  const [visibleForm, setvisibleForm] = useState(false)
+  const [titleForm, settitleForm] = useState("")
+
   const handletext = (val) => {
     settext(val)
   }
   const handleRate = (val) => {
     setRate(val)
   }
-  console.log(Rate)
+
   const GetComments = async () => {
     const url = `https://skyline-backend.cyclic.app/api/v1/flights-comments?airplaneCompany=${Data.id}`
     const response = await axios.get(url,
@@ -56,6 +64,11 @@ export default function DetialsCompany({ navigation, route }) {
   }, []);
 
   const addComment = async (rate, comment) => {
+    // console.log(JSON.stringify({
+    //   comment: comment,
+    //   rate: rate,
+    //   airplaneCompany: Data.id
+    // }))
     const url = `https://skyline-backend.cyclic.app/api/v1/flights-comments`
     const response = await axios.post(url, JSON.stringify({
       comment: comment,
@@ -67,7 +80,14 @@ export default function DetialsCompany({ navigation, route }) {
         withCredentials: true
       }
     )
-      .catch(error => { console.log(error) }
+      .catch(error => {
+        if (error?.response.status == 500) {
+          settitleForm("you can not add to evaluation to the same company")
+          setvisibleForm(true)
+        } else {
+          console.log(error)
+        }
+      }
       )
 
     if (response) {
@@ -97,6 +117,9 @@ export default function DetialsCompany({ navigation, route }) {
       }}
       style={{ height: height, width: width }}
     >
+      <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+        setvisibleForm(false)
+      }} />
       <View style={{ alignSelf: 'flex-start', position: 'absolute', top: 30 }}>
 
         <AntDesign name="arrowleft" size={30} color="white" onPress={() => {
@@ -142,27 +165,28 @@ export default function DetialsCompany({ navigation, route }) {
       </View>
 
       <CustomeAnimated visible={ShowPopUp} color={'black'}>
-            <Text style={{ fontSize: 35, color: "white" }}
-              onPress={() => {
-                setShowPopUp(false)
-              }}
-            >x</Text>
-            <Text style={[styles.text, { alignSelf: 'center', fontFamily: 'item', fontSize: 25, marginBottom: 10, color: FlageError == true ? "red" : "white" }]}>{FlageError == true ? "must Add comment" : "Add comment"}</Text>
-            <CustomTF placeholder="add your comment" keyboardType="default" type="" label="Comment" width={(width - 200)} required={true} icon={false} onAddText={handletext} text={text} />
-            <AddRate handleRate={handleRate} rate={Rate} />
-            <View style={{ alignSelf: 'center', margin: 10 }}>
-              <MainButton title={"ADD"} onClick={() => {
-                if (text != null && Rate) {
-                  setShowPopUp(false)
-                  addComment(Rate, text)
-                  GetComments()
-                } else {
-                  setFlageError(true)
-                }
+        <Text style={{ fontSize: 35, color: "white" }}
+          onPress={() => {
+            setShowPopUp(false)
+          }}
+        >x</Text>
+        <Text style={[styles.text, { alignSelf: 'center', fontFamily: 'item', fontSize: 25, marginBottom: 10, color: FlageError == true ? "red" : "white" }]}>{FlageError == true ? "must Add comment" : "Add comment"}</Text>
+        <CustomTF placeholder="add your comment" keyboardType="default" type="" label="Comment" width={(width - 200)} required={true} icon={false} onAddText={handletext} text={text} />
+        <AddRate handleRate={handleRate} rate={Rate} />
+        <View style={{ alignSelf: 'center', margin: 10 }}>
+          <MainButton title={"ADD"} onClick={() => {
+            if (text != null && Rate) {
+              setShowPopUp(false)
+              addComment(Rate, text)
+              GetComments()
+              GetComments()
+            } else {
+              setFlageError(true)
+            }
 
-              }} />
-            </View>
-          </CustomeAnimated>
+          }} />
+        </View>
+      </CustomeAnimated>
 
     </ImageBackground>
   )

@@ -105,7 +105,7 @@ export default function CardHistoryStyle({ item, index, currentIndex, Handlecurr
 
                     {
                         Data.map((e, i) => (
-                            <View style={{ margin: 5 }}>
+                            <View key={i} style={{ margin: 5 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
 
                                     <View>

@@ -30,11 +30,19 @@ export default function SearchCard({ HandleOpenSheet, persons, navigation, Adult
 
     const HandleLocation = (text) => {
         setlocation(text)
-        setheaderData({ Night: Nights ? Nights : 1, date: selectedRange ? selectedRange?.firstDate : new Date().toString().substring(0, 15), numberOfRooms: 1, persons: Adults + infants + Child })
+        setheaderData({
+            Night: Nights ? Nights : 1, date: selectedRange ? selectedRange?.firstDate : new Date().toString().substring(0, 15),
+            date2: selectedRange ? selectedRange?.secondDate : new Date().toString().substring(0, 15)
+            , numberOfRooms: 1, persons: Adults + infants + Child
+        })
     }
 
     const validateSubmit = async () => {
-        setheaderData({ Night: Nights ? Nights : 1, date: selectedRange ? selectedRange?.firstDate : new Date().toString().substring(0, 15), numberOfRooms: 1, persons: Adults + infants + Child })
+        setheaderData({
+            Night: Nights ? Nights : 1, date: selectedRange ? selectedRange?.firstDate : new Date().toString().substring(0, 15),
+            date2: selectedRange ? selectedRange?.secondDate : new Date().toString().substring(0, 15),
+            numberOfRooms: 1, persons: Adults + infants + Child
+        })
         if (location != null && Adults != 0) {
             navigation.navigate('ResultHotels', { location: location, headerData: headerData })
         } else {
@@ -45,8 +53,13 @@ export default function SearchCard({ HandleOpenSheet, persons, navigation, Adult
 
     const HandleRangeofDate = (val) => {
         setRange(val)
-        setNights(selectedRange ? Number(selectedRange?.secondDate.substring(8)) - Number(selectedRange?.firstDate.substring(8)) : 1)
-        setheaderData({ Night: Nights ? Nights : 1, date: selectedRange ? selectedRange?.firstDate : new Date().toString().substring(0, 15), numberOfRooms: 1, persons: Adults + infants + Child })
+        setNights(selectedRange != null ? Number(selectedRange?.secondDate.substring(8)) - Number(selectedRange?.firstDate.substring(8)) : 1)
+        // console.log(Number(selectedRange?.secondDate.substring(8)) - Number(selectedRange?.firstDate.substring(8)))
+        setheaderData({
+            Night: Nights ? Nights : 1, date: selectedRange ? selectedRange?.firstDate : new Date().toString().substring(0, 15),
+            date2: selectedRange ? selectedRange?.secondDate : new Date().toString().substring(0, 15)
+            , numberOfRooms: 1, persons: Adults + infants + Child
+        })
     }
 
     const DataRange = () => {
@@ -73,8 +86,6 @@ export default function SearchCard({ HandleOpenSheet, persons, navigation, Adult
         <TouchableOpacity style={styles.container} onPress={() => { HandleShowData(false) }} activeOpacity={1}>
 
             <View style={styles.card}>
-
-
                 <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
                     setvisibleForm(false)
                 }} />

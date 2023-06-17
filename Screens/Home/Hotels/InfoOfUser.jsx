@@ -31,7 +31,9 @@ const transition = (
 
 export default function InfoOfUser({ navigation, route }) {
     const { meals, cancellation, Hoteldata, selecetedRoom, headerData } = route.params;
+    
     console.log(selecetedRoom)
+
     const userData = useSelector(state => state.Auth.userData);
 
     const [PhoneNumber, setPhoneNumber] = useState(userData?.phone ? userData?.phone : null);

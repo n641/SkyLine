@@ -11,7 +11,9 @@ const width = Dimensions.get('window').width;
 export default function HotelCard({ headerData, id, mainImg, title, description, location, price, rate, navigation }) {
   return (
     <TouchableOpacity
-      onPress={() => { navigation.navigate('DetailsHotel', { hotelId: id, headerData: headerData }) }}
+      onPress={() => { 
+        navigation.navigate('DetailsHotel', { hotelId: id, headerData: headerData })
+       }}
       style={styles.card} activeOpacity={0.8}>
       <Image
         style={styles.logo}
