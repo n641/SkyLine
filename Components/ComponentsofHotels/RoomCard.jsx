@@ -40,7 +40,7 @@ export default function RoomCard({ item, HandleselecetedRoom, HandleDeleteRoom, 
                 {icon == 'circle' ?
                     <Entypo name="circle" size={30} color="white" onPress={() => {
                         seticon('checkcircleo')
-                        HandleselecetedRoom(item.name)
+                        HandleselecetedRoom({ name: item.name, price: item.price })
                     }} />
                     :
                     <AntDesign name="checkcircleo" size={30} color="green" onPress={() => {

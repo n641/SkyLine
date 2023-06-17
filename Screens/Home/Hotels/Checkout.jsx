@@ -4,9 +4,7 @@ import React from 'react'
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
 
 import Colors from '../../../Conestant/Colors';
 import { useState } from 'react';
@@ -16,9 +14,18 @@ import MainButton from '../../../Components/MainButton'
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export default function Checkout({ navigation }) {
+export default function Checkout({ navigation, route }) {
 
     const [Rooms, setRooms] = useState(['suprior room', 'single room'])
+    const { meals, cancellation, Hoteldata, selecetedRoom, headerData, userInf ,allPrice } = route.params;
+    function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+      }
+    var checkout =addDays(headerData.date , headerData.Night)
+    console.log(checkout)
+
 
     return (
         <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
@@ -27,6 +34,7 @@ export default function Checkout({ navigation }) {
                 alignItems: 'center'
             }}>
             <ScrollView>
+                
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <AntDesign name="arrowleft" size={35} color="white" onPress={() => {
                         navigation.goBack()
@@ -39,8 +47,8 @@ export default function Checkout({ navigation }) {
                         <AntDesign name="home" size={28} color="white" />
                         <Text style={{ fontFamily: 'item', fontSize: 23, marginHorizontal: 10, color: 'white' }}>Hotel</Text>
                     </View>
-                    {Rooms.map((e , i) => (
-                        <Text key={i} style={{ fontFamily: 'item', fontSize: 23, marginHorizontal: 10, color: 'white' }}>- {e}</Text>
+                    {selecetedRoom.map((e, i) => (
+                        <Text key={i} style={{ fontFamily: 'item', fontSize: 23, marginHorizontal: 10, color: 'white' }}>- {e.name}</Text>
                     ))}
 
                     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1, marginHorizontal: 15, margin: 15 }} />
@@ -51,7 +59,7 @@ export default function Checkout({ navigation }) {
                                 <MaterialIcons name="nightlight-round" size={26} color="gray" style={{ marginLeft: 10 }} />
                                 <Text style={[styles.text, { color: 'gray' }]}>duration</Text>
                             </View>
-                            <Text style={[styles.text, { marginLeft: 35 }]}>1 night</Text>
+                            <Text style={[styles.text, { marginLeft: 35 }]}>{headerData.Night} night</Text>
                         </View>
 
                         <View>
@@ -59,7 +67,7 @@ export default function Checkout({ navigation }) {
                                 <Ionicons name="person" size={26} color="gray" style={{ marginLeft: 10 }} />
                                 <Text style={[styles.text, { color: 'gray' }]}>Guests</Text>
                             </View>
-                            <Text style={[styles.text, { marginLeft: 35 }]}>2 Adults , 1 child</Text>
+                            <Text style={[styles.text, { marginLeft: 35 }]}>{headerData.persons} person</Text>
                         </View>
                     </View>
 
@@ -71,7 +79,7 @@ export default function Checkout({ navigation }) {
                                 <MaterialIcons name="date-range" size={26} color="gray" style={{ marginLeft: 10 }} />
                                 <Text style={[styles.text, { color: 'gray' }]}>Check-in</Text>
                             </View>
-                            <Text style={[styles.text, { marginLeft: 35 }]}>wed , 03/08/2022(15:00-03:00)</Text>
+                            <Text style={[styles.text, { marginLeft: 35 }]}>{headerData.date}</Text>
                         </View>
 
                         <View>
@@ -79,7 +87,7 @@ export default function Checkout({ navigation }) {
                                 <MaterialIcons name="date-range" size={26} color="gray" style={{ marginLeft: 10 }} />
                                 <Text style={[styles.text, { color: 'gray' }]}>Check-out</Text>
                             </View>
-                            <Text style={[styles.text, { marginLeft: 35 }]}>wed , 03/08/2022(15:00-03:00)</Text>
+                            <Text style={[styles.text, { marginLeft: 35 }]}>{headerData.date}</Text>
                         </View>
                     </View>
                 </View>
@@ -90,17 +98,17 @@ export default function Checkout({ navigation }) {
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
                         <Text style={[styles.text]}>Full name</Text>
-                        <Text style={[styles.text, { color: 'gray' }]}>Noha mohammed</Text>
+                        <Text style={[styles.text, { color: 'gray' }]}>{userInf?.username}</Text>
                     </View>
                     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1, marginHorizontal: 15, margin: 3 }} />
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
                         <Text style={[styles.text]}>Phone</Text>
-                        <Text style={[styles.text, { color: 'gray' }]}>010256314</Text>
+                        <Text style={[styles.text, { color: 'gray' }]}>{userInf?.phone}</Text>
                     </View>
                     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1, marginHorizontal: 15, margin: 3 }} />
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
                         <Text style={[styles.text]}>Email</Text>
-                        <Text style={[styles.text, { color: 'gray' }]}>noha67357@gmail.com</Text>
+                        <Text style={[styles.text, { color: 'gray' }]}>{userInf?.email}</Text>
                     </View>
                 </View>
 
@@ -108,7 +116,7 @@ export default function Checkout({ navigation }) {
                     <View style={styles.container}>
                         <Text style={{ fontFamily: 'item', fontSize: 23, marginHorizontal: 10, color: 'white' }}>Policy</Text>
                     </View>
-                    <Text style={{ fontFamily: 'item', fontSize: 17, marginHorizontal: 10, color: 'white' , padding:5 }}>maximum 02 children/room -
+                    <Text style={{ fontFamily: 'item', fontSize: 17, marginHorizontal: 10, color: 'white', padding: 5 }}>maximum 02 children/room -
                         children from 6-11 years old :
                         surcharge VND150.000/child when
                         sharing bed with parents .Maximum
@@ -123,29 +131,36 @@ export default function Checkout({ navigation }) {
                     <View style={styles.container}>
                         <Text style={{ fontFamily: 'item', fontSize: 23, marginHorizontal: 10, color: 'white' }}>Contact info</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
+                    {selecetedRoom.map((e, i) => (
+                       <View key={i} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
+                       <Text style={[styles.text]}>{e.name}</Text>
+                       <Text style={[styles.text, { color: 'gray' }]}>{e.price}</Text>
+                   </View>
+                    ))}
+                    {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
                         <Text style={[styles.text]}>Suprior room</Text>
                         <Text style={[styles.text, { color: 'gray' }]}>350$</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
                         <Text style={[styles.text]}>double room</Text>
                         <Text style={[styles.text, { color: 'gray' }]}>250$</Text>
-                    </View>
+                    </View> */}
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
                         <Text style={[styles.text]}>Taxes and fees</Text>
-                        <Text style={[styles.text, { color: 'gray' }]}>150$</Text>
+                        <Text style={[styles.text, { color: 'gray' }]}>50$</Text>
                     </View>
                     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1, marginHorizontal: 15, margin: 3 }} />
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 8 }}>
                         <Text style={[styles.text]}>Total</Text>
-                        <Text style={[styles.text, { color: 'red' }]}>750$</Text>
+                        <Text style={[styles.text, { color: 'red' }]}>{allPrice+50}$</Text>
                     </View>
                 </View>
 
-                        <View style={{alignSelf:'center' , margin:10}}>
-                            <MainButton title={' payment'} onClick={()=>{}}/>
-                        </View>
-
+                <View style={{ alignSelf: 'center', margin: 10 }}>
+                    <MainButton title={' payment'} onClick={() => {
+                        navigation.navigate('WaysOfPay',{ meals: meals, cancellation: cancellation, selecetedRoom: selecetedRoom, Hoteldata: Hoteldata, headerData: headerData })
+                     }} />
+                </View>
             </ScrollView>
         </LinearGradient>
     )
@@ -160,7 +175,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         margin: 10,
         paddingBottom: 10,
-        marginVertical:20
+        marginVertical: 20
     },
     container: {
         flexDirection: 'row',

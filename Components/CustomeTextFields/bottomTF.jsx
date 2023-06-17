@@ -21,13 +21,13 @@ export default function BottomTF({location, HandleLocation,icon,label}) {
                         width: width - 130,
                         justifyContent: 'center',
                         color: 'white',
-                        fontSize: 25,
+                        fontSize: 20,
                         margin: 10,
 
                     }]}
                     onChangeText={HandleLocation}
                     value={location}
-                    placeholder='Enter your location'
+                    placeholder='Enter location of Hotel'
                     placeholderTextColor={'gray'}
                 />
                 {icon === "location" ?

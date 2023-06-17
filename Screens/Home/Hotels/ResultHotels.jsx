@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, FlatList, Animated, TouchableOpacity , ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, FlatList, Animated, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -10,6 +10,7 @@ import { Entypo } from '@expo/vector-icons';
 
 import HeaderOfData from '../../../Components/ComponentsofHotels/HeaderOfData';
 import HotelCard from '../../../Components/ComponentsofHotels/HotelCard';
+import Empty from '../../../Components/AnimatedImg/Empty'
 
 import { Transition, Transitioning } from 'react-native-reanimated';
 
@@ -31,7 +32,7 @@ export default function ResultHotels({ navigation, route }) {
   const [dataLenght, setdataLenght] = useState();
   const ref = React.useRef();
 
-  const url = `https://skyline-backend.cyclic.app/api/v1/hotels?hotelName=${location}`
+  const url = `https://skyline-backend.cyclic.app/api/v1/hotels?city=${location}`
   const fetchData = async () => {
     const resp = await fetch(url).catch(error => console.log(error.message));
     const data = await resp.json();
@@ -62,6 +63,17 @@ export default function ResultHotels({ navigation, route }) {
         <HeaderOfData headerData={headerData} />
       </Animated.View>
     );
+  }
+
+  if (Hotels.length == 0 && Loading != true) {
+    return (
+      <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
+        style={styles.linearGradient}>
+          <FlatList_Header />
+          <Empty />
+        <Text style={styles.text}> There is no Hotels</Text>
+      </LinearGradient>
+    )
   }
 
   return (
@@ -118,7 +130,7 @@ const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
     justifyContent: 'flex-start',
-    //alignItems: 'center',
+    alignItems: 'center',
   },
   text: {
     fontSize: 20,

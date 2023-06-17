@@ -18,8 +18,8 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 const MaxHeight = height
 
-export default function DetailsBottomSheet({ navigation, data }) {
-    // console.log(data)
+export default function DetailsBottomSheet({ navigation, data, HandleCancellation, Handlemeals, Cancellation, meals, headerData }) {
+    // console.log(data)headerData={headerData}
     const cancellationPolicy = [
         {
             text: "Non-refundable",
@@ -35,7 +35,7 @@ export default function DetailsBottomSheet({ navigation, data }) {
         {
             text: "BreackFast",
             value: 'first',
-            price: 0
+            price: 10
         }, {
             text: "Lunch",
             value: 'second',
@@ -57,6 +57,36 @@ export default function DetailsBottomSheet({ navigation, data }) {
     const [checked2, setChecked2] = React.useState(false);
     const [checked3, setChecked3] = React.useState(false);
     const [checked4, setChecked4] = React.useState(false);
+
+    const SubmitBook = () => {
+        if (!checked1) {
+            Handlemeals([])
+        }
+        if (checked2) {
+            Handlemeals(oldArray => [...oldArray, {
+                text: "Lunch",
+                price: 15
+            }])
+        }
+        if (checked3) {
+            Handlemeals(oldArray => [...oldArray, {
+                text: "Dinner",
+                price: 15
+            }])
+        }
+        if (checked4) {
+            Handlemeals(oldArray => [...oldArray, {
+                text: "Snacks",
+                price: 15
+            }])
+        }
+
+        console.log(meals)
+        console.log(Cancellation)
+
+        navigation.navigate('BookRoom', { dataid: data._id, data: data, headerData: headerData, meals: meals, cancellation: Cancellation })
+
+    }
 
 
     return (
@@ -127,6 +157,7 @@ export default function DetailsBottomSheet({ navigation, data }) {
                                         status={checkedradio === e.value ? 'checked' : 'unchecked'}
                                         onPress={() => {
                                             setCheckedradio(e.value)
+                                            HandleCancellation({ text: e.text, price: e.price })
                                         }}
                                     />
                                     <Text style={styles.text}>{e.text}</Text>
@@ -188,9 +219,9 @@ export default function DetailsBottomSheet({ navigation, data }) {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Checkbox
-                            status={checked3 ? 'checked' : 'unchecked'}
+                            status={checked4 ? 'checked' : 'unchecked'}
                             onPress={() => {
-                                setChecked3(!checked3);
+                                setChecked3(!checked4);
                             }}
                         />
                         <Text style={styles.text}>{AdditionalServices[3].text}</Text>
@@ -202,7 +233,8 @@ export default function DetailsBottomSheet({ navigation, data }) {
 
             <View style={{ alignSelf: 'center', margin: 15 }}>
                 <MainButton title={'Book'} onClick={() => {
-                    navigation.navigate('BookRoom',{data:data._id})
+                    SubmitBook()
+                    // navigation.navigate('BookRoom',{data:data._id})
                 }} />
             </View>
 

@@ -11,7 +11,7 @@ const width = Dimensions.get('window').width;
 export default function HotelCard({ headerData, id, mainImg, title, description, location, price, rate, navigation }) {
   return (
     <TouchableOpacity
-      onPress={() => { navigation.navigate('DetailsHotel' , {hotelId: id , headerData:headerData}) }}
+      onPress={() => { navigation.navigate('DetailsHotel', { hotelId: id, headerData: headerData }) }}
       style={styles.card} activeOpacity={0.8}>
       <Image
         style={styles.logo}
@@ -24,7 +24,7 @@ export default function HotelCard({ headerData, id, mainImg, title, description,
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginHorizontal: 20 }}>
 
         <View>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title, { fontSize: title.length < 15 ? width / 15 : width / 20 }]}>{title}</Text>
           <Text numberOfLines={3} style={styles.description}>{description}</Text>
         </View>
 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     // borderRadius: 15
   },
   title: {
-    fontSize: 30,
+    fontSize: width / 18,
     fontFamily: 'item',
     color: 'white'
   },

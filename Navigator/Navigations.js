@@ -36,6 +36,7 @@ import BookRoom from '../Screens/Home/Hotels/BookRoom';
 import InfoOfUser from '../Screens/Home/Hotels/InfoOfUser';
 import Checkout from '../Screens/Home/Hotels/Checkout';
 import MapViews from '../Screens/Home/Hotels/MapView';
+import WaysOfPay from '../Screens/Home/Hotels/WaysOfPay';
 
 import * as Linking from 'expo-linking';
 const prefix = Linking.makeUrl('/');
@@ -84,6 +85,8 @@ const BookHotelNavigator = () => {
             <Stack.Screen name="InfoOfUser" component={InfoOfUser} />
             <Stack.Screen name="Checkout" component={Checkout} />
             <Stack.Screen name="MapViews" component={MapViews} />
+            <Stack.Screen name="WaysOfPay" component={WaysOfPay} />
+            <Stack.Screen name="PaymentWV" component={PaymentWV} />
         </Stack.Navigator>
     )
 }

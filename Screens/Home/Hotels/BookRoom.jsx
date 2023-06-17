@@ -6,22 +6,30 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 import HeaderOfData from '../../../Components/ComponentsofHotels/HeaderOfData';
 import RoomCard from '../../../Components/ComponentsofHotels/RoomCard';
-import MainButton from '../../../Components/MainButton'
+import MainButton from '../../../Components/MainButton';
+import CAlert from '../../../Components/CustomeAlerts/CAlert'
+
 
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from '../../../Conestant/Colors'
+
+import wrong from '../../../assets/warning.png'
 
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export default function BookRoom({ navigation, route }) {
-    const { data, headerData } = route.params;
+    const { dataid, data, headerData, meals, cancellation } = route.params;
+
     const [Loading, setLoading] = useState(true)
     const [Rooms, setRooms] = useState([])
     const [selecetedRoom, setselecetedRoom] = useState([])
 
-    const url = `https://skyline-backend.cyclic.app/api/v1/hotels/rooms/${data}`
+    const [visibleForm, setvisibleForm] = useState(false)
+    const [titleForm, settitleForm] = useState("")
+
+    const url = `https://skyline-backend.cyclic.app/api/v1/hotels/rooms/${dataid}`
     const fetchData = async () => {
         const resp = await fetch(url).catch(error => console.log(error.message));
         const data = await resp.json();
@@ -34,11 +42,11 @@ export default function BookRoom({ navigation, route }) {
     }, []);
 
     const HandleselecetedRoom = (room) => {
-        setselecetedRoom([...selecetedRoom, { room }])
+        setselecetedRoom([...selecetedRoom, { name: room.name, price: room.price }])
     }
     const HandleDeleteRoom = (room) => {
         const filterSelectedRoom = selecetedRoom.filter((item) => {
-            return item.room != room
+            return item.name != room
         })
         setselecetedRoom(filterSelectedRoom)
     }
@@ -71,6 +79,10 @@ export default function BookRoom({ navigation, route }) {
                 </View>
             }
 
+            <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+                setvisibleForm(false)
+            }} />
+
             <FlatList
                 data={Rooms}
                 ListHeaderComponent={FlatList_Header}
@@ -93,14 +105,21 @@ export default function BookRoom({ navigation, route }) {
                         <Text numberOfLines={selecetedRoom.length} style={{ maxWidth: 92, margin: 5 }}>
                             {selecetedRoom.map((item, i) => {
                                 return (
-                                    <Text key={i} style={[styles.text]}>- {item.room} </Text>
+                                    <Text key={i} style={[styles.text]}>- {item.name} </Text>
                                 )
                             })}
                         </Text>
                     </View>
 
                     <View style={{ margin: 10 }}>
-                        <MainButton title='Done' onClick={() => { navigation.navigate('InfoOfUser') }} />
+                        <MainButton title='Done' onClick={() => {
+                            if (selecetedRoom.length != 0) {
+                                navigation.navigate('InfoOfUser', { meals: meals, cancellation: cancellation, selecetedRoom: selecetedRoom, Hoteldata: data, headerData: headerData })
+                            } else {
+                                settitleForm("please select Room")
+                                setvisibleForm(true)
+                            }
+                        }} />
                     </View>
 
                 </View>

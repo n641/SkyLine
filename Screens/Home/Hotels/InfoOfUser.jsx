@@ -3,6 +3,10 @@ import React, { useState } from 'react'
 
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { useSelector, useDispatch } from 'react-redux';
+
+import CAlert from '../../../Components/CustomeAlerts/CAlert'
+import wrong from '../../../assets/warning.png'
 
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from '../../../Conestant/Colors';
@@ -25,15 +29,33 @@ const transition = (
     </Transition.Together>
 );
 
-export default function InfoOfUser({ navigation }) {
-    const [PhoneNumber, setPhoneNumber] = useState();
-    const [Email, setEmail] = useState()
-    const [FirstName, setFirstName] = useState("")
-    const [SecondName, setSecondName] = useState("")
-    const [Email2, setEmail2] = useState()
-    const [PhoneNumber2, setPhoneNumber2] = useState()
+export default function InfoOfUser({ navigation, route }) {
+    const { meals, cancellation, Hoteldata, selecetedRoom, headerData } = route.params;
+    console.log(selecetedRoom)
+    const userData = useSelector(state => state.Auth.userData);
+
+    const [PhoneNumber, setPhoneNumber] = useState(userData?.phone ? userData?.phone : null);
+    const [Email, setEmail] = useState(userData?.email)
+    const [FirstName, setFirstName] = useState(userData?.username)
+
+    const [SecondName, setSecondName] = useState(null)
+    const [Email2, setEmail2] = useState(null)
+    const [PhoneNumber2, setPhoneNumber2] = useState(null)
+
     const [isEnabled, setIsEnabled] = useState(false);
+
+    const [visibleForm, setvisibleForm] = useState(false)
+    const [titleForm, settitleForm] = useState("")
     const ref = React.useRef();
+
+    var allPrice = (Hoteldata.price * headerData.Night) + cancellation.price;
+    meals.map((e) => {
+        allPrice = allPrice + e.price
+    })
+
+    selecetedRoom.map((e) => {
+        allPrice = allPrice + (e.price * headerData.Night)
+    })
 
     const HandleFirstName = (text) => {
         setFirstName(text)
@@ -65,7 +87,7 @@ export default function InfoOfUser({ navigation }) {
             }}>
             <ScrollView >
                 <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
                     style={styles.containerKeyboard}
                 >
                     <Transitioning.View
@@ -73,11 +95,15 @@ export default function InfoOfUser({ navigation }) {
                         transition={transition}
                         style={styles.container}
                     >
+
+                        <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+                            setvisibleForm(false)
+                        }} />
                         <View style={{
                             alignItems: 'center',
                         }}>
 
-                            <View style={{ flexDirection: 'row', alignItems: 'center', width: width, marginLeft: width / 10 , alignSelf:'center' }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', width: width, marginLeft: width / 10, alignSelf: 'center' }}>
                                 <AntDesign name="arrowleft" size={35} color="white" onPress={() => {
                                     navigation.goBack()
                                 }} />
@@ -87,24 +113,21 @@ export default function InfoOfUser({ navigation }) {
                             <View style={{ justifyContent: 'center', margin: 0 }}>
                                 <Text style={[styles.text, { marginBottom: -10 }]}>username</Text>
                                 <View style={styles.containerConestInput}>
-                                    <Text style={styles.text}>Noha mohammed</Text>
+                                    <Text style={styles.text}>{FirstName}</Text>
                                 </View>
                             </View>
 
                             <View style={{ justifyContent: 'center', margin: 0 }}>
                                 <Text style={[styles.text, { marginBottom: -10 }]}>Email</Text>
                                 <View style={styles.containerConestInput}>
-                                    <Text style={styles.text}>noha67357@gmail.com</Text>
+                                    <Text style={styles.text}>{Email}</Text>
                                 </View>
                             </View>
 
 
-                            <View style={{ alignItems: 'center' }}>
-                                <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 87)} required={true} onAddText={HandleEmial} text={Email} />
-                            </View>
 
                             <View style={{ marginTop: 20 }}>
-                                <PhoneNumberTF placeholder='***********' keyboardType='numeric' label='phone Number' required={true} onAddText={HnadlePhoneNumber} text={PhoneNumber} />
+                                <PhoneNumberTF placeholder={userData?.phone ? userData?.phone : "***********"} keyboardType='numeric' label='phone Number' required={true} onAddText={HnadlePhoneNumber} text={PhoneNumber} />
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: width, marginTop: 25 }}>
@@ -123,34 +146,48 @@ export default function InfoOfUser({ navigation }) {
                             {isEnabled &&
                                 <View style={{
                                     alignItems: 'center',
-                                }}>
+                                }}
+                                >
                                     <View style={{ alignItems: 'center', margin: 10 }}>
-                                        <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 87)} required={true} onAddText={HandleFirstName} text={FirstName} />
-                                    </View>
-                                    <View style={{ alignItems: 'center', margin: 10 }}>
-                                        <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 87)} required={true} onAddText={HandleSecondName} text={SecondName} />
-                                    </View>
-                                    <View style={{ alignItems: 'center', margin: 10 }}>
-                                        <PhoneNumberTF placeholder='***********' keyboardType='numeric' label='phone Number' required={true} onAddText={HnadlePhoneNumber2} text={PhoneNumber2} />
+                                        <CustomTF placeholder="example" keyboardType="username" type="" label="username" width={(width - 87)} required={true} onAddText={HandleSecondName} text={SecondName} />
                                     </View>
                                     <View style={{ alignItems: 'center', marginTop: 10 }}>
                                         <CustomTF placeholder="name@example.com" keyboardType="email-address" type="" label="Email" width={(width - 87)} required={true} onAddText={HandleEmial2} text={Email2} />
                                     </View>
+                                    <View style={{ alignItems: 'center', marginTop: 25 }}>
+                                        <PhoneNumberTF placeholder='***********' keyboardType='numeric' label='phone Number' required={true} onAddText={HnadlePhoneNumber2} text={PhoneNumber2} />
+                                    </View>
+
                                 </View>
                             }
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: width, margin: 15 }}>
                                 <Text style={[styles.text, { fontSize: 35 }]}>Total</Text>
                                 <View style={{ alignItems: 'center' }}>
-                                    <Text style={[styles.text, { fontSize: 25, color: 'red' }]}>500<Text style={{ fontSize: 25, color: 'white' }}>$</Text></Text>
+                                    <Text style={[styles.text, { fontSize: 25, color: 'red' }]}>{allPrice}<Text style={{ fontSize: 25, color: 'white' }}>$</Text></Text>
                                     <Text style={[styles.text, { color: 'gray', fontSize: 14, top: -2 }]}>taxes are include</Text>
                                 </View>
                             </View>
 
                             <View style={{ alignSelf: 'center' }}>
-                                <MainButton title={'continue'} onClick={() => { navigation.navigate('Checkout') }} />
+                                <MainButton title={'continue'} onClick={() => {
+                                    const userInf = isEnabled ? {
+                                        username: SecondName,
+                                        phone: PhoneNumber2,
+                                        email: Email2,
+                                    } : {
+                                        username: FirstName,
+                                        phone: PhoneNumber,
+                                        email: Email,
+                                    }
+                                    if ((PhoneNumber != null && isEnabled == false) || (SecondName != null && PhoneNumber2 != null && Email2 != null)) {
+                                        navigation.navigate('Checkout', { allPrice: allPrice, userInf: userInf, Hoteldata: Hoteldata, selecetedRoom: selecetedRoom, headerData: headerData, meals: meals, cancellation: cancellation })
+                                    } else {
+                                        settitleForm("Please complete tyout information")
+                                        setvisibleForm(true)
+                                    }
+                                }} />
                             </View>
-
                         </View>
 
                     </Transitioning.View>
@@ -179,7 +216,7 @@ const styles = StyleSheet.create({
     containerKeyboard: {
         overflow: 'hidden',
 
-    },container: {
+    }, container: {
         // flex: 1,
         // justifyContent: 'center',
         // margin: 10

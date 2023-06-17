@@ -63,6 +63,8 @@ export default function SearchHotelScreen({ navigation }) {
 
                 <SearchCard Child={Child} infants={infants}  HandleShowData={HandleShowData} show={show} HandleOpenSheet={handlePresentModalPress} IsOpen={IsOpen} navigation={navigation} persons={persons} Adults={Adults} />
             </TouchableOpacity>
+
+
             <BottomSheetModalProvider>
                 <Animated.View style={styles.container}>
                     <BottomSheetModal
@@ -150,6 +152,7 @@ export default function SearchHotelScreen({ navigation }) {
                         </View>
 
                     </BottomSheetModal>
+
                 </Animated.View>
             </BottomSheetModalProvider>
 

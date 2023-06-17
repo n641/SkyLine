@@ -25,19 +25,40 @@ export default function DetailsHotel({ navigation, route }) {
   const { hotelId, headerData } = route.params;
   const [data, setdata] = useState()
   const [heart, setheart] = useState("heart")
-  const [Sliders, setSliders] = useState([])
+  const [Sliders, setSliders] = useState([
+    "https://res.cloudinary.com/skyline-photos/image/upload/v1684353911/hotels/IceWare/IceWare-333052-photo.jpg",
+    "https://res.cloudinary.com/skyline-photos/image/upload/v1684353936/hotels/IceWare/IceWare-644686-photo.jpg",
+    "https://res.cloudinary.com/skyline-photos/image/upload/v1684353944/hotels/IceWare/IceWare-844905-photo.jpg"
+  ])
   const [currentIndex, setCurrentIndex] = useState(0)
   const scrollX = useRef(new Animated.Value(0)).current;
   const slidesRef = useRef(null)
   const [IsOpen, setIsOpen] = useState(true)
   const bottomSheetModalRef = useRef(null);
+  const [Cancellation, setCancellation] = useState({
+    text: "Non-refundable",
+    price: 0
+  })
+  const [meals, setmeals] = useState([{ text: "BreackFast", price: 10 }])
+
+  const HandleCancellation = (val) => {
+    setCancellation(val)
+  }
+
+  const Handlemeals = (val) => {
+    setmeals(val)
+  }
 
   const url = `https://skyline-backend.cyclic.app/api/v1/hotels/${hotelId}`
   const fetchData = async () => {
     const resp = await fetch(url).catch(error => console.log(error.message));
     const data = await resp.json();
     setdata(data.data.data)
-    setSliders(data.data.data.images)
+    // console.log(data.data.data)
+
+    if (data.data.data.images.length != 0) {
+      setSliders(data.data.data.images)
+    }
   };
 
   useEffect(() => {
@@ -102,21 +123,24 @@ export default function DetailsHotel({ navigation, route }) {
 
       </View>
 
-      <View style={{ position: 'absolute', top: height - 250, left: width / 8.5, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ position: 'absolute', top: height - 250, left: width / 8.5, alignSelf: 'center' }}>
+
         <View style={styles.card}>
-          <View>
+          {/* <View> */}
+
+          <View style={{ margin: 10 }}>
             <Text style={styles.title}>{data?.hotelName}</Text>
-            {/* problem */}
-            <RateCard rate={2} />
+            <RateCard rate={data?.ratingsAverage ? data?.ratingsAverage : 1} />
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: width / 1.4 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Entypo name="location-pin" size={20} color="white" />
               <Text style={styles.text}>{data?.city}</Text>
             </View>
-          </View>
 
-          <View style={{ marginLeft: -height / 39, marginTop: height / 10, width: 50 }}>
             <MainButton title={'Book'} onClick={() => {
-              navigation.navigate('BookRoom', { data: data._id, headerData: headerData })
+              navigation.navigate('BookRoom', { dataid: data._id, data:data, headerData: headerData, meals: meals, cancellation: Cancellation })
             }} />
           </View>
 
@@ -148,7 +172,7 @@ export default function DetailsHotel({ navigation, route }) {
               // handleSheetChanges()
             }}
           >
-            <DetailsBottomSheet navigation={navigation} data={data} />
+            <DetailsBottomSheet navigation={navigation} headerData={headerData} data={data} HandleCancellation={HandleCancellation} Handlemeals={Handlemeals} Cancellation={Cancellation} meals={meals} />
           </BottomSheetModal>
         </Animated.View>
       </BottomSheetModalProvider>
@@ -176,12 +200,13 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: 'rgba(24,24,24,0.8)',
-    width: width / 1.3,
-    height: height / 4.5,
+    // width: width / 1.3,
+    // height: height / 4.5,
     borderRadius: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    padding: 15,
+    // justifyContent: 'flex-start'
   },
   title: {
     fontSize: 30,

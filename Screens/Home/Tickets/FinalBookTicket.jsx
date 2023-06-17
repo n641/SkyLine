@@ -181,7 +181,6 @@ export default function FinalBookTicket({ navigation, route }) {
                     />
                 </View>
 
-
                 {/* //////////////////////////////////////////////////////// */}
                 {
                     (type == "multiFlight" || type == "RoundTrip") &&
