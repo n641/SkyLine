@@ -10,7 +10,10 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import UploadImg from '../../../assets/UploadImg.png'
 
+import axios from '../../../Api/axios';
+
 import Colors from '../../../Conestant/Colors';
+
 
 import CustomTF from '../../../Components/CustomeTextFields/CustomTF';
 import UploadImgTF from '../../../Components/CustomeTextFields/UploadImgTF';
@@ -22,6 +25,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function ProfileScreen({ navigation }) {
+  const auth = useSelector(state => state.Auth.token);
   const datauser = useSelector(state => state.Auth.userData);
   const [error, seterror] = useState(false)
   const [first, setfirst] = useState()
@@ -60,26 +64,28 @@ export default function ProfileScreen({ navigation }) {
     }
   }, [])
 
-  const uploadPhoto = async (result) => {
-
-    let localUri = result.assets[0].uri;
-    let formData = new FormData();
-    formData.append('image', {
-      uri: localUri,
-      name: 'userProfile.jpg',
-      type: 'image/jpg'
-    });
-
-    const respoce = await axios.patch('https://skyline-backend.cyclic.app/api/v1/users/uploadMyPhoto', formData,
+  const AddPhone = async (number) => {
+    console.log(JSON.stringify({
+      phone: `${number}`,
+    }))
+    const res = await axios.patch('https://skyline-backend.cyclic.app/api/v1/users/updateMe', JSON.stringify({
+      phone: number,
+    }),
       {
-        headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${auth}` },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth}` },
         withCredentials: true
 
       }
     ).catch(err => {
       console.log(err);
     });
+
+    if(res.status==200){
+      navigation.navigate('ResetPasswordByGmail' , {type:"phone" , number:number})
+    }
   }
+
+
 
   return (
     <LinearGradient colors={[Colors.first_dark_screen, Colors.second_dark_screen, Colors.third_dark_screen]}
@@ -127,8 +133,21 @@ export default function ProfileScreen({ navigation }) {
           </View>
 
 
-          <View style={{ margin: 0 }}>
-            <PhoneNumberTF placeholder={datauser?.phoneActive ? datauser?.phone : "*********"} keyboardType='numeric' label='phone Number' required={true} onAddText={HandleFirst} text={first} />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+
+            <PhoneNumberTF placeholder={datauser?.phone ? datauser?.phone : "*********"} keyboardType='numeric' label='phone Number' required={true} onAddText={HandleFirst} text={first} />
+            <TouchableOpacity style={{ position: 'absolute', left: windowWidth / 1.65, top: windowHeight/26 }}
+              onPress={() => {
+                if (first != null) {
+                  AddPhone(first)
+                } else {
+                  console.log("phone")
+                }
+              }}
+            >
+              <Text style={{ color: "white", fontSize: 18, backgroundColor: datauser?.phoneActive == true ? 'green' : 'red', borderRadius: 10, padding: 5 }}>{datauser?.phoneActive} Active</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={{ margin: 40, alignItems: 'center', justifyContent: 'center', width: windowWidth }}>
@@ -138,11 +157,11 @@ export default function ProfileScreen({ navigation }) {
           <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 
             <View>
-              <UploadImgTF required={true} label="Upload Front ID" selectedImage={selectedFrontId} setSelectedImage={HandleFrontId} />
+              <UploadImgTF required={true} label="Upload Front ID" placeholder={datauser?.frontIDPhoto ? datauser?.frontIDPhoto : UploadImg} selectedImage={selectedFrontId} setSelectedImage={HandleFrontId} id={"front"} />
             </View>
 
             <View>
-              <UploadImgTF required={true} label="Upload back ID" selectedImage={selectedBackId} setSelectedImage={HandleBackId} />
+              <UploadImgTF required={true} label="Upload back ID" placeholder={datauser?.frontBackPhoto ? datauser?.frontBackPhoto : UploadImg} selectedImage={selectedBackId} setSelectedImage={HandleBackId} id={"back"} />
             </View>
 
           </View>

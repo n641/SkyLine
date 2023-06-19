@@ -109,16 +109,16 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
                         setLoading(true)
                         settitleForm("Network Error")
                     }
-                    // else if (error.response.status == 404) {  // don't find email
-                    //     setvisibleForm(true)
-                    //     setLoading(true)
-                    //     settitleForm("enter valid email")
-                    // } else if (error.response.status == 401) {
-                    //     setvisibleForm(true)
-                    //     setLoading(true)
-                    //     settitleForm("wrong password or email")
+                    else if (error.response.status == 404) {  // don't find email
+                        setvisibleForm(true)
+                        setLoading(true)
+                        settitleForm("enter valid email")
+                    } else if (error.response.status == 401) {
+                        setvisibleForm(true)
+                        setLoading(true)
+                        settitleForm("wrong password or email")
 
-                    // }
+                    }
                 }
 
                 )
@@ -150,7 +150,7 @@ export default function SigninScreen({ navigation, DontHaveAcouunt }) {
 
     return (
         <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={Platform.OS === 'ios' ? 'position' : 'height'}
             style={styles.containerKeyboard}
         // keyboardVerticalOffset={50}
 

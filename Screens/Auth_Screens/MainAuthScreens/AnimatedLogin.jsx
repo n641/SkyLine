@@ -85,9 +85,9 @@ export default function AnimatedLogin({ navigation }) {
       style={styles.screen}
     >
 
-      <Animated.View style={[StyleSheet.absoluteFill, imageAnimatedStyle]}>
+      <Animated.View style={[StyleSheet.absoluteFill, imageAnimatedStyle ]}>
 
-        <Svg height={height + 100} width={width}>
+        <Svg height={height + 100} width={width} >
           <ClipPath id="clipPathId">
             <Ellipse cx={width / 2} rx={height} ry={height + 100} />
           </ClipPath>
@@ -102,7 +102,7 @@ export default function AnimatedLogin({ navigation }) {
           <Image
             href={logoLight}
             width={width}
-            height={height/1.9}
+            height={height/2.4}
             clipPath='url(#clipPathId)'
           />
 
@@ -126,12 +126,9 @@ export default function AnimatedLogin({ navigation }) {
 
       <Animated.View style={[styles.inputContainer, formAnimatedStyle, {}]}>
 
-
         {Signup ?
           (<SignUpScreen DontHaveAcouunt={() => { handleDontHaveAcouunt() }} navigation={navigation} />) : <SigninScreen DontHaveAcouunt={() => { handleDontHaveAcouunt() }} navigation={navigation} />
         }
-
-
 
       </Animated.View>
     </View>

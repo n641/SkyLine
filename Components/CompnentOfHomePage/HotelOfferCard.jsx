@@ -17,7 +17,7 @@ export default function HotelOfferCard({ item, navigation }) {
         persons: 1,
     }
     return (
-        <TouchableOpacity style={{ marginHorizontal: 10 }}
+        <TouchableOpacity style={{ marginHorizontal: 10 , marginBottom:10 }}
             onPress={() => {
                 navigation.navigate('BookHotelNavigator')
             }}
@@ -27,7 +27,7 @@ export default function HotelOfferCard({ item, navigation }) {
                     uri: item?.hotelPhoto
                 }} resizeMode="stretch" style={styles.image}
             />
-            <View style={{ position: 'absolute', justifyContent: 'space-around', top: 140, margin: 10, height: 60, width: 120, borderRadius: 8, backgroundColor: 'rgba(30,30,30,0.8)' }}>
+            <View style={{ position: 'absolute', justifyContent: 'space-around', top: 140, margin: 10, height: 65, width: 130, borderRadius: 10, backgroundColor: 'rgba(30,30,30,0.8)' }}>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: 120 }}>
                     <Text style={{ fontSize: item.hotelName.length < 15 ? width / 25 : width / 35, color: 'white' }}>{item.hotelName}</Text>
@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
     image: {
         width: 160,
         height: 230,
-        borderRadius: 15,
+        borderRadius: 30,
     },
 })

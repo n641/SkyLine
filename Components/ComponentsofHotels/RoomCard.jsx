@@ -28,7 +28,7 @@ export default function RoomCard({ item, HandleselecetedRoom, HandleDeleteRoom, 
                     />
                     <View style={{ alignItems: 'flex-start', marginHorizontal: 8 }}>
 
-                        <Text style={[styles.title, { color: 'white', fontSize: 20 }]}> {item.name}</Text>
+                        <Text style={[styles.title, { color: 'white', fontSize: width/15 }]}> {item.name}</Text>
 
                         <View style={{ flexDirection: 'row' , alignItems:'center' ,justifyContent:'center' }}>
                             <Text style={[styles.title, { color: 'yellow', fontSize: 20 }]}> {item.type}</Text>

@@ -27,7 +27,7 @@ export default function CustomDrawer({ navigation }) {
     const scaleValue = useRef(new Animated.Value(1)).current;
     const closeButtonOffset = useRef(new Animated.Value(0)).current;
     const dispatch = useDispatch();
-    
+
     const getuser = useCallback(() => {
         dispatch(getMe())
     }, [dispatch])
@@ -40,7 +40,7 @@ export default function CustomDrawer({ navigation }) {
         setShowMenu(val)
     }
 
-    let encoded = encodeURI(datauser?.userPhoto);
+    let encoded = encodeURI(datauser?.userPhoto ? datauser?.userPhoto : 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
 
     return (
         <SafeAreaView style={styles.container}>
@@ -88,7 +88,7 @@ export default function CustomDrawer({ navigation }) {
                 </View>
 
                 <View>
-                    {TabButton(currentTab, setCurrentTab, "LogOut", logout)}
+                    {TabButton(currentTab, setCurrentTab, "LogOut", logout, navigation)}
                 </View>
 
             </View>
@@ -113,12 +113,12 @@ export default function CustomDrawer({ navigation }) {
 }
 
 
-const TabButton = (currentTab, setCurrentTab, title, image) => {
+const TabButton = (currentTab, setCurrentTab, title, image, navigation) => {
     return (
 
         <TouchableOpacity onPress={() => {
             if (title == "LogOut") {
-                // logout...
+                navigation.navigate('AuthNavigator')
             } else {
                 setCurrentTab(title)
             }

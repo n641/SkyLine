@@ -61,22 +61,23 @@ export default function ResultTicketsScreen({ navigation, route }) {
 
   ///////////////////////////////////////general url///////////////////////////////
 
-  var url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&date=${date}`;
+  var url = ``;
 
   if (type == "oneway") {
-    if (to == "Every Thing") {
+    if (to == "Every Where") {
       url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&date=${date}`
     } else {
       url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&to=${to}&date=${date}`
     }
   } else if (type == "RoundTrip") {
-    if (to == "Every Thing") {
+    if (to == "Every Where") {
+      console.log(from)
       url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&classes=${classes}&firstDate=${date}&lastDate=${date2}`
     } else {
       url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}&&firstDate=${date}&lastDate=${date2}`
     }
   } else {
-    if (to == "Every Thing") {
+    if (to == "Every Where") {
       url = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=${from}&firstDate=${date}`  ////problem there is no to field
     } else {
       url = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=${from}&to=${to}&firstDate=${date}`
@@ -144,7 +145,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
   const handleSheetChanges = useCallback((index) => {
     if (type == "oneway") {
 
-      if (to == "Every Thing") {
+      if (to == "Every Where") {
         url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&date=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
       } else {
         url = `https://skyline-backend.cyclic.app/api/v1/flights?classes=${classes}&from=${from}&to=${to}&date=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
@@ -152,7 +153,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
       fetchData(url);
 
     } else if (type == "RoundTrip") {
-      if (to == "Every Thing") {
+      if (to == "Every Where") {
         url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&classes=${classes}&firstDate=${date}&lastDate=${date2}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
       } else {
         url = `https://skyline-backend.cyclic.app/api/v1/flights/round-trip?from=${from}&to=${to}&classes=${classes}&firstDate=${date}&lastDate=${date2}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
@@ -161,7 +162,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
 
     } else {
 
-      if (to == "Every Thing") {
+      if (to == "Every Where") {
         url = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=${from}&firstDate=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`  ////problem there is no to field
       } else {
         url = `https://skyline-backend.cyclic.app/api/v1/flights/multiDestinations?from=${from}&to=${to}&firstDate=${date}&price[gte]=${Filtermin}&price[lte]=${Filtermax}&ratingsQuantity[gte]=${Rate}`
@@ -170,6 +171,7 @@ export default function ResultTicketsScreen({ navigation, route }) {
 
     }
   }, [Filtermin, Filtermax]);
+
 
   const HandleOpenSheet = () => {
     handlePresentModalPress()
@@ -226,7 +228,6 @@ export default function ResultTicketsScreen({ navigation, route }) {
       </ImageBackground>
     )
   }
-  console.log(dataLenght)
 
   return (
     <SafeAreaView>

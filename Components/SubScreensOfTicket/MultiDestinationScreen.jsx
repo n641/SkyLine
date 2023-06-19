@@ -13,6 +13,9 @@ import MainButton from '../MainButton';
 
 import Colors from '../../Conestant/Colors';
 
+import wrong from '../../assets/warning.png'
+import CAlert from '../CustomeAlerts/CAlert';
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -116,7 +119,7 @@ export default function MultiDestinationScreen({ navigation }) {
         if (text) {
             if (!to?.length) return;
             let temp = [];
-            temp.push("Every Thing")
+            temp.push("Every Where")
             CountriesTo.map((m) => {
                 m.toUpperCase()
                     .includes(text.toUpperCase()) ? temp.push(m) : null
@@ -126,6 +129,10 @@ export default function MultiDestinationScreen({ navigation }) {
             setTicketsTo(CountriesTo)
         }
     }
+
+    const [visibleForm, setvisibleForm] = useState(false)
+    const [titleForm, settitleForm] = useState("")
+
 
     const renderList = (array, string) => {
         return (
@@ -158,6 +165,10 @@ export default function MultiDestinationScreen({ navigation }) {
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+
+            <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+                setvisibleForm(false)
+            }} />
 
             {loading &&
                 <View style={{
@@ -306,7 +317,7 @@ export default function MultiDestinationScreen({ navigation }) {
             <View style={[styles.DateContainer]} >
 
                 <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginStart: 3, marginBottom: -15, marginTop: 2 }}>
-                    <Text style={styles.label}>To</Text>
+                    <Text style={styles.label}>Class</Text>
                     <Text style={styles.astrisk}>*</Text>
                 </View>
 
@@ -369,9 +380,17 @@ export default function MultiDestinationScreen({ navigation }) {
                 />
             </View> */}
 
-
             <View style={{ margin: 20, marginBottom: 50 }}>
-                <MainButton title='Search' onClick={() => { navigation.navigate("ResultTicketsScreen", { type: "multiFlight", from: From, to: to, classes: Classes, date: date.toJSON().substring(0, 10) }) }} />
+                <MainButton title='Search' onClick={() => {
+                    if (From && to) {
+                        navigation.navigate("ResultTicketsScreen", { type: "multiFlight", from: From, to: to, classes: Classes, date: date.toJSON().substring(0, 10) })
+                    } else {
+                        settitleForm('Write your place and destination')
+                        setvisibleForm(true)
+                    }
+                }}
+
+                />
             </View>
 
         </ScrollView>

@@ -22,6 +22,7 @@ const width = Dimensions.get('window').width;
 export default function BookRoom({ navigation, route }) {
     const { dataid, data, headerData, meals, cancellation } = route.params;
 
+    console.log(dataid)
     const [Loading, setLoading] = useState(true)
     const [Rooms, setRooms] = useState([])
     const [selecetedRoom, setselecetedRoom] = useState([])
@@ -34,6 +35,8 @@ export default function BookRoom({ navigation, route }) {
         const resp = await fetch(url).catch(error => console.log(error.message));
         const data = await resp.json();
         setRooms(data.Rooms)
+        console.log(data)
+
         setLoading(false);
     };
 

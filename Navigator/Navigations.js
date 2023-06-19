@@ -11,6 +11,7 @@ import mainFPScreen from '../Screens/Auth_Screens/ForgetPasswordScreens/MainFPSc
 import EnterData from '../Screens/Auth_Screens/ForgetPasswordScreens/EnterData';
 import GmailFP from '../Screens/Auth_Screens/ForgetPasswordScreens/GmailFP'
 import PhoneNumberFp from '../Screens/Auth_Screens/ForgetPasswordScreens/PhoneNumberFP';
+import ResetPass from '../Screens/Auth_Screens/ResetPassword/ResetPass';
 
 import Home from './TabBarHome';
 import CustomDrawer from './CustomDrawer';
@@ -58,6 +59,8 @@ const AuthNavigator = () => {
             <Stack.Screen name="ResetPasswordByGmail" component={GmailFP} />
             <Stack.Screen name="ResetPasswordByPhone" component={PhoneNumberFp} />
             <Stack.Screen name="EnterData" component={EnterData} />
+            <Stack.Screen name="ResetPass" component={ResetPass} />
+
         </Stack.Navigator>
     )
 }

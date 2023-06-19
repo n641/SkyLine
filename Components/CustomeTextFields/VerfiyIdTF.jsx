@@ -29,7 +29,7 @@ export default function VerfiyIdTF({text , HandleText}) {
                 onSelect={(selectedItem, index) => {
                     HandleText(selectedItem)
                 }}
-                defaultButtonText={'Choose type of id'}
+                defaultButtonText={countries[0]}
                 buttonTextAfterSelection={(selectedItem, index) => {
                     return selectedItem;
                 }}

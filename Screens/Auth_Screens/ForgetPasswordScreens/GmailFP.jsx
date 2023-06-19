@@ -5,22 +5,80 @@ import OnboardingItem from '../../../Components/OnboardingItem/OnboardingItem';
 import TextInputNumbers from '../../../Components/CustomeTextFields/TextInputNumbers';
 import Link from '../../../Components/Link';
 import Colors from '../../../Conestant/Colors';
+import axios from '../../../Api/axios';
 
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
 import logo from '../../../assets/email.png'
+import { useEffect } from 'react';
 
 
-const GmailFP = ({ navigation }) => {
-  
+const GmailFP = ({ navigation, route }) => {
+  const { type, number } = route.params;
+
 
   const item = {
     image: logo,
-    title: "Verfy Email!",
-    description: "Please enter the number code send \n your email Eample@gmail.com",
+    title: `Verfy ${type} `,
+    description: `Please enter the number code send \n to your ${type} `,
   }
+
+  const SendVerfyCodeForPhone = async (number) => {
+    const url = `https://skyline-backend.cyclic.app/api/v1/users/phone/send-otp`
+    const response = await axios.post(url, JSON.stringify({
+      countryCode: 20,
+      phoneNumber: `${number}`
+    }),
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      }
+    )
+      .catch(error => {
+        //////////////////////////////////////validaet phone
+        console.log(error)
+      })
+  }
+  useEffect(() => {
+    if (type == "phone") {
+      SendVerfyCodeForPhone(number)
+    }
+  }, [])
+
+  const VerfiyOtpOfPhone = async (code) => {
+    const url = `https://skyline-backend.cyclic.app/api/v1/users/phone/verify-otp`
+    const response = await axios.post(url, JSON.stringify({
+      countryCode: 20,
+      phoneNumber: `${number}`,
+      otpCode: code
+    }),
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      }
+    )
+      .catch(error => {
+        console.log(error)
+      })
+    if (response) {
+      navigation.navigate('MainProfileScreen')
+    }
+    console.log(response)
+  }
+  useEffect(() => {
+    if (type == "phone") {
+      SendVerfyCodeForPhone(number)
+    }
+  }, [])
+
+  const HandleDone = () => {
+    if (type == "phone") {
+    }
+  }
+
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -32,7 +90,7 @@ const GmailFP = ({ navigation }) => {
 
           <OnboardingItem item={item} />
           <View style={{}}>
-            <TextInputNumbers navigation={navigation} />
+            <TextInputNumbers navigation={navigation} type={type} HandleDone={VerfiyOtpOfPhone} />
           </View>
 
         </ScrollView>

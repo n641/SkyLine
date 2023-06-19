@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react'
 import MainButton from '../MainButton'
 import Link from '../Link'
 
-export default function TextInputNumbers({ navigation, HandleResend, HandleDone , Loading }) {
+export default function TextInputNumbers({ navigation, HandleResend, HandleDone , Loading , screen }) {
     const [number1, setnumber1] = useState(0)
     const [number2, setnumber2] = useState(0)
     const [number3, setnumber3] = useState(0)
@@ -104,7 +104,9 @@ export default function TextInputNumbers({ navigation, HandleResend, HandleDone 
             </View>
             <MainButton loading={Loading} title="Comfirm" onClick={() => { 
                 let code = ''+number1+number2+number3+number4+number5+number6
-                HandleDone(code) }} />
+                HandleDone(code)
+                
+                }} />
             <View>
                 <Link title='Resend?' textSize={20} onpress={() => { HandleResend() }} />
             </View>

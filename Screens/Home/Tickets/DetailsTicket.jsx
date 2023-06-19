@@ -13,9 +13,17 @@ import React from 'react'
 
 import bg from '../../../assets/bg-dark.jpg';
 
+import CAlert from '../../../Components/CustomeAlerts/CAlert';
+import wrong from '../../../assets/warning.png'
+
+
 import AirplaneData from "../../../Components/ComponentsOfTicket/AirplaneData";
 import MainButton from '../../../Components/MainButton'
 import DetailsCom from '../../../Components/SubScreensOfTicket/DetailsCom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useEffect } from 'react';
+
 
 
 const height = Dimensions.get('window').height;
@@ -23,8 +31,10 @@ const width = Dimensions.get('window').width;
 
 export default function DetailsTicket({ navigation, route }) {
 
-    const { item, type ,image } = route.params;
+    const { item, type, image } = route.params;
     const num = ["first", "second", "third", "fourth", "fifth"]
+    const [visibleForm, setvisibleForm] = useState(false)
+    const [titleForm, settitleForm] = useState("")
 
     var allprice = 0;
     if (type == "multiFlight") {
@@ -35,7 +45,7 @@ export default function DetailsTicket({ navigation, route }) {
 
     const Data = type == "RoundTrip" ?
         {
-            image:image,
+            image: image,
             flightNum: item.outboundFlight.flightNo,
             From: item.outboundFlight.from,
             TO: item.outboundFlight.to,
@@ -44,8 +54,8 @@ export default function DetailsTicket({ navigation, route }) {
             classs: item.outboundFlight.classes,
             price: item.outboundFlight.price,
             id: item.outboundFlight._id,
-            id2:item.returnFlight._id,
-            type:type,
+            id2: item.returnFlight._id,
+            type: type,
             //////////////////go//////////////////////
             TimeFromStart: "08:00 AM", //item.outboundFlight.fromDate
             TimeFromEnd: "19:30 AM", //item.outboundFlight.toDate
@@ -77,11 +87,11 @@ export default function DetailsTicket({ navigation, route }) {
             bag: item.maxBagPerPerson,
             price: item.price,
             id: item._id,
-            type:type,
+            type: type,
 
         } : {
             image: image,
-            // flightNum: item.flightNo,
+            id: item[0]._id,
             From: item[0].from,
             TO: item[0].to,
             date: "16-8-2023",//item[0].date
@@ -89,11 +99,55 @@ export default function DetailsTicket({ navigation, route }) {
             sala: 5,
             flights: item,
             price: allprice,
-            type:type,
+            type: type,
 
         }
 
-        console.log(Data)
+    const userData = useSelector(state => state.Auth.userData);
+    const [Flights, setFlights] = useState([])
+
+    const fetchData = async () => {
+        // console.log(datauser)
+        const resp = await fetch(`https://skyline-backend.cyclic.app/api/v1/tickets?user=${userData._id}&type=round-trip&type=one-way&type=multi-destination`);
+        const data = await resp.json();
+        setFlights(data.data)
+        // console.log(data.data)
+    };
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const idFlight = type == "RoundTrip" ? Data.id2 : type == "oneway" ? Data.id : Data.id
+    var flag = null
+    var ExistDuplicate = null
+    var payment = null
+    const notDublicate = () => {
+        for (let i = 0; i < Flights.length; i++) {
+            for (let j = 0; j < Flights[i].flight.length; j++) {
+                if (Flights[i].flight[j]._id == idFlight) {
+                    flag = true
+                    break;
+                }
+
+            }
+            if (flag == true) {
+                payment = Flights[i].paymentStatus
+                // console.log("payment")
+                // console.log(payment)
+                break;
+            }
+        }
+
+        if(flag == true && payment==true){
+            return false
+        }else{
+            return true
+        }
+
+    }
+
+
 
 
     return (
@@ -109,9 +163,13 @@ export default function DetailsTicket({ navigation, route }) {
 
             <ScrollView style={{ marginBottom: 50 }}>
 
+                <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+                    setvisibleForm(false)
+                }} />
+
                 <View style={{ marginTop: 20 }}>
                     <AirplaneData navigation={navigation} title='Ticket Detail'
-                    from ={Data.From} to={Data.TO}  dateDepurture={type == "RoundTrip" ?Data.dateGo : Data.date }  dateReturn={type == "RoundTrip"?Data.dateReturn :"---"}
+                        from={Data.From} to={Data.TO} dateDepurture={type == "RoundTrip" ? Data.dateGo : Data.date} dateReturn={type == "RoundTrip" ? Data.dateReturn : "---"}
                     />
                 </View>
 
@@ -128,7 +186,7 @@ export default function DetailsTicket({ navigation, route }) {
                                         source={{
                                             uri: Data.image,
                                         }}
-                                        style={{ width: 150, height: 100, resizeMode: 'stretch', margin: 10 , borderRadius:10 }}
+                                        style={{ width: 150, height: 100, resizeMode: 'stretch', margin: 10, borderRadius: 10 }}
                                     />
                                     <Text style={{ color: 'white', fontFamily: 'item' }}>Flight Number : {Data.flightNum}</Text>
                                 </View>
@@ -143,7 +201,7 @@ export default function DetailsTicket({ navigation, route }) {
                                     from={Data.From}
                                     to={Data.TO}
                                     timestart={type == "RoundTrip" ? Data.TimeFromStart : Data.DateFrom}
-                                    timeEnd ={type == "RoundTrip" ? Data.TimeFromEnd : Data.DateTo}
+                                    timeEnd={type == "RoundTrip" ? Data.TimeFromEnd : Data.DateTo}
                                     gate={type == "RoundTrip" ? Data.gateFrom : Data.gate}
                                     class={Data.classs}
                                     date={Data.dateReturn}
@@ -233,11 +291,19 @@ export default function DetailsTicket({ navigation, route }) {
 
                                 <View style={{ marginLeft: 0 }}>
                                     <MainButton title='Confirm' onClick={() => {
-                                        if (type == "multiFlight") {
-                                            navigation.navigate('FinalBookTicket', { id: Data.id, seat: "A1", Data: Data, type: type ,image:image })
 
+                                        if (notDublicate() == true) {
+                                            console.log("done")
+                                            console.log(notDublicate())
+                                            if (type == "multiFlight") {
+                                                navigation.navigate('FinalBookTicket', { id: Data.id, seat: "A1", Data: Data, type: type, image: image })
+
+                                            } else {
+                                                navigation.navigate('BookSeatScreen', { id: Data.id, Data: Data, type: type, image: image })
+                                            }
                                         } else {
-                                            navigation.navigate('BookSeatScreen', { id: Data.id, Data: Data, type: type ,image:image })
+                                            settitleForm('it was previously reserved')
+                                            setvisibleForm(true)
                                         }
                                     }} />
                                 </View>

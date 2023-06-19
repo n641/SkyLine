@@ -45,18 +45,33 @@ export default function FinalBookTicket({ navigation, route }) {
 
     // console.log(userData?._id)
 
+
+
     const data = {
-        name: 'Divyesh Barad',
-        email: 'divyesh@gmail.com',
-        address: 'Rajkot',
+        flightNo: Data.flightNum,
+        name: 'noha mohammed',
+        email: 'noha67357@gmail.com',
+        from: Data.From,
+        to: Data.TO,
+        seat: seat[0],
+        time: "1:00 Am",
+        date: Data.DateFrom,
     }
 
     const html = `
     <html>
         <body>
-            <h2>Hi ${data.name}</h2>
-            <h4>Email: ${data.email}</h4>
-            <h4>Address: ${data.address}</h4>
+        <h1>SkyLine System </h1>
+        <h2>Hi ${data.name}</h2>
+        <h4>Email: ${data.email}</h4>
+        <h1>your data about Flight number ${data.flightNo} </h1>
+            <h4>data for your flight</h4>
+            <h4>from: ${data.from}</h4>
+            <h4>to: ${data.to}</h4>
+            <h4>seat: ${data.seat}</h4>
+            <h4>class: ${data.class}</h4>
+            <h4>date: ${data.date}</h4>
+            <h4>time: ${data.time}</h4>
         </body>
     </html>
 `;
@@ -177,7 +192,7 @@ export default function FinalBookTicket({ navigation, route }) {
 
                 <View style={{ marginTop: 20 }} >
                     <AirplaneData navigation={navigation} title='Ticket Detail'
-                    from ={Data.From} to={Data.TO}  dateDepurture={type == "RoundTrip" ?Data.dateGo : Data.date }  dateReturn={type == "RoundTrip"?Data.dateReturn :"---"}
+                        from={Data.From} to={Data.TO} dateDepurture={type == "RoundTrip" ? Data.dateGo : Data.date} dateReturn={type == "RoundTrip" ? Data.dateReturn : "---"}
                     />
                 </View>
 
@@ -231,7 +246,7 @@ export default function FinalBookTicket({ navigation, route }) {
                             gate: Data.gateFrom,
                             seat: seat[0],
                             class: Data.classs,
-                            userData:userData
+                            userData: userData
                         }
                     } />
                 }
@@ -253,7 +268,7 @@ export default function FinalBookTicket({ navigation, route }) {
                                     gate: Data.gateFrom,
                                     seat: seat[0],
                                     class: Data.classs,
-                                    userData:userData
+                                    userData: userData
                                 }
                             } />
                             :
@@ -268,7 +283,7 @@ export default function FinalBookTicket({ navigation, route }) {
                                     gate: Data.gateTo,
                                     seat: seat[0],
                                     class: Data.classs,
-                                    userData:userData
+                                    userData: userData
 
                                 }
                             } />
@@ -292,9 +307,9 @@ export default function FinalBookTicket({ navigation, route }) {
                                     gate: Data.flights[i].gate,
                                     seat: seat,
                                     class: Data.flights[i].classes,
-                                    userData:userData
+                                    userData: userData
 
-                                    
+
                                 }
                             } /> : null
                     ))

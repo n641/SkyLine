@@ -67,7 +67,7 @@ export default function EnterData({ navigation, route }) {
 
         if (response && visibleForm == false) {
             console.log(response.data)
-            navigation.navigate(navigat)
+            navigation.navigate('ResetPass')
         }
     }
 
@@ -96,7 +96,7 @@ export default function EnterData({ navigation, route }) {
 
         if (response && visibleForm == false) {
             console.log(response.data)
-            navigation.navigate(navigat)
+            // navigation.navigate(navigat)
         }
 
 

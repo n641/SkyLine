@@ -12,6 +12,9 @@ import MainButton from '../MainButton';
 
 import Colors from '../../Conestant/Colors';
 
+import wrong from '../../assets/warning.png'
+import CAlert from '../CustomeAlerts/CAlert';
+
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
@@ -88,7 +91,7 @@ export default function RoundTripScreen({ navigation }) {
 
     const setDataforSearch = useCallback(() => {
         const from = new Set();
-        const too = new Set(); 
+        const too = new Set();
         Data?.map((item) => {
             from.add(item.from)
             too.add(item.to)
@@ -133,7 +136,7 @@ export default function RoundTripScreen({ navigation }) {
         if (text) {
             if (!to?.length) return;
             let temp = [];
-            temp.push("Every Thing")
+            temp.push("Every Where")
             CountriesTo.map((m) => {
                 m.toUpperCase()
                     .includes(text.toUpperCase()) ? temp.push(m) : null
@@ -144,10 +147,12 @@ export default function RoundTripScreen({ navigation }) {
         }
     }
 
+    const [visibleForm, setvisibleForm] = useState(false)
+    const [titleForm, settitleForm] = useState("")
 
     const renderList = (array, string) => {
         return (
-            <ScrollView style={{ backgroundColor: 'black', position: 'absolute', top: string == "from" ? height / 8 : height / 8, left: string == "from" ? 50 : 150, padding: 10, maxHeight: height / 6, width: width / 2.5 , borderRadius:15}}>
+            <ScrollView style={{ backgroundColor: 'black', position: 'absolute', top: string == "from" ? height / 8 : height / 8, left: string == "from" ? 50 : 150, padding: 10, maxHeight: height / 6, width: width / 2.5, borderRadius: 15 }}>
                 <View style={{ justifyContent: 'flex-end' }}>
                     {array.map((e, i) => {
                         return (
@@ -174,7 +179,9 @@ export default function RoundTripScreen({ navigation }) {
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-
+            <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+                setvisibleForm(false)
+            }} />
             {loading &&
                 <View style={{
                     width: width,
@@ -390,8 +397,13 @@ export default function RoundTripScreen({ navigation }) {
 
             <View style={{ margin: 20, marginBottom: 50 }}>
                 <MainButton title='Search' onClick={() => {
-                    navigation.navigate("ResultTicketsScreen"
-                        , { from: From, to: to, classes: Class, date: dateDeparturn.toJSON().substring(0, 10),date2:Returndate.toJSON().substring(0, 10), type: "RoundTrip" })
+                    if (From && to) {
+                        navigation.navigate("ResultTicketsScreen"
+                            , { from: From, to: to, classes: Class, date: dateDeparturn.toJSON().substring(0, 10), date2: Returndate.toJSON().substring(0, 10), type: "RoundTrip" })
+                    } else {
+                        settitleForm('Write your place and destination')
+                        setvisibleForm(true)
+                    }
                 }} />
             </View>
 

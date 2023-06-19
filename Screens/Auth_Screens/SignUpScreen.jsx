@@ -117,13 +117,13 @@ export default function SignUpScreen({ navigation, DontHaveAcouunt }) {
       //   return false
 
       // }
-      //  else if (!isValidUsername) {
-      //   settitleForm('Oppsssss....\n Please provide a valid UserName')
-      //   setAlertLogoForm(wrong)
-      //   setvisibleForm(true)
-      //   return false
+       else if (!isValidUsername) {
+        settitleForm('Oppsssss....\n Please provide a valid UserName')
+        setAlertLogoForm(wrong)
+        setvisibleForm(true)
+        return false
 
-      // }
+      }
       else if (Pass != ConformPass) {
         settitleForm('Waittt....\n Passwords are not the same!')
         setAlertLogoForm(wrong)
@@ -140,7 +140,7 @@ export default function SignUpScreen({ navigation, DontHaveAcouunt }) {
     }
   }
 
-  const signupUrl = '/api/v1/users/signup';
+  const signupUrl = 'https://skyline-backend.cyclic.app/api/v1/users/signup';
   const HandleSignup = async () => {
     setLoading(true)
     if (HandleError()) {
@@ -169,6 +169,11 @@ export default function SignUpScreen({ navigation, DontHaveAcouunt }) {
             setvisibleForm(true)
             setLoading(true)
             settitleForm("wrong email ")
+
+          }if (error.response.status == 500) {
+            settitleForm("enter valid user name and password")
+            setvisibleForm(true)
+            setLoading(true)
 
           }
         })
@@ -200,7 +205,7 @@ export default function SignUpScreen({ navigation, DontHaveAcouunt }) {
         <CAlert visible={visible} icon={AlertLogo} title={title} onClick={() => {
           setVisible(false)
           setLoading(false)
-          HandleNavigate('VerifyNewEmail', { email: Email })
+          navigation.navigate('VerifyNewEmail', { email: Email })
         }} />
 
         {/* /////////////////////////////////////////////////////////////////////////////////////////////// */}

@@ -10,6 +10,10 @@ import SelectDropdown from 'react-native-select-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MainButton from '../MainButton';
 
+import wrong from '../../assets/warning.png'
+import CAlert from '../CustomeAlerts/CAlert';
+
+
 import Colors from '../../Conestant/Colors';
 
 const height = Dimensions.get('window').height;
@@ -69,7 +73,7 @@ export default function OneWayScreen({ navigation }) {
     const setDataforSearch = useCallback(() => {
         const from = new Set();
         const too = new Set();
-        Data?.map((item) => { 
+        Data?.map((item) => {
             from.add(item.from)
             too.add(item.to)
         })
@@ -113,7 +117,7 @@ export default function OneWayScreen({ navigation }) {
         if (text) {
             if (!to?.length) return;
             let temp = [];
-            temp.push("Every Thing")
+            temp.push("Every Where")
             CountriesTo.map((m) => {
                 m.toUpperCase()
                     .includes(text.toUpperCase()) ? temp.push(m) : null
@@ -124,10 +128,17 @@ export default function OneWayScreen({ navigation }) {
         }
     }
 
+    const [visibleForm, setvisibleForm] = useState(false)
+    const [titleForm, settitleForm] = useState("")
+
     const renderList = (array, string) => {
         return (
-            <ScrollView style={{ backgroundColor: 'black', position: 'absolute', top: string == "from" ? height / 8 : height / 8, left: string == "from" ? 50 : 150, padding: 10, maxHeight: height / 6, width: width / 2.5 , borderRadius:15 }}>
+            <ScrollView style={{ backgroundColor: 'black', position: 'absolute', top: string == "from" ? height / 8 : height / 8, left: string == "from" ? 50 : 150, padding: 10, maxHeight: height / 6, width: width / 2.5, borderRadius: 15 }}>
+
+
+
                 <View style={{ justifyContent: 'flex-end' }}>
+
                     {array.map((e, i) => {
                         return (
                             <View key={i}>
@@ -152,6 +163,9 @@ export default function OneWayScreen({ navigation }) {
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+            <CAlert visible={visibleForm} icon={wrong} title={titleForm} onClick={() => {
+                setvisibleForm(false)
+            }} />
 
             {loading &&
                 <View style={{
@@ -197,7 +211,7 @@ export default function OneWayScreen({ navigation }) {
                                     setShowFromList(true)
                                     setShowToList(false)
                                 }}
-                                
+
                             />
 
                         </View>
@@ -338,9 +352,16 @@ export default function OneWayScreen({ navigation }) {
 
             <View style={{ margin: 20, marginBottom: 50 }}>
                 <MainButton title='Search' onClick={() => {
-                    navigation.navigate("ResultTicketsScreen",
-                        { from: From, to: to, classes: Class, date: date.toJSON().substring(0, 10) , type : "oneway" })
+                    if (From && to) {
+                        navigation.navigate("ResultTicketsScreen",
+                            { from: From, to: to, classes: Class, date: date.toJSON().substring(0, 10), type: "oneway" })
+                    } else {
+                        settitleForm('Write your place and destination')
+                        setvisibleForm(true)
+                    }
+
                 }} />
+
             </View>
 
         </ScrollView>

@@ -7,22 +7,22 @@ export default [
     {
         id: '1',
         title: 'Explore the world',
-        description: 'plap alpal palpal palpa lpalpa lpalp alpalpalp alapl aplapa palp alpa lpalpa lpa aplpalpalaplaplaplappalpalpalpalpalpal',
+        description: 'All your trips can be booked through the application and pay online with a credit card',
         image: onboarding1
     }, {
         id: '2',
-        title: 'Explore the world',
-        description: 'plap alpal palpal palpa lpalpa lpalp alpalpalp alapl aplapa palp alpa lpalpa lpa aplpalpalaplaplaplappalpalpalpalpalpal',
+        title: 'Book your vacation',
+        description: 'You can book your vacation by searching for hotels and choosing the dates that suit you',
         image: onboarding2
     }, {
         id: '3',
-        title: 'Explore the world',
-        description: 'plap alpal palpal palpa lpalpa lpalp alpalpalp alapl aplapa palp alpa lpalpa lpa aplpalpalaplaplaplappalpalpalpalpalpal',
+        title: 'Book your Umrah and Hajj',
+        description: 'Book your Umrah and Hajj through the round trip tickets',
         image: onboarding3
     }, {
         id: '4',
         title: 'Explore the world',
-        description: 'plap alpal palpal palpa lpalpa lpalp alpalpalp alapl aplapa palp alpa lpalpa lpa aplpalpalaplaplaplappalpalpalpalpalpal',
+        description: 'You can book delivery vehicles to the place of your choice',
         image: onboarding4
     }
 ]

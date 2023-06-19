@@ -16,7 +16,7 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export default function MapViews({ navigation, route }) {
-    const { Hotels , headerData } = route.params;
+    const { Hotels, headerData } = route.params;
 
     const mapJson = [
 
@@ -217,7 +217,9 @@ export default function MapViews({ navigation, route }) {
     };
 
     const showLocationsOfInterest = () => {
+        console.log(Hotels[0])
         return Hotels.map((item, index) => {
+            console.log(item.hotelPhoto)
             return (
                 <Marker
                     key={index}
@@ -236,10 +238,10 @@ export default function MapViews({ navigation, route }) {
                             padding: 10
                         }}>
                             <Image
-                                source={{
-                                    uri: item.hotelPhoto
-                                }}
                                 style={{ width: 70, height: 50 }}
+                                source={{
+                                    uri: "https://res.cloudinary.com/skyline-photos/image/upload/v1686953227/hotels/IceWare/IceWare-cover.jpg",
+                                }}
                             />
                             <Text style={{ fontSize: 17, fontFamily: 'item', color: 'white' }}>{item.hotelName}</Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -267,7 +269,8 @@ export default function MapViews({ navigation, route }) {
     }
 
     return (
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ justifyContent: 'flex-end' }}>
+
 
             <MapView
                 provider={PROVIDER_GOOGLE}
@@ -300,15 +303,42 @@ export default function MapViews({ navigation, route }) {
                     </Callout>
                 </Marker> */}
 
+
                 {/* <Text style={styles.mapOverlay}>Longitude: {draggableMarkerCoord.longitude}, latitude: {draggableMarkerCoord.latitude}</Text> */}
+
+
             </MapView>
 
 
+            <View style={{ justifyContent: 'flex-end', position: 'absolute' }}>
+                <FlatList
+                    data={Hotels}
+                    horizontal
+                    renderItem={({ item }) => (
+                        <HotelCard
+                            id={item._id}
+                            mainImg={item.hotelPhoto}
+                            title={item.hotelName}
+                            description={item.description}
+                            location={item.city}
+                            price={item.price}
+                            rate={item.ratingsAverage}
+                            navigation={navigation}
+                            headerData={headerData}
+                        />
+                    )}
+                    bounces={false}
+                    stickyHeaderHiddenOnScroll={false}
+                    keyExtractor={item => item.id}
+                />
+                <Button title='Take Snapshot and Share' onPress={takeSnapshotAndShare} />
+            </View>
 
-            <View style={{ position: 'absolute' }}>
 
-                <View style={{ position: 'absolute', top: height - 310 }}>
-                    <FlatList
+            {/* <View style={{  }}> */}
+
+            {/* <View style={{ position: 'absolute', top: height - 310 }}> */}
+            {/* <FlatList
                         data={Hotels}
                         horizontal
                         renderItem={({ item }) => (
@@ -328,17 +358,17 @@ export default function MapViews({ navigation, route }) {
                         stickyHeaderHiddenOnScroll={false}
                         keyExtractor={item => item.id}
                     />
-                    <Button title='Take Snapshot and Share' onPress={takeSnapshotAndShare} />
-                </View>
+                    <Button title='Take Snapshot and Share' onPress={takeSnapshotAndShare} /> */}
+            {/* </View> */}
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginTop: 20 }}>
+            {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginTop: 20 }}>
                     <AntDesign name="arrowleft" size={35} color="white" style={{ marginTop: 30 }} onPress={() => {
                         navigation.goBack()
                     }} />
                     <CustomTF placeholder="Enter name of Hotel" keyboardType="email-address" width={(width - 80)} required={false} onAddText={HandleSearch} text={Search} white={true} />
                 </View>
-                <Text style={{ color: 'black', fontSize: 25 }}>ddd</Text>
-            </View>
+                <Text style={{ color: 'black', fontSize: 25 }}>ddd</Text> */}
+            {/* </View> */}
 
 
         </View>

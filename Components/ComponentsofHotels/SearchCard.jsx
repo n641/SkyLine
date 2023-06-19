@@ -105,7 +105,7 @@ export default function SearchCard({ HandleOpenSheet, persons, navigation, Adult
                     onPress={() => HandleShowData(!show)}
                 >
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 5 }}>
-                        <Text style={styles.label}>{"label"}</Text>
+                        <Text style={styles.label}>{"Date"}</Text>
                         {true ? <Text style={styles.astrisk}>*</Text> : null}
                     </View>
                     <View >
@@ -121,7 +121,7 @@ export default function SearchCard({ HandleOpenSheet, persons, navigation, Adult
                 >
                     <View>
                         <View style={styles.cardinput}>
-                            <Text style={styles.label}>persons</Text>
+                            <Text style={styles.label}>Guests</Text>
                             <Text style={styles.astrisk}>*</Text>
                         </View>
                         <View style={styles.inputcontaner}>
